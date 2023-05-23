@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+path="$(readlink -f $0)"
+# set config to $XDG_CONFIG_HOME or $HOME/.config
+[ ! -z "$XDG_CONFIG_HOME" ] && config_dir="$XDG_CONFIG_HOME" || config_dir="$HOME/.config"
+
+# Home Directory
+ln -sf $path/.bashrc $HOME/.bashrc
+ln -sf $path/.bash_profile $HOME/.bash_profile
+ln -sf $path/.gitconfig $HOME/.gitconfig
+ln -sf $path/.vimrc $HOME/.vimrc
+ln -sf $path/.exrc $HOME/.exrc
+ln -sf $path/.zshenv $HOME/.zshenv
+ln -sf $path/.zprofile $HOME/.zprofile
+ln -sf $path/.zshrc $HOME/.zshrc
+ln -sf $path/.config/.vim $HOME/.vim
+
+# Config Directory
+[ ! -d $config_dir ] && mkdir $config_dir
+
+ln -sf $path/.config/nvim $config_dir/nvim
+ln -sf $path/.config/neofetch $config_dir/neofetch
+ln -sf $path/.config/tmux $config_dir/tmux
+ln -sf $path/.config/btop $config_dir/btop
+ln -sf $path/.config/sway $config_dir/sway
+ln -sf $path/.config/tealdeer $config_dir/tealdeer
+

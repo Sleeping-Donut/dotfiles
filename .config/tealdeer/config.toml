@@ -1,0 +1,10 @@
+[display]
+use_pager = false
+compact = false
+
+[style]
+
+[updates]
+auto_update = true
+auto_update_interval_hours = 24
+
