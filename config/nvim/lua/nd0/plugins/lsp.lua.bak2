@@ -1,0 +1,157 @@
+--local
+return {
+	{
+		"lvimuser/lsp-inlayhints.nvim",
+		config = function()
+			require("lsp-inlayhints").setup({})
+			vim.cmd("hi! LspInlayHint guifg=#403d52 guibg=#1f1d2e")
+		end,
+	},
+	{
+		"hrsh7th/nvim-cmp",
+		sources = { "nvim_lsp" },
+	},
+	{
+		"williamboman/mason.nvim",
+		build = ":MasonUpdate",
+		config = function()
+			require("mason").setup({
+				max_concurrent_installers = 10,
+				--log_level = vim.log.levels.DEBUG,
+				ui = {
+					icons = {
+						package_installed = "✓",
+						package_pending = "➜",
+						package_uninstalled = "✗",
+					},
+				},
+			})
+		end,
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = {
+			"williamboman/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
+		config = function()
+			local my_lsp_configs = require("nd0.lsp_configs")
+			local opts = {
+				ensure_installed = {}
+			}
+			for _,lsp in pairs(my_lsp_configs) do
+				table.insert(opts.ensure_installed, lsp.server)
+			end
+			require("mason-lspconfig").setup(opts)
+		end,
+	},
+	--{
+	--	"neovim/nvim-lspconfig",
+	--	dependencies = { "hrsh7th/nvim-cmp" },
+	--	config = function()
+	--		local lspconfig = require("lspconfig").setup()
+
+	--		lspconfig.rust_analyzer.setup({
+	--			
+	--		})
+	--	end,
+	--},
+	{
+		"hrsh7th/nvim-cmp",
+		config = function()
+			local my_lsp_configs = require("nd0.lsp_configs")
+			
+			-- Setup nvim-cmp
+			local cmp = require("cmp")
+			cmp.setup({
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					--{ name = "luasnip" },
+				}, {
+					{ name = "buffer" }
+				}),
+			})
+
+			-- Setup lspconfig with capabilites imported from cmp_nvim_lsp
+			local ok_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+			local ok_lspconfig, lspconfig = pcall(require, "lspconfig")
+			if ok_cmp_nvim_lsp and ok_lspconfig then
+				local capabilities = cmp_nvim_lsp.default_capabilities()
+				
+				for _,lsp in pairs(my_lsp_configs) do
+					print(lsp.server)
+					--lspconfig.[lsp.server].setup({
+					--	table.unpack(lsp.opts),
+					--	capabilties = capabilities,
+					--})
+				end
+			end
+
+			---- lspconfig Global Mappings
+			---- See `:help vim.diagnostic.*` for documentation on any of the below functions
+			--local { register_keymaps } = require("nd0.utils")
+			--register_keymaps({
+			--	--["<space>e"] = { vim.diagnostic.open_float, "Open diagnostic float" },
+			--	["[d"] = { vim.diagnostic.goto_prev, "Goto previous diagnostic" },
+			--	["]d"] = { vim.diagnostic.goto_next, "Got next diagnostic" },
+			--	["<space>q"] = { vim.diagnostic.setloclist, "Set loc list?" },
+			--})
+
+			---- Use LspAttach autocommand to only map te following keys
+			---- after the language server attaches to the current buffer
+			--vim.api.nvim_create_autocmd("LspAttch", {
+			--	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+			--	callback = function(ev)
+			--		-- Enable completion triggered by <c-x><c-o>
+			--		vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+			--		
+			--		local opts = { buffer = ev.buf }
+			--		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts, { desc = "Goto declaration" })
+			--		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts, { desc = "Goto definition" })
+			--		vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts, { desc = "hover" })
+			--		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts, { desc = "implementation" })
+			--		vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts, { desc = "signature help" })
+			--		vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts, { desc = "add workspace folder" })
+			--		vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts, { desc = "remove workspace folder" })
+			--		vim.keymap.set('n', '<space>wl', function()
+			--		  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+			--		end, opts, { desc = "list workspace folder" })
+			--		vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts, { desc = "Type definitions" })
+			--		vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts, { desc = "Rename" })
+			--		vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts, { desc = "Code action" })
+			--		vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts, { desc = "References" })
+			--		vim.keymap.set('n', '<space>f', function()
+			--		  vim.lsp.buf.format { async = true }
+			--		end, opts, { desc = "Format" })
+			--		--register_keymaps({
+			--		--	g = {
+			--		--		D = { vim.lsp.buf.declaration, buffer = ev.buf },
+			--		--		d = { vim.lsp.buf.definition, buffer = ev.buf },
+			--		--		i = { vim.lsp.buf.implementation, = ev.buf },
+			--		--	},
+			--		--	K  = { vim.lsp.buf.hover, buffer = ev.buf },
+			--		--	["C-K"] = { vim.lsp.buf.signature_help, buffer = ev.buf },
+			--		--	["<space>"] = {
+			--		--		wa = { vim.lsp.buf.add_workspace_folder, buffer = ev.buf },
+			--		--		wr = { vim.lsp.buf.remove_workspace_folder, buffer = ev.buf },
+			--		--		wl = {
+			--		--			function()
+			--		--				print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+			--		--			end,
+			--		--			buffer = ev.buf
+			--		--		},
+			--		--		D = { vim.lsp.buf.type_definition, buffer = ev.buf },
+			--		--		rn = { vim.lsp.buf.rename,, buffer = ev.buf },
+			--		--	},
+			--		--})
+			--	end,
+			})
+		end,
+		keys = {
+			{ "<C-p>", desc = "Select prev cmp item" },
+			{ "<C-n>", desc = "Select next cmp item" },
+			{ "<C-y>", desc = "Confirm slection" },
+			{ "<C-Space>", desc = "Complete" },
+		},
+	},
+}
