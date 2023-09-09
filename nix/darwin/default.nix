@@ -51,6 +51,9 @@ in
 					useUserPackages = true;
 					extraSpecialArgs = { inherit user; };
 					users.${user} = import ./home.nix;
+					users.${user}.home.packages = with nixpkgs; [
+						bun
+					];
 				};
 			}
 

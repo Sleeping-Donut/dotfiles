@@ -30,6 +30,7 @@ in
 		stateVersion = "22.05";
 		packages = with pkgs; [
 			# Terminal
+			pnpm
 		];
 		file."hushlogin".text = "";
 	};

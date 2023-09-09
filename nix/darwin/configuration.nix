@@ -111,7 +111,7 @@
 				# stuff from other file
 			};
 			trackpad = {								# Trackpad Settings
-				Clicking = true;
+				Clicking = false;
 				TrackpadRightClick = true;
 			};
 		};
