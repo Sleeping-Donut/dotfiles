@@ -10,7 +10,7 @@
 #           └─ ./alacritty.nix
 #
 
-{ pkgs, nur, ... }:
+{ pkgs, nur, extra-packages, unstable, ... }:
 
 let
 	inherit (pkgs.stdenv) isDarwin;# used for firefox - move out?
@@ -24,14 +24,15 @@ let
 		nowtime = "now";
 		nowdate = "date + \"%d-%m-%Y\"";
 	};
+	pkgs-unstable = import unstable;
 in
 {
 	home = {												# Specific packages for mac
-		stateVersion = "22.05";
-		packages = with pkgs; [
+		stateVersion = "23.05";
+		packages = extra-packages ++ [pkgs-unstable.bun] ++ (with pkgs; [
 			# Terminal
-			pnpm
-		];
+			nodePackages.pnpm
+		]);
 		file."hushlogin".text = "";
 	};
 

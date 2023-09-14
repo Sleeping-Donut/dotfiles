@@ -53,6 +53,15 @@
 			location = "$HOME/.setup";	# Hmmmm......
 		in
 		{
+			# overlays = {
+			# 	pkg-sets = (
+			# 		final: prev: {
+			# 			# unstable = import inputs.nixpkgs-unstable { system = final.system; };
+			# 			# nur = import inputs.nur { system = final.system; };
+			# 		}
+			# 	);
+			# };
+
 			nixosConfigurations = (											# NixOS Host Configs
 				import ./nix/nixos {
 					inherit (nixpkgs) lib;

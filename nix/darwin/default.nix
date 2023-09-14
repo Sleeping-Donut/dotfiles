@@ -17,7 +17,7 @@ let
 		# Install homebrew under the default prefix
 		enable = true;
 
-		enableRosetta = if system == "aarch64" then true else false;
+		enableRosetta = if system == "aarch64-darwin" then true else false;
 
 		# User owning homebrew install
 		user = user;
@@ -31,9 +31,11 @@ let
 	defaultMasApps = { WireGuard = 1451685025; };		# Mac App Store Apps
 in
 {
+	# Find how to split stuff out better from github:cmacrae/config
+
 	X68000 = darwin.lib.darwinSystem {					# MacBook12,1 (Early 2015) "Core i5" 2.7Ghz 8GB 2560x1600
 		inherit system;
-		specialArgs = { inherit user inputs system nix-homebrew nur; hostname = "X68000"; };
+		specialArgs = { inherit user inputs system nixpkgs nix-homebrew nur; hostname = "X68000"; };
 		modules = [
 			./configuration.nix {						# configs for darwin, home-manager setup networking etc.
 				homebrew.brews = defaultBrews ++ [];
@@ -49,11 +51,8 @@ in
 				home-manager = {
 					useGlobalPkgs = true;
 					useUserPackages = true;
-					extraSpecialArgs = { inherit user; };
-					users.${user} = import ./home.nix;
-					users.${user}.home.packages = with nixpkgs; [
-						bun
-					];
+					extraSpecialArgs = { inherit user nixpkgs; extra-packages =  [];};# nixpkgs.bun]; };
+					users.${user} = import ./home.nix; #{ inherit nur pkgs; extra-packages = with nixpkgs; [ bun ] ;};
 				};
 			}
 
