@@ -1,12 +1,12 @@
 local ICONS = {
-	TOOLBOX = "🧰",
-	ASTERISK = "✳️",
-	INFO = "ℹ️" ,
-	BIN = "🗑️",
-	WARNING = "⚠️" ,
-	GRAPH = "📊",
+	TOOL = "⚒",
+	ASTERISK = "*",
+	INFO = "ⓘ",
+	BIN = "🗑",
+	WARNING = "⚠",
+	GRAPH = "〽",
 	NOTE = "🗈",
-	TEST_TUBE = "🧪",
+	TEST_BOX = "☐",
 
 }
 return {
@@ -48,13 +48,13 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {
 			keywords = {
-				FIX = { icon = ICONS.TOOLBOX, color = "info" },
+				FIX = { icon = ICONS.TOOL, color = "info" },
 				TODO = { icon = "T", color = "warning" },
 				HACK = { icon = ICONS.BIN, color = "warning" },
 				WARN = { icon = ICONS.WARNING, color = "warning", alt = {"WARNING", "XXX"} },
 				PERF = { icon = ICONS.GRAPH, alt = {"OPTIM", "PERFORMANCE", "OPTIMIZE"} },
 				NOTE = { icon = ICONS.NOTE, color = "hint", alt = {"INFO"} },
-				TEST = { icon = ICONS.TEST_TUBE, color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+				TEST = { icon = ICONS.TEST_BOX, color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
 			},
 			colors = {
 				error = { "DiagnosticError", "ErrorMsg", "#DC2626" },

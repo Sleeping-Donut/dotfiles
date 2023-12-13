@@ -35,7 +35,7 @@ return {
 			"neovim/nvim-lspconfig",
 		},
 		config = function()
-			local my_lsp_configs = require("nd0.lsp_configs")
+			local my_lsp_configs = require("full.lsp_configs")
 			local opts = {
 				ensure_installed = {}
 			}
@@ -59,7 +59,7 @@ return {
 	{
 		"hrsh7th/nvim-cmp",
 		config = function()
-			local my_lsp_configs = require("nd0.lsp_configs")
+			local my_lsp_configs = require("full.lsp_configs")
 			
 			-- Setup nvim-cmp
 			local cmp = require("cmp")
@@ -89,7 +89,7 @@ return {
 
 			---- lspconfig Global Mappings
 			---- See `:help vim.diagnostic.*` for documentation on any of the below functions
-			--local { register_keymaps } = require("nd0.utils")
+			--local { register_keymaps } = require("full.utils")
 			--register_keymaps({
 			--	--["<space>e"] = { vim.diagnostic.open_float, "Open diagnostic float" },
 			--	["[d"] = { vim.diagnostic.goto_prev, "Goto previous diagnostic" },

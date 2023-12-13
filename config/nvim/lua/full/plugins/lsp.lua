@@ -1,3 +1,4 @@
+-- Migrate away from lsp-zero? Reference its README for how
 if vim.fn["executable"]("nix --version") then
 end
 return {
@@ -33,29 +34,63 @@ return {
 			{"rafamadriz/friendly-snippets"},
 		},
 		config = function()
+			-- This config can be moved into own file to seperate from lazy
 			local lsp = require("lsp-zero")
 
 			lsp.preset("recommended")
 
+			-- lsp list from mason-lspconfig.nvim
+			local lsps = {};
+			if vim.fn["executable"]("rustc --version") then
+				table.insert(lsps, "rust_analyzer");
+			end
+			if vim.fn["executable"]("python --version") or vim.fn["executable"]["python3 --version"] or vim.fn["executable"]["py --version"] or vim.fn["executable"]["py3 --version"] then
+				table.insert(lsps, "pylsp");
+			end
+			if vim.fn["executable"]("lua-language-server --version") then
+				table.insert(lsps, "lua_ls");
+			end
+			if vim.fn["executable"]("node --version") then
+				table.insert(lsps, "html");
+				table.insert(lsps, "cssls");
+				table.insert(lsps, "tsserver");
+				table.insert(lsps, "jsonls");
+				table.insert(lsps, "eslint");
+				-- table.insert(lsps, "emmet-language-server");
+				table.insert(lsps, "astro");
+				table.insert(lsps, "tailwind");
+				table.insert(lsps, "svelte");
+				table.insert(lsps, "sqlls");
+				table.insert(lsps, "vimls");
+				table.insert(lsps, "vuels");
+				table.insert(lsps, "dockerls");
+				table.insert(lsps, "bashls");
+				table.insert(lsps, "ocamlls");
+				table.insert(lsps, "yamlls");
+			end
+			if vim.fn["executable"]("nix --version") then
+				table.insert(lsps, "rnix");
+			end
+			if vim.fn["executable"]("go version") then
+				table.insert(lsps, "gopls");
+			end
+			if vim.fn["executable"]("dotnet --version") then
+				table.insert(lsps, "csharp_ls");
+				table.insert(lsps, "fsautocomplete");
+			end
+			if vim.fn["executable"]("java --version") then
+				table.insert(lsps, "java_language_server");
+				table.insert(lsps, "kotlin_language_server");
+			end
+			if vim.fn["executable"]("gcc --version") or vim.fn["executable"]["clang --version"] then
+				table.insert(lsps, "clangd");
+			end
 			lsp.ensure_installed({
-				"rust_analyzer",
-				"lua_ls",
-				"vimls",
-				"pylsp", -- dependencies: python
-				"html", "cssls", "tsserver", "jsonls", -- dependencies: node
-				--"emmet-language-server",
-				"eslint", -- dependencies: node
-				"astro", "tailwindcss", "svelte", -- dependencies: node
-				"rnix",
-				"sqlls", -- dependencies: ??? (can't remember)
-				"gopls", -- dependencies: golang
-				"dockerls", "docker_compose_language_service",
-				"ansiblels",
-				"arduino_language_server",
-				"bashls",
-				"graphql",
-				"fsautocomplete", --"csharp_ls", -- dependencies: dotnet
-				"kotlin_language_server", --"java_language_server", -- dependencies: java
+				-- "docker_compose_language_service",
+				-- "ansiblels",
+				-- "arduino_language_server",
+				-- "graphql",
+
 				--"elixrls",
 				--"matlab_ls",
 			})

@@ -1,10 +1,11 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 vim.keymap.set("n", "<Space>", "<Nop>", {desc = "Prevent moving cursor for <leader>"})
 
 vim.opt.mouse = ""
 
 local nmaps = vim.api.nvim_get_keymap("n")
---print(require("nd0.utils").table_stringify(nmaps))
+--print(require("full.utils").table_stringify(nmaps))
 
 -- Get explorer
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {desc = "Open Explorer"})
