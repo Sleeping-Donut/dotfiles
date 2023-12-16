@@ -4,7 +4,7 @@ vim.keymap.set("n", "<Space>", "<Nop>", {desc = "Prevent moving cursor for <lead
 vim.opt.mouse = ""
 
 local nmaps = vim.api.nvim_get_keymap("n")
---print(require("full.utils").table_stringify(nmaps))
+--print(require("lite.utils").table_stringify(nmaps))
 
 -- Get explorer
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {desc = "Open Explorer"})
@@ -16,12 +16,12 @@ end, {desc = "Save"})
 
 -- vim.keymap.set("x", "<leader>p", [["_dP]])
 
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set({"n", "v"}, "<leader>y", [["+y]]) -- WHAT DO?
+vim.keymap.set("n", "<leader>Y", [["+Y]]) -- WHAT DO?
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({"n", "v"}, "<leader>d", [["_d]], {desc = "Delete to black hole"})
 
-vim.keymap.set("i", "<C-c>", "<Esc>", {desc = "Escape"})
+vim.keymap.set("i", "<C-c>", "<Esc>", {desc = "C-c escapes when insert mode"})
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
@@ -29,7 +29,7 @@ end, {desc = "Source current file"})
 vim.keymap.set("n", "<leader>sc", function()
 	vim.cmd("so "..vim.env.MYVIMRC)
 	print("Config reloaded: "..vim.env.MYVIMRC)
-end, {desc = "Source config"})
+end, {desc = "Source init.lua"})
 
 vim.keymap.set("n", "<leader>ld", function()
 	vim.cmd("lcd %:p:h")

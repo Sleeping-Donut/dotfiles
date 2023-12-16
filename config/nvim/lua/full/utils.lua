@@ -13,26 +13,4 @@ function M.table_stringify(o)
    end
 end
 
-function M.register_keymaps(mappings, opts)
-	local ok,wk = pcall(require, "which-key")
-	if ok then
-		wk.register(mappings, opts)
-	else
-		if opts == nil or type(opts) ~= table then
-			opts = {}
-		end
-		local a_opts = {
-			-- reference which-key README for defaults
-			mode = opts.mode or "n",
-			prefix = opts.prefix or "",
-			buffer = opts.buffer or nil,
-			silent = true,
-			noremap = true,
-			nowait = false,
-			expr = false,
-		}
-		print("NOT IMPLEMENTED REGISTER KEY FALLBACK")
-	end
-end
-
 return M

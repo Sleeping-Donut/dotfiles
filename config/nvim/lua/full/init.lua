@@ -1,4 +1,4 @@
 require("full.set")
-require("full.remap")
+require("lite.remap")
 require("full.lazy")
 
