@@ -4,5 +4,5 @@ if mode ~= 'full' and mode ~= 'lite' then
 	mode = 'basic'
 end
 
-require(mode)
+require("nd0." .. mode)
 

@@ -1,7 +1,6 @@
 -- import lite config
-local ok, lite_configs = pcall(require, "lite.plugins.editor")
+local ok, lite_configs = pcall(require, "nd0.lite.plugins.editor")
 if not ok then lite_configs = {} end
-if not ok then print("yes lite load") end
 
 -- Define full-specific config
 local config = {

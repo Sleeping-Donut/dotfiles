@@ -4,7 +4,6 @@ vim.keymap.set("n", "<Space>", "<Nop>", {desc = "Prevent moving cursor for <lead
 vim.opt.mouse = ""
 
 local nmaps = vim.api.nvim_get_keymap("n")
---print(require("lite.utils").table_stringify(nmaps))
 
 -- Get explorer
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {desc = "Open Explorer"})

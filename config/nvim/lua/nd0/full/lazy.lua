@@ -12,7 +12,7 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 
 
-local lazy_plugins = "full.plugins"
+local lazy_plugins = "nd0.full.plugins"
 local lazy_opts = {
 	-- [Default Opts](https://github.com/folke/lazy.nvim#%EF%B8%8F-configuration)
 }
