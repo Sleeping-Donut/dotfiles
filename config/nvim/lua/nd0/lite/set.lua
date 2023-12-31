@@ -1,6 +1,3 @@
-vim.g.active_colorscheme = "slate"
-vim.opt.background = "dark"
-
 vim.opt.nu = true
 vim.opt.relativenumber = true
 

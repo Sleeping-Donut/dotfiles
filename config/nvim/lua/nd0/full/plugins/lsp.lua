@@ -61,14 +61,17 @@ return {
 				table.insert(lsps, "lua_ls")
 			end
 			if vim.fn.executable("node") == 1 then
-				for _, v in ipairs({"hmtl", "cssls", "tsserver", "jsonls",
-					"eslint", "astro", "tailwind", "svelte", "volar",
+				for _, v in ipairs({"html", "cssls", "tsserver", "jsonls",
+					"eslint", "astro", "tailwindcss", "svelte", "volar",
 					-- "emmet-language-server",
-					"sqlls", "vimls", "dockerls", "bashls", "ocamlls", "yamlls",
+					"sqlls", "vimls", "dockerls", "bashls", "yamlls",
 					"ansiblels",
 				}) do
 					table.insert(lsps, v)
 				end
+			end
+			if vim.fn.executable("opam") == 1 then
+				table.insert(lsps, "ocamllsp")
 			end
 			if vim.fn.executable("go") == 1 then
 				table.insert(lsps, "gopls")
@@ -149,9 +152,11 @@ return {
 				})
 			end
 
-			lsp.configure("tailwindcss", {
-				filetypes = { "rust", "tsx" },
-			})
+			if vim.fn.executable("tailwind-language-server") == 1 then
+				lsp.configure("tailwindcss", {
+					filetypes = { "rust", "tsx" },
+				})
+			end
 
 			lsp.setup()
 

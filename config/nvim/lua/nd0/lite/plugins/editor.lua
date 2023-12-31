@@ -37,78 +37,108 @@ return {
 			vim.keymap.set("n", "<leader>F", "<cmd>Format<cr>", {desc = "Format"})
 		end,
 	},
-	{
-		"folke/todo-comments.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {
-			keywords = {
-				FIX = { icon = ICONS.TOOL, color = "info" },
-				TODO = { icon = "T", color = "warning" },
-				HACK = { icon = ICONS.BIN, color = "warning" },
-				WARN = { icon = ICONS.WARNING, color = "warning", alt = {"WARNING", "XXX"} },
-				PERF = { icon = ICONS.GRAPH, alt = {"OPTIM", "PERFORMANCE", "OPTIMIZE"} },
-				NOTE = { icon = ICONS.NOTE, color = "hint", alt = {"INFO"} },
-				TEST = { icon = ICONS.TEST_BOX, color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
-			},
-			colors = {
-				error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
-				warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
-				info = { "DiagnosticInfo", "#2563EB" },
-				hint = { "DiagnosticHint", "#10B981" },
-				default = { "Identifier", "#7C3AED" },
-				test = { "Identifier", "#FF00FF" },
-			},
-		},
-	},
+	--{
+	--	"folke/todo-comments.nvim",
+	--	dependencies = { "nvim-lua/plenary.nvim" },
+	--	opts = {
+	--		keywords = {
+	--			FIX = { icon = ICONS.TOOL, color = "info" },
+	--			TODO = { icon = "T", color = "warning" },
+	--			HACK = { icon = ICONS.BIN, color = "warning" },
+	--			WARN = { icon = ICONS.WARNING, color = "warning", alt = {"WARNING", "XXX"} },
+	--			PERF = { icon = ICONS.GRAPH, alt = {"OPTIM", "PERFORMANCE", "OPTIMIZE"} },
+	--			NOTE = { icon = ICONS.NOTE, color = "hint", alt = {"INFO"} },
+	--			TEST = { icon = ICONS.TEST_BOX, color = "<leader>test",
+	--				alt = { "TESTING", "PASSED", "FAILED" } },
+	--		},
+	--		colors = {
+	--			error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+	--			warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
+	--			info = { "DiagnosticInfo", "#2563EB" },
+	--			hint = { "DiagnosticHint", "#10B981" },
+	--			default = { "Identifier", "#7C3AED" },
+	--			test = { "Identifier", "#FF00FF" },
+	--		},
+	--	},
+	--},
 	{
 		"nvim-telescope/telescope.nvim", tag = "0.1.5",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope-fzy-native.nvim",
 		},
 		config = function()
 			local builtin = require("telescope.builtin")
 			-- File Pickers
-			vim.keymap.set("n", "tg", builtin.git_files, {desc = "Telescope git files"})
-			vim.keymap.set("n", "tf", builtin.find_files, {desc = "Telescope grep files"})
-			vim.keymap.set("n", "th", builtin.help_tags, {desc = "Telescope help tags"})
-			vim.keymap.set("n", "ts", function()
+			vim.keymap.set("n", "<leader>tg", builtin.git_files,
+				{desc = "Telescope git files"})
+			vim.keymap.set("n", "<leader>tf", builtin.find_files,
+				{desc = "Telescope find files"})
+			vim.keymap.set("n", "<leader>tF", function()
+				local ff_opts = { hidden = true }
+				if vim.fn.executable("rg") == 1 then
+					ff_opts = { find_command = {"rg", "--files", "--hidden", "--follow"} }
+				end
+				builtin.find_files(ff_opts) end,
+				{desc = "Telescope find files (hidden)"})
+			vim.keymap.set("n", "<leader>th", builtin.help_tags,
+				{desc = "Telescope help tags"})
+			vim.keymap.set("n", "<leader>ts", function()
 				builtin.grep_string({ search = vim.fn.input("Grep > ")})
 			end, {desc = "Telescope grep string"})
 
 			if vim.fn.executable("rg") == 1 then
-				vim.keymap.set("n", "tr", builtin.live_grep, {desc = "Telescope live grep"})
+				vim.keymap.set("n", "<leader>tr", function() builtin.live_grep({
+						vimgrep_arguments = { "rg", "--vimgrep",
+							"--follow",
+					}}) end,
+					{desc = "Telescope live grep"})
+				vim.keymap.set("n", "<leader>tR", function() builtin.live_grep({
+						vimgrep_arguments = { "rg", "--vimgrep",
+							"--follow", "--unrestricted", "-uu", "--hidden",
+					}}) end,
+					{desc = "Telescope live grep (include all)"})
 			else
-				vim.keymap.set("n", "tr", function() print("!Missing: ripgrep") end,
+				vim.keymap.set("n", "<leader>tr", function() print("!Missing: ripgrep") end,
 					{desc = "Disabled: Telescope live grep"})
-			end
-
-			if vim.fn.executable("fzy") == 1 then
-				require("telescope").load_extension("fzy_native")
+				vim.keymap.set("n", "<leader>tR", function() print("!Missing: ripgrep") end,
+					{desc = "Disabled: Telescope live grep (all)"})
 			end
 
 			-- Vim Pickers
-			-- builtin.keymaps
-			-- builtin.oldfiles
+			vim.keymap.set("n", "<leader>tk", builtin.keymaps,
+				{desc = "Telescope keymaps"})
+			vim.keymap.set("n", "<leader>to", builtin.oldfiles,
+				{desc = "Telescope oldfiles (recents)"})
+			vim.keymap.set("n", "<leader>tS", builtin.spell_suggest,
+				{desc = "Telescope spell suggest"})
 			-- builtin.commands
-			-- builtin.spell_suggest
 			-- builtin.colorscheme (FULL)
 
 			-- LSP Pickers
-			-- builtin.lsp_references
-			-- builtin.diagnostics
-			-- builtin.lsp_implementations
-			-- builtin.lsp_definitions
-			-- builtin.lsp_type_definition
+			vim.keymap.set("n", "<leader>tlr", builtin.lsp_references,
+				{desc = "Telescope LSP references"})
+			vim.keymap.set("n", "<leader>tlD", builtin.diagnostics,
+				{desc = "Telescope LSP diagnostics"})
+			vim.keymap.set("n", "<leader>tli", builtin.lsp_implementations,
+				{desc = "Telescope LSP implementations"})
+			vim.keymap.set("n", "<leader>tld", builtin.lsp_definitions,
+				{desc = "Telescope LSP definitions"})
+			vim.keymap.set("n", "<leader>tltd", builtin.lsp_type_definitions,
+				{desc = "Telescope LSP type definition"})
 
 			-- Git Pickers
-			-- builtin.git_commits
-			-- builtin.git_branches
-			-- builtin.git_status
-			-- builtin.git_stash
-
+			vim.keymap.set("n", "<leader>tgc", builtin.git_commits,
+				{desc = "Telescope git commits"})
+			vim.keymap.set("n", "<leader>tgb", builtin.git_branches,
+				{desc = "Telescope git branches"})
+			vim.keymap.set("n", "<leader>tgs", builtin.git_status,
+				{desc = "Telescope git status"})
+			vim.keymap.set("n", "<leader>tgst", builtin.git_stash,
+				{desc = "Telescope git stash"})
+			
 			-- Treesitter Pickers
-			-- builtin.treesitter
+			vim.keymap.set("n", "<leader>tT", builtin.treesitter,
+				{desc = "Telescope treesitter"})
 
 			-- Extensions (seperate lazy entry)
 		end,
@@ -116,7 +146,7 @@ return {
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-		config = function ()
+		config = function()
 			require("telescope").load_extension("file_browser")
 			local fb_actions = require("telescope").extensions.file_browser.actions
 			vim.keymap.set("n", "<leader>t,", "<cmd>Telescope file_browser<cr>",
@@ -131,19 +161,45 @@ return {
 				{desc = "File Browser (hidden) from current dir"})
 		end,
 	},
-	-- {
-	-- 	"folke/which-key.nvim",
-	-- 	config = function()
-	-- 		vim.o.timeout = true
-	-- 		vim.o.timeoutlen = 300
-	-- 		require("which-key").setup({
-	-- 		})
-	-- 		local wk = require("which-key")
-	-- 		wk.register({
-	-- 			l = {"<cmd>Lazy<cr>", "Lazy"},
-	-- 			y = {"'\"+y", "Copy to Clipboard"},
-	-- 			s = {"w", "Save"},
-	-- 		}, { prefix = "<leader>" })
-	-- 	end,
-	-- },
+	{
+		"nvim-telescope/telescope-fzy-native.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		config = function()
+			if vim.fn.executable("fzy") == 1 then
+				require("telescope").load_extension("fzy_native")
+			end
+		end
+	},
+	{
+		"ThePrimeagen/harpoon",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		branch = "harpoon2",
+		config = function()
+			local harpoon = require("harpoon")
+			harpoon:setup({
+				settings = { sync_on_close = true }
+			})
+
+			-- do a QWERTY / DVORK switcher
+			vim.keymap.set("n", "<leader>ha",
+				function() harpoon:list():append() end,
+				{desc = "Harpoon append list"})
+			vim.keymap.set("n", "<C-e>",
+				function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+				{desc = "Harpoon toggle quick menu"})
+			vim.keymap.set("n", "<C-A>",
+				function() harpoon:list():select(1) end,
+				{desc = "Harpoon select 1"})
+			vim.keymap.set("n", "<C-S>",
+				function() harpoon:list():select(2) end,
+				{desc = "Harpoon select 2"})
+			vim.keymap.set("n", "<C-D>",
+				function() harpoon:list():select(3) end,
+				{desc = "Harpoon select 3"})
+			vim.keymap.set("n", "<C-F>",
+				function() harpoon:list():select(4) end,
+				{desc = "Harpoon select 4"})
+		end
+
+	},
 }

@@ -1,4 +1,5 @@
-vim.cmd.colorscheme("slate")
+-- vim.cmd.colorscheme("habamax")
+vim.cmd.colorscheme("desert")
 
 vim.opt.number = true
 vim.opt.relativenumber = true
