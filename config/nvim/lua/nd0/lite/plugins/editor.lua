@@ -65,6 +65,10 @@ return {
 		"nvim-telescope/telescope.nvim", tag = "0.1.5",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+			},
 		},
 		config = function()
 			local builtin = require("telescope.builtin")
@@ -127,8 +131,8 @@ return {
 				{desc = "Telescope LSP type definition"})
 
 			-- Git Pickers
-			vim.keymap.set("n", "<leader>tgc", builtin.git_commits,
-				{desc = "Telescope git commits"})
+			-- vim.keymap.set("n", "<leader>tgc", builtin.git_commits,
+			-- 	{desc = "Telescope git commits"})
 			vim.keymap.set("n", "<leader>tgb", builtin.git_branches,
 				{desc = "Telescope git branches"})
 			vim.keymap.set("n", "<leader>tgs", builtin.git_status,
@@ -162,22 +166,16 @@ return {
 		end,
 	},
 	{
-		"nvim-telescope/telescope-fzy-native.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		config = function()
-			if vim.fn.executable("fzy") == 1 then
-				require("telescope").load_extension("fzy_native")
-			end
-		end
-	},
-	{
 		"ThePrimeagen/harpoon",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		branch = "harpoon2",
 		config = function()
 			local harpoon = require("harpoon")
 			harpoon:setup({
-				settings = { sync_on_close = true }
+				settings = { 
+					save_on_toggle = true,
+					sync_on_close = true,
+				}
 			})
 
 			-- do a QWERTY / DVORK switcher
@@ -187,16 +185,16 @@ return {
 			vim.keymap.set("n", "<C-e>",
 				function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
 				{desc = "Harpoon toggle quick menu"})
-			vim.keymap.set("n", "<C-A>",
+			vim.keymap.set("n", "<C-h>",
 				function() harpoon:list():select(1) end,
 				{desc = "Harpoon select 1"})
-			vim.keymap.set("n", "<C-S>",
+			vim.keymap.set("n", "<C-j>",
 				function() harpoon:list():select(2) end,
 				{desc = "Harpoon select 2"})
-			vim.keymap.set("n", "<C-D>",
+			vim.keymap.set("n", "<C-k>",
 				function() harpoon:list():select(3) end,
 				{desc = "Harpoon select 3"})
-			vim.keymap.set("n", "<C-F>",
+			vim.keymap.set("n", "<C-l>",
 				function() harpoon:list():select(4) end,
 				{desc = "Harpoon select 4"})
 		end

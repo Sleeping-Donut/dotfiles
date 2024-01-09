@@ -30,4 +30,3 @@ vim.opt.encoding = "utf-8"
 vim.scriptencoding = "utf-8"
 
 --vim.opt.listchars = { eol = "↵", tab = ">", space = "␣" }
-

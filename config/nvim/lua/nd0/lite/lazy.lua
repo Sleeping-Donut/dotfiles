@@ -17,5 +17,38 @@ local lazy_opts = {
 	-- [Default Opts](https://github.com/folke/lazy.nvim#%EF%B8%8F-configuration)
 }
 
-require("lazy").setup(lazy_plugins, lazy_opts)
+local disabled_plugins = {}
+if vim.g.config_mode ~= "full" then
+	disabled_plugins = {
+		"rose-pine",
+		"tokyonight",
+		"lsp-zero",
+	}
+end
+
+-- Change use of string for plugin module use table with spec
+require("lazy").setup("nd0.lite.plugins", {
+	install = {
+		missing = true,
+		colorscheme = { "desert", "habamax", "slate", },
+	},
+	disabled_plugins = disabled_plugins,
+	ui = {
+		icons = {
+			cmd = "⌘",
+			config = "🛠",
+			event = "📅",
+			ft = "📂",
+			init = "⚙",
+			keys = "🗝",
+			plugin = "🔌",
+			runtime = "💻",
+			require = "🌙",
+			source = "📄",
+			start = "🚀",
+			task = "📌",
+			lazy = "💤 ",
+		},
+	},
+})
 

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+PASSED_ARGS=$@
+HIDDEN=0
+
+if [ ${#PASSED_ARGS} -ne 0 ]; then
+	while getopts ":H" ARG; do
+		case "$ARG" in
+			H) HIDDEN=1 ;;
+		esac
+	done
+fi
+
+if [ $HIDDEN -eq 1 ]; then
+ 	DIR=$(find -L ${1:-.} -path '*/\.*' -type d 2> /dev/null | fzf +m) && cd "$DIR"
+else
+	DIR=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) && cd "$DIR"
+fi

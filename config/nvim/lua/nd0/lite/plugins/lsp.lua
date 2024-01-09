@@ -5,10 +5,12 @@
 -- Migrate away from lsp-zero? Reference its README for how
 if vim.fn.executable("nix --version") then
 end
+
 return {
 		{
 		"VonHeikemen/lsp-zero.nvim",
 		branch = "v2.x",
+		enabled = vim.g.is_full_config,
 		dependencies = {
 			-- LSP Support
 			{"neovim/nvim-lspconfig"},				-- Required

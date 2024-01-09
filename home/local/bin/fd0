@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Another fd - cd into the selected directory
+# This one differs from the above, by only showing the sub directories and not
+#  showing the directories within those. Is also inline
+
+PASSED_ARGS=$@
+HIDDEN=0
+
+if [ ${#PASSED_ARGS} -ne 0 ]; then
+	while getopts ":H" ARG; do
+		case "$ARG" in
+			H) HIDDEN=1 ;;
+		esac
+	done
+fi
+
+if [ $HIDDEN -eq 1 ]; then
+	DIR=`find . -maxdepth 1 -type d -print 2> /dev/null | fzf-tmux` && cd "$DIR"
+else
+	DIR=`find * -maxdepth 0 -type d -print 2> /dev/null | fzf-tmux` && cd "$DIR"
+fi

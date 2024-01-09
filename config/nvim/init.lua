@@ -1,8 +1,10 @@
-local mode = string.lower(os.getenv('NVIM_CONFIG_MODE') or '')
+vim.g.config_mode = string.lower(os.getenv("NVIM_CONFIG_MODE") or "")
+local config_module = "basic"
 
-if mode ~= 'full' and mode ~= 'lite' then
-	mode = 'basic'
+if vim.g.config_mode ~= "lite" and vim.g.config_mode ~= "full" then
+	vim.g.config_mode = "basic"
+else
+	config_module = "lite"
 end
 
-require("nd0." .. mode)
-
+require("nd0." .. config_module)
