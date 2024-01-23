@@ -61,17 +61,58 @@ return {
 	--		},
 	--	},
 	--},
+	-- {
+	-- 	"nvim-telescope/telescope-fzf-native.nvim",
+	-- 	-- To compile:
+	-- 	-- build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+	-- 	-- To download bins
+	-- 	-- branch = "feature/69-prebuilt-release-binaries",
+	-- 	build = function()
+	-- 		local jit_os = string.lower(jit.os)
+	-- 		local jit_arch = string.lower(jit.arch)
+
+	-- 		local pkg_os = "windows"
+	-- 		local pkg_comp = "cc"
+	-- 		if jit_os == "darwin" then
+	-- 			pkg_os = "macos"
+	-- 			pkg_comp = "gcc"
+	-- 		elseif jit_os == "linux" then
+	-- 			pkg_os = "ubuntu"
+	-- 			pkg_comp = "gcc"
+	-- 		end
+
+	-- 		local pkg_arch = ""
+	-- 		if jit_arch == "x64" or jit_arch == "x86" then
+	-- 			pkg_arch = "x64" -- pray x64 machines can run x86 anyway
+	-- 		elseif jit_arch == "arm" or jit_arch == "arm64" then
+	-- 			pkg_arch = "arm" -- pray whatever arm machine works for it
+	-- 		else
+	-- 			-- for mips and whatever - screw that noone uses it
+	-- 			-- I guess riscv stuff future but ¯\_(ツ)_/¯
+	-- 			pkg_arch = "arm"
+	-- 		end
+	-- 		
+	-- 		require('telescope-fzf-native').download_library({
+	-- 			platform = pkg_os, -- "windows" | "ubuntu" | "macos"
+	-- 			arch = pkg_arch, -- "x64" | "arm"
+	-- 			compiler = pkg_comp, -- windows: "cc", unix: "gcc" | "clang"
+	-- 			-- version = "0.0.2", -- release name found on GitHub release page, default: "dev"
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"nvim-telescope/telescope.nvim", tag = "0.1.5",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			{
-				"nvim-telescope/telescope-fzf-native.nvim",
-				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-			},
 		},
 		config = function()
+			local fzfn_ok, _ = pcall(require, "telescope-fzf-native")
+			if fzfn_ok then
+				require("telescope").load_extension("fzf")
+			end
+
 			local builtin = require("telescope.builtin")
+
 			-- File Pickers
 			vim.keymap.set("n", "<leader>tg", builtin.git_files,
 				{desc = "Telescope git files"})

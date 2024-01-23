@@ -2,8 +2,10 @@
 
 if [[ $# -eq 1 ]]; then
     selected=$1
+elif command -v fd &> /dev/null; then
+    selected=$(fd -L -H . ~/work/ ~/projects ~/ ~/personal ~/personal --min-depth 1 --max-depth 2 --type d 2>/dev/null | fzf)
 else
-    selected=$(find ~/work/ ~/projects ~/ ~/personal ~/personal -mindepth 1 -maxdepth 2 -type d | fzf)
+    selected=$(find -L -H ~/work/ ~/projects ~/ ~/personal ~/personal -mindepth 1 -maxdepth 2 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then

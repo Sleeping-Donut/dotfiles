@@ -1,10 +1,5 @@
 return {
 	{
-		"j-hui/fidget.nvim",
-		tag = "v1.2.0",
-		opts = {},
-	},
-	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
@@ -24,7 +19,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		lazy = "true",
+		lazy = true,
 	},
 	{
 		"folke/tokyonight.nvim",
@@ -46,7 +41,6 @@ return {
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
-		enabled = vim.g.is_full_config,
 		lazy = true,
 		config = function()
 			-- set_if_active("rose-pine")

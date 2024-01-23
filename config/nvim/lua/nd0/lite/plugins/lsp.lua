@@ -2,8 +2,8 @@
 -- LSP (all the language completion, hints, etc.)
 --
 
--- Migrate away from lsp-zero? Reference its README for how
-if vim.fn.executable("nix --version") then
+-- [Migrate away from lsp-zero](https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/you-might-not-need-lsp-zero.md)
+if vim.fn.executable("nix") then
 end
 
 return {
@@ -38,8 +38,10 @@ return {
 			-- Snippets
 			{"L3MON4D3/LuaSnip"},     -- Required
 			{"rafamadriz/friendly-snippets"},
+			{ "j-hui/fidget.nvim", tag = "v1.2.0", },
 		},
 		config = function()
+			require("fidget").setup()
 			-- This config can be moved into own file to seperate from lazy
 			local lsp = require("lsp-zero")
 
