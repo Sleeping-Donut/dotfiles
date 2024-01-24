@@ -35,7 +35,7 @@ in
 
 	X68000 = darwin.lib.darwinSystem {					# MacBook12,1 (Early 2015) "Core i5" 2.7Ghz 8GB 2560x1600
 		inherit system;
-		specialArgs = { inherit user inputs system nixpkgs nix-homebrew nur; hostname = "X68000"; system = "x86_64-darwin"; }
+		specialArgs = { inherit user inputs nixpkgs nix-homebrew nur; hostname = "X68000"; system = "x86_64-darwin"; }
 		modules = [
 			./configuration.nix {						# configs for darwin, home-manager setup networking etc.
 				homebrew.brews = [ ];
@@ -61,7 +61,7 @@ in
 	
 	LHC = darwin.lib.darwinSystem {					# Mac details go here
 		inherit system;
-		specialArgs = { inherit user inputs system nixpkgs nix-homebrew nur; hostname = "LHC"; system = "aarch64-darwin" };
+		specialArgs = { inherit user inputs nixpkgs nix-homebrew nur; hostname = "LHC"; system = "aarch64-darwin" };
 		modules = [
 			./configuration.nix {						# configs for darwin, home-manager setup networking etc.
 				homebrew.brews = [ ];
