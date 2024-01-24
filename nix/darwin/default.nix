@@ -35,12 +35,12 @@ in
 
 	X68000 = darwin.lib.darwinSystem {					# MacBook12,1 (Early 2015) "Core i5" 2.7Ghz 8GB 2560x1600
 		inherit system;
-		specialArgs = { inherit user inputs system nixpkgs nix-homebrew nur; hostname = "X68000"; };
+		specialArgs = { inherit user inputs system nixpkgs nix-homebrew nur; hostname = "X68000"; system = "x86_64-darwin"; }
 		modules = [
 			./configuration.nix {						# configs for darwin, home-manager setup networking etc.
-				homebrew.brews = defaultBrews ++ [];
-				homebrew.casks = defaultCasks ++ [];
-				homebrew.masApps = defaultMasApps // {};
+				homebrew.brews = [ ];
+				homebrew.casks = [ "firefox" "1password" ];
+				homebrew.masApps = { WireGuard = 1451685025 };
 			}
 
 			nix-homebrew.darwinModules.nix-homebrew { nix-homebrew = nix-homebrew-config; }
@@ -55,6 +55,32 @@ in
 					users.${user} = import ./home.nix; #{ inherit nur pkgs; extra-packages = with nixpkgs; [ bun ] ;};
 				};
 			}
+
+		];
+	};
+	
+	LHC = darwin.lib.darwinSystem {					# Mac details go here
+		inherit system;
+		specialArgs = { inherit user inputs system nixpkgs nix-homebrew nur; hostname = "LHC"; system = "aarch64-darwin" };
+		modules = [
+			./configuration.nix {						# configs for darwin, home-manager setup networking etc.
+				homebrew.brews = [ ];
+				homebrew.casks = [ "firefox" "1password" ];
+				homebrew.masApps = { WireGuard = 1451685025 };
+			}
+
+			nix-homebrew.darwinModules.nix-homebrew { nix-homebrew = nix-homebrew-config; }
+
+			# Reorganise this so that there are common.nix stuff - want to share things
+
+			# home-manager.darwinModules.home-manager {		# Home-Manager module that is used
+			# 	home-manager = {
+			# 		useGlobalPkgs = true;
+			# 		useUserPackages = true;
+			# 		extraSpecialArgs = { inherit user nixpkgs; extra-packages =  [];};# nixpkgs.bun]; };
+			# 		users.${user} = import ./home.nix; #{ inherit nur pkgs; extra-packages = with nixpkgs; [ bun ] ;};
+			# 	};
+			# }
 
 		];
 	};
