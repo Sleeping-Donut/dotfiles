@@ -32,8 +32,13 @@ TBA...
 
 1. Install homebrew - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 2. Install Nix - `sh <(curl -L https://nixos.org/nix/install)`
-3. run `run build path/to/flake#darwinConfigurations.DEVICE.system` 
-3.1 WRONG! -> run `nix run nix-darwin -- switch --flake path/to/flake#DEVICE`
+3. run `nix build path/to/flake#darwinConfigurations.DEVICE.system` 
+- 3.2 Enable flakes by either:
+	- cat to either config `experimental-features = nix-command flakes`
+        	- `/etc/nix/nix.conf`
+        	- `~/.config/nix/nix.conf`
+	- add to any executed nix commands `--experimental-features 'nix-command flakes'`
+- 3.1 WRONG! -> run `nix run nix-darwin -- switch --flake path/to/flake#DEVICE`
 4. run `./result/sw/bin/darwin-rebuild switch --flake path/to/flake#DEVICE`
 
 #### Rerunning
