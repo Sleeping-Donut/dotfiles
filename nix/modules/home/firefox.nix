@@ -1,104 +1,25 @@
-#
-#  Home-manager configuration for macbook
-#
-#  flake.nix
-#   ├─ ./darwin
-#   │   ├─ ./default.nix
-#   │   └─ ./home.nix *
-#   └─ ./modules
-#       └─ ./programs
-#           └─ ./alacritty.nix
-#
-
-args@{ config, pkgs, extra-packages, unstable, ... }:
-
+{ options, config, lib, pkgs, ... }:
+with lib;
 let
-	inherit (pkgs.stdenv) isDarwin;# used for firefox - move out?
-	shellAliases = {
-		ls = "ls --color=auto";
-		ll = "ls -laF";
-		la = "ls -lah";
-		neovim = "nvim";
-		nv = "nvim";
-		now = "date +\"%T\"";
-		nowtime = "now";
-		nowdate = "date + \"%d-%m-%Y\"";
-	};
-	# pkgs-unstable = import unstable;
-in
-{
-	home = {												# Specific packages for mac
-		stateVersion = "23.05";
-		packages = extra-packages
-			# ++ [pkgs-unstable.bun]
-			++ (with pkgs; [
-				# Terminal
-				nodePackages.pnpm
-		]);
-		file."hushlogin".text = "";
+	cfg = config.nd0.home.firefox-home;
+in {
+	options.nd0.home.firefox-home = with types; {
+		enable = mkEnableOption "Whether to load firefox configs";
+		isDarwin = mkBoolOpt false "Whether to use the linux package or dummy placeholder";
 	};
 
-	programs = {
-		zsh = {
-			enable = true;
-			enableAutosuggestions = true;
-			enableSyntaxHighlighting = true;
-			history.size = 10000;
-
-			oh-my-zsh = {
-				enable = true;
-				plugins = [ "git" ];
-				theme = "kphoen";
-				# custom = "$HOME/.config/zsh_nix/custom";
-			};
-
-			shellAliases = shellAliases;
-
-			# initExtras = ........
-
-		};
-
-		tmux = {
-			enable = true;
-			clock24 = true;
-			terminal = "screen-256color";
-		};
-
-		fzf = {
-			enable = true;
-			enableZshIntegration = true;
-			enableBashIntegration = true;
-		};
-
-		neovim = {
-			enable = true;
-			viAlias = false;
-			vimAlias = false;
-
-			# extra contents fileContents path/to/init.vim
-			extraConfig = ''
-			set number
-			set relativenumber
-
-			set tabstop=4
-			set shiftwidth=4
-			set noexpandtab
-
-			colorscheme habamax
-			'';
-		};
-
-		firefox = {
+	config = mkIf cfg.Enable {
+		programs.firefox = {
 			enable = true;
 			package =
-				if isDarwin then
+				if cfg.isDarwin then
 					# Handled by Homebrew module
 					# Use dummy package to satisfy the requirement
 					pkgs.runCommand "firefox-0.0.0" { } "mkdir $out"
 				else
 					pkgs.firefox;
 
-			profiles = 
+			profiles =
 				let
 					# userChrome = builtins.readFile ../conf.d/userChrome.css;
 					# extensions = with nur.repos.rycee.firefox-addons; [
@@ -108,6 +29,26 @@ in
 					# 	1password-x-password-manager
 					# 	dark-nivgvrv
 					# ];
+					search = {
+						default = "DuckDuckGo";
+						order = [ "DuckDuckGo" "Google" "Nix Packages" ];
+						engines = {
+							# Custom search engines
+							"Bing".metadata.hidden = true;
+							"Google".metadata.alias = "@g"; # Only 1 alias for builtins
+							"Nix Packages" = {
+								# icon = "";
+								definedAliases = [ "@np" ];
+								urls = [{
+									template = "";
+									params = [
+										{ name = "type"; value = "packages"; }
+										{ name = "query"; value = "{searchTerms}"; }
+									];
+								}];
+							};
+						};
+					};
 					settings = {
 						"app.update.auto" = true;
 						"browser.startup.homepage" = "about:home";
@@ -156,7 +97,7 @@ in
 						id = 0;
 						name = "home";
 						isDefault = true;
-						inherit settings;
+						inherit search settings;
 						search = {
 							default = "DuckDuckGo";
 							order = [ "DuckDuckGo" "Google" ];
@@ -170,6 +111,5 @@ in
 					};
 				};
 		};
-
 	};
 }

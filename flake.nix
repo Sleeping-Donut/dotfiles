@@ -1,93 +1,47 @@
-# 
-# Nix flake config
-# WIP
-# README for guide
 #
-#  flake.nix *             
-#   ├─ ./hosts
-#   │   └─ default.nix
-#   ├─ ./darwin
-#   │   └─ default.nix
-#   └─ ./nix
-#       └─ default.nix
+# Nix flake config
+# 
+# README.md for guide
 #
 
 {
-	description = "Personal configs using nix flakes";
+	description = "Personal config built with nix";
+	inputs = {
+		nixpks.url = "github:nixos/nixpkgs/nixos-23.05";
+		nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-	inputs =																# All flake references used to build. - The dependencies
-	{
-		nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";					# Default Stable Nix Packages
-		nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";		# Unstable Nix Packages
-
-		home-manager = {													# Nix home-manager to manage user environment
-			url = "github:nix-community/home-manager/release-23.05";
+		darwin = {
+			url = "github:lnl7/nix-darwin";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
-		darwin = {															# MacOS management
-			url = "github:lnl7/nix-darwin/master";
+		home-manager = {
+			url = "github:nix-community/home-manager";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
-		nur = {																# Nix User Repository
-			url = "github:nix-community/NUR";
-		};
+		nixos-hardware.url = "github:nixos/nixos-hardware";
 
-		nix-on-droid = {													# Nix on android stuff
+		nur.url = "github:nix-community/NUR";
+
+		nix-on-droid = {
 			url = "github:t184256/nix-on-droid/release-23.05";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
 		nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
-		# Ref github:MatthiasBenaets/nixos-config/flake.nix
-		# nixgl for OpenGL stuff
-		# hyprland
-		# plasma-manager
 	};
 
-	outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, home-manager, darwin, nur, nix-on-droid, nix-homebrew, ... }:		# Fn to tell flake what to do with the dependencies
-		let																	# Variables taht can be used in the conifgs
-			user = "nathand";
-			location = "$HOME/.setup";	# Hmmmm......
-		in
-		{
-			# overlays = {
-			# 	pkg-sets = (
-			# 		final: prev: {
-			# 			# unstable = import inputs.nixpkgs-unstable { system = final.system; };
-			# 			# nur = import inputs.nur { system = final.system; };
-			# 		}
-			# 	);
-			# };
+	outputs = inputs @ {}:
+	let
+		hosts = import ./nix-new/hosts { inherit inputs; };
+	in
+	{
+		nixosConfigurations = hosts.nixosConfigurations;
+		linuxConfigurations = hosts.linuxConfigurations;
+		darwinConfigurations = hosts.darwinConfigurations;			# macOS hosts
+		nixOnDroidConfigurations = hosts.nixOnDroidConfigurations;	# android configs using nix-on-droid
 
-			nixosConfigurations = (											# NixOS Host Configs
-				import ./nix/nixos {
-					inherit (nixpkgs) lib;
-					inherit inputs nixpkgs nixpkgs-unstable home-manager nur user location;# hyperland etc...
-				}
-			);
-
-			linuxConfigurations = (											# Linux Host Configs
-				import ./nix/linux {
-					inherit (nixpkgs) lib;
-					inherit inputs nixpkgs nixpkgs-unstable home-manager user nur;
-				}
-			);
-
-			darwinConfigurations = (										# macOS Host Configs
-				import ./nix/darwin {
-					inherit (nixpkgs) lib;
-					inherit inputs nixpkgs nixpkgs-unstable home-manager darwin user nur nix-homebrew;
-				}
-			);
-
-			nixOnDroidConfigurations = (									# nix-on-droid Host Configs
-				import ./nix/android {
-					inherit (nixpkgs) lib;
-					inherit inputs nixpkgs nixpkgs-unstable home-manager nix-on-droid user nur;
-				}
-			);
-		};
+	};
 }
