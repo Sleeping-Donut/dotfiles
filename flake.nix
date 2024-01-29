@@ -7,7 +7,7 @@
 {
 	description = "Personal config built with nix";
 	inputs = {
-		nixpks.url = "github:nixos/nixpkgs/nixos-23.05";
+		nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
 		nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
 		darwin = {
