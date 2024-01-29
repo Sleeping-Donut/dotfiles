@@ -1,5 +1,10 @@
 # Nix configs
 
+Influences:
+- 
+- https://gitlab.com/usmcamp0811/dotfiles
+- https://nixos-and-flakes.thiscute.world
+
 ## TODO
 
 - default devices/hosts for each platform of a minimal setup
@@ -24,6 +29,7 @@ TBA...
         - `~/.config/nix/nix.conf`
     - add to any executed nix commands `--experimental-features 'nix-command flakes'`
 2. run `nix run --flake path/to/flake#DEVICE`
+    - 2.1 or is it `nix run nixpkgs#home-manager -- switch --flake path/to/flake#DEVICE`
 
 
 ## Darwin (macOS)
