@@ -1,19 +1,27 @@
-{ options, config, lib, pkgs, ... }:
+{ lib, pkgs, config, ... }:
 with lib;
 let
-	cfg = config.nd0.home.neovim;
+	cfg = config.nd0.neovim;
+#	cfg = config.nd0.home.neovim;
 in
 {
-	options.nd0.home.neovim = {
+	options.nd0.neovim = {
+#	options.nd0.home.neovim = {
 		enable = mkEnableOption "Whether to install neovim in home";
-		bare = mkBoolOpt false "Whether to do bare install";
+		cop = mkOption {
+			type = types.bool;
+			default = true;
+			description = "Whether to do bare install";
+		};
 	};
 
 	config = mkIf cfg.enable {
 		programs.neovim = {
 			enable = true;
 		};
-		home.file."nvim" = mkIf (!bare) {
+		home.file."nvim" = 
+#		mkIf cfg.cop
+		{
 			source = ../../config/nvim;
 			target = ".config/nvim";
 		};

@@ -1,0 +1,4 @@
+{ ... }:
+{
+	homebrew = ./homebrew.nix;
+}

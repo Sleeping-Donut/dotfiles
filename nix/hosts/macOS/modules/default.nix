@@ -1,4 +1,0 @@
-{ ... }:
-{
-	homebrew = import ./homebrew.nix;
-}
