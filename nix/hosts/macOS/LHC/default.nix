@@ -1,8 +1,8 @@
-{
-	arch, hostname,
-	pkgs, unstable, nur,
-	nixModules, nixHomeModules, darwinModules, darwinHomeModules,
-	homebrew, homeManager,
+inputs @ {
+#	arch, hostname, pkgs, unstable, nur,
+#	nixModules, nixHomeModules, homeManagerM,
+#	darwinModules, darwinHomeModules, homebrewM,
+#	npkgs,
 	...
 }:
 let
@@ -13,23 +13,33 @@ let
 #	);
 in
 {
-#	imports = [
-#		../../modules/home/neovim.nix
-#		homeManager {
-##			modules = [ ./home.nix ];
+#	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
+	home-manager = {
+		users.nathand = {
+			username = "nathand";
+			homeDirectory = "/Users/nathand";
+			nixpkgs = npkgs;
+			home.stateVersion = "23.11";
+			home.file.".hushlogin".text = "";
+		};
+	};
+#	modules = [
+#	];
+##		../../../modules/home/neovim.nix
+##		home-manager {
+##			modules = [ ];#../../../modules/home/neovim.nix ];
 #			home-manager = {
-#				users.nathand = import ./nathand.nix { inherit pkgs, unstable, nur };
-##				users.nathand = {
-##					home.stateVersion = "23.11";
-##					home.file.".hushlogin".text = "";
+##				users.nathand = import ./nathand.nix { inherit pkgs, unstable, nur };
+#				users.nathand = {
+#					home.stateVersion = "23.11";
+#					home.file.".hushlogin".text = "";
 ##
-##					nd0.neovim = { enable = true; };
+#					nd0.neovim = { enable = true; };
 ##					#nd0.home = {
 ##					#	neovim.enable = true;
 ###					#	firefox.enable = true;
 ##					#};
-##				};
-##			};
-#		}
-#	];
+#				};
+#			};
+##		}
 }

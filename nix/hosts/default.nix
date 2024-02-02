@@ -1,7 +1,7 @@
 { inputs }:
 let
 #	{ pkgs, unstable, nur, homeManager, homebrew, darwin, nixOnDroid, ... } = inputs;
-	inherit (inputs) pkgs unstable nur homeManager homebrew darwin nixOnDroid;
+	inherit (inputs) pkgs unstable nur homeManager nix-homebrew darwin nixOnDroid;
 
 	darwinModules = import ./macOS/modules;
 	darwinHomeModules = import ./macOS/home/modules;
@@ -15,12 +15,25 @@ let
 		in
 			if systemType == "darwin" then
 				let
+					inherit pkgs unstable nur nix-homebrew darwin;
+					homebrewM = nix-homebrew.darwinModules.nix-homebrew;
+					homeManagerM = homeManager.darwinModules.home-manager;
+					npkg = unstable;
 				in
 				darwin.lib.darwinSystem {
 					system = arch;
+#					specialArgs = {
+#						inherit hostname arch unstable nur ; npkgs = pkgs;
+#						inherit nixModules nixHomeModules;
+#						inherit darwin darwinModules darwinHomeModules;
+#						homebrewM = nix-homebrew.darwinModules.nix-homebrew;
+#						homeManager = homeManager.darwinModules.home-manager;
+#					};
 					modules = [
+					cfg
 					homeManager.darwinModules.home-manager
-					./macOS/X68000
+#					nix-homebrew.darwinModules.nix-homebrew
+#					./macOS/LHC
 
 #						import ./macOS/X68000 {
 #							inherit hostname arch pkgs unstable nur;
