@@ -1,4 +1,6 @@
-inputs @ {
+{
+	config, pkgs, lib, system,
+	inputs, my-modules,
 #	arch, hostname, pkgs, unstable, nur,
 #	nixModules, nixHomeModules, homeManagerM,
 #	darwinModules, darwinHomeModules, homebrewM,
@@ -13,14 +15,24 @@ let
 #	);
 in
 {
-#	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
+#	imports = [ ../../../modules/home/neovim.nix ];
+	security.pam.enableSudoTouchIdAuth = true;
+	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
 	home-manager = {
+		useGlobalPkgs = true;
+		useUserPackages = true;
 		users.nathand = {
-			username = "nathand";
-			homeDirectory = "/Users/nathand";
-			nixpkgs = npkgs;
+#			username = "nathand";
+#			homeDirectory = "/Users/nathand";
+#			nixpkgs = inputs.pkgs;
 			home.stateVersion = "23.11";
 			home.file.".hushlogin".text = "";
+
+			programs.neovim.enable = true;
+			home.file.neovim = {
+				source = ../../../../config/nvim;
+				target = ".config/nvim";
+			};
 		};
 	};
 #	modules = [

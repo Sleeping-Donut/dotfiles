@@ -1,6 +1,6 @@
 { pkgs, nur, nixHomeModules, ... }:
 {
-	imports = [ nixHomeModules.neovim ];
+	imports = [ ../../../modules/home/neovim.nix ];
 
 	home.stateVersion = "23.11";
 	home.file.".hushlogin".text = "";

@@ -7,6 +7,13 @@ let
 	darwinHomeModules = import ./macOS/home/modules;
 	nixModules = import ../modules;
 	nixHomeModules = import ../modules/home;
+	my-modules = {
+		nix = import ../modules;
+		home = import ../modules/home;
+		darwin = import ../modules/darwin;
+		darwin-home = import ../modules/darwin/home;
+#		nixOS = import ../modules/nixOS;
+	};
 
 	generateConfigurations = (systemType: configs:
 		builtins.mapAttrs (hostname: info:
@@ -14,23 +21,18 @@ let
 			inherit (info) cfg arch; 
 		in
 			if systemType == "darwin" then
-				let
-					inherit pkgs unstable nur nix-homebrew darwin;
-					homebrewM = nix-homebrew.darwinModules.nix-homebrew;
-					homeManagerM = homeManager.darwinModules.home-manager;
-					npkg = unstable;
-				in
 				darwin.lib.darwinSystem {
 					system = arch;
-#					specialArgs = {
-#						inherit hostname arch unstable nur ; npkgs = pkgs;
-#						inherit nixModules nixHomeModules;
-#						inherit darwin darwinModules darwinHomeModules;
-#						homebrewM = nix-homebrew.darwinModules.nix-homebrew;
-#						homeManager = homeManager.darwinModules.home-manager;
-#					};
+					specialArgs = { inherit inputs my-modules; };
+#					users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
+#					home-manager = {users.nathand = {
+#						nixpkgs = inputs.pkgs;
+#						home.stateVersion = "23.11";
+#						home.file.".hushlogin".text = "";
+#					};};
 					modules = [
-					cfg
+					# cfg
+					./macOS/LHC
 					homeManager.darwinModules.home-manager
 #					nix-homebrew.darwinModules.nix-homebrew
 #					./macOS/LHC

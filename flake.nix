@@ -17,7 +17,7 @@
 
 		homeManager = {
 			url = "github:nix-community/home-manager";
-			inputs.nixpkgs.follows = "pkgs";
+			inputs.nixpkgs.follows = "unstable";
 		};
 
 		nixos-hardware.url = "github:nixos/nixos-hardware";

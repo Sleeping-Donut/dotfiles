@@ -1,5 +1,4 @@
 { lib, pkgs, config, ... }:
-with lib;
 let
 	cfg = config.nd0.neovim;
 #	cfg = config.nd0.home.neovim;
@@ -7,15 +6,15 @@ in
 {
 	options.nd0.neovim = {
 #	options.nd0.home.neovim = {
-		enable = mkEnableOption "Whether to install neovim in home";
-		cop = mkOption {
-			type = types.bool;
+		enable = lib.mkEnableOption "Whether to install neovim in home";
+		cop = lib.mkOption {
+			type = lib.types.bool;
 			default = true;
 			description = "Whether to do bare install";
 		};
 	};
 
-	config = mkIf cfg.enable {
+	config = lib.mkIf cfg.enable {
 		programs.neovim = {
 			enable = true;
 		};
