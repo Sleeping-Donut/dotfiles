@@ -18,14 +18,21 @@ in
 #	imports = [ ../../../modules/home/neovim.nix ];
 	services.nix-daemon.enable = true;
 	security.pam.enableSudoTouchIdAuth = true;
-	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
+#	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
 #	modules = [ ./nathand.nix ];
 	home-manager = {
-		useGlobalPkgs = true;
-		useUserPackages = true;
-		users.nathand = import ./nathand.nix;
+#		users.nathand = import ./nathand.nix;
+
+		users.nathand.home.stateVersion = "23.05";
+		users.nathand.home.file."testfile.txt".text = "have we got it?";
 	};
 }
+
+################
+# IGNORE BELOW #
+################
+
+
 #			home.stateVersion = "23.11";
 ##			username = "nathand";
 ##			homeDirectory = "/Users/nathand";
