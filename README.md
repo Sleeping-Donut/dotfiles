@@ -15,6 +15,7 @@ In that file it loads the home manager module for darwin `homeManager.darwinModu
 
 The config file for the host is at `nix/hosts/macOS/LHC/default.nix`
 This config doesn't have much in it just for getting the minimum version running, but as soon as anything is configured for a user in the `home-manager` block there is an error when rebuilding
+When the 2-3 lines that configure the `nathand` user in the `home-manager` block are removed it builds fine.
 
 The error is:
 
