@@ -11,10 +11,13 @@ Problems with home-manager in some way with current setup
 Current setup runs `darwin-rebuild switch --flake .#LHC` which should run `darwinConfigurations.LHC`
 
 `darwinConfigurations` is defined in `nix/hosts/default.nix`.
+
 In that file it loads the home manager module for darwin `homeManager.darwinModules.home-manager` as well as the config for the host
 
 The config file for the host is at `nix/hosts/macOS/LHC/default.nix`
+
 This config doesn't have much in it just for getting the minimum version running, but as soon as anything is configured for a user in the `home-manager` block there is an error when rebuilding
+
 When the 2-3 lines that configure the `nathand` user in the `home-manager` block are removed it builds fine.
 
 The error is:
