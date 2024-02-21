@@ -1,11 +1,12 @@
-{ pkgs, nur, nixHomeModules, ... }:
+{ pkgs, nur, ... }:
 {
-	imports = [ ../../../modules/home/neovim.nix ];
+	imports = [ ];#./testfile.nix ];
 
 	home.stateVersion = "23.11";
 	home.file.".hushlogin".text = "";
+	home.file."printresult.txt".text = "${./testfile.nix}";
 
-	nd0.home = {
-		neovim.enable = true;
-	};
+#	nd0.home = {
+#		testfile = { enable = true; text = "give a go"; };		
+#	};
 }

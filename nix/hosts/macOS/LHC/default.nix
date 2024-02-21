@@ -16,24 +16,27 @@ let
 in
 {
 #	imports = [ ../../../modules/home/neovim.nix ];
+	services.nix-daemon.enable = true;
 	security.pam.enableSudoTouchIdAuth = true;
 	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
+#	modules = [ ./nathand.nix ];
 	home-manager = {
 		useGlobalPkgs = true;
 		useUserPackages = true;
-		users.nathand = {
-#			username = "nathand";
-#			homeDirectory = "/Users/nathand";
-#			nixpkgs = inputs.pkgs;
-			home.stateVersion = "23.11";
-			home.file.".hushlogin".text = "";
-
-			programs.neovim.enable = true;
-			home.file.neovim = {
-				source = ../../../../config/nvim;
-				target = ".config/nvim";
-			};
-		};
+		users.nathand = import ./nathand.nix;
+#			home.stateVersion = "23.11";
+##			username = "nathand";
+##			homeDirectory = "/Users/nathand";
+##			nixpkgs = import inputs.pkgs { system = inputs.arch; };
+#			home.file.".hushlogin".text = "";
+#			home.enableNixpkgsReleaseCheck = false; # I hate this
+#
+#			programs.neovim.enable = true;
+#			home.file.neovim = {
+#				source = ../../../../config/nvim;
+#				target = ".config/nvim";
+#			};
+#		};
 	};
 #	modules = [
 #	];

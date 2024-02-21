@@ -24,19 +24,9 @@ let
 				darwin.lib.darwinSystem {
 					system = arch;
 					specialArgs = { inherit inputs my-modules; };
-#					users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
-#					home-manager = {users.nathand = {
-#						nixpkgs = inputs.pkgs;
-#						home.stateVersion = "23.11";
-#						home.file.".hushlogin".text = "";
-#					};};
 					modules = [
-					# cfg
 					./macOS/LHC
 					homeManager.darwinModules.home-manager
-#					nix-homebrew.darwinModules.nix-homebrew
-#					./macOS/LHC
-
 #						import ./macOS/X68000 {
 #							inherit hostname arch pkgs unstable nur;
 #							inherit nixModules nixHomeModules;
