@@ -80,7 +80,7 @@
     "homeManager": {
       "inputs": {
         "nixpkgs": [
-          "unstable"
+          "pkgs"
         ]
       },
       "locked": {

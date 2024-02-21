@@ -6,13 +6,13 @@ in
 	options.nd0.home.testfile = {
 		enable = lib.mkEnableOption "Whether to have testfile";
 		text = lib.mkOption {
-			type = lib.types.string;
+			type = lib.types.str;
 			default = "";
 			description = "What text to have in file";
 		};
 	};
 
 	config = lib.mkIf cfg.enable {
-		home.file."testfile.txt" = cfg.text;
+		home.file."testfile.txt".text = cfg.text;
 	};
 }

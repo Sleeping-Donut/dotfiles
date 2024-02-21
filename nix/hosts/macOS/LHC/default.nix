@@ -24,6 +24,8 @@ in
 		useGlobalPkgs = true;
 		useUserPackages = true;
 		users.nathand = import ./nathand.nix;
+	};
+}
 #			home.stateVersion = "23.11";
 ##			username = "nathand";
 ##			homeDirectory = "/Users/nathand";
@@ -37,7 +39,7 @@ in
 #				target = ".config/nvim";
 #			};
 #		};
-	};
+#	};
 #	modules = [
 #	];
 ##		../../../modules/home/neovim.nix
@@ -57,4 +59,4 @@ in
 #				};
 #			};
 ##		}
-}
+#}

@@ -1,12 +1,12 @@
 { pkgs, nur, ... }:
 {
-	imports = [ ];#./testfile.nix ];
+	imports = [ ./testfile.nix ];
 
-	home.stateVersion = "23.11";
+	home.stateVersion = "23.05";
 	home.file.".hushlogin".text = "";
-	home.file."printresult.txt".text = "${./testfile.nix}";
+#	home.file."printresult.txt".text = "${./testfile.nix}";
 
-#	nd0.home = {
+	nd0.home = {
 #		testfile = { enable = true; text = "give a go"; };		
-#	};
+	};
 }
