@@ -17,11 +17,10 @@ in
 {
 	services.nix-daemon.enable = true;
 	security.pam.enableSudoTouchIdAuth = true;
-#	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
+	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
 	home-manager = {
-#		users.nathand = import ./nathand.nix;
-		users.nathand.home.stateVersion = "23.05";
-		users.nathand.home.file."testfile.txt".text = "have we got it?";
+		users.nathand = import ./nathand.nix;
+#		users.nathand.nixpkgs = pkgs;
 	};
 }
 

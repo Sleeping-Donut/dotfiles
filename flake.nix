@@ -35,7 +35,15 @@
 
 	outputs = inputs @ { ... }:
 	let
-		hosts = import ./nix/hosts { inherit inputs; };
+
+		darwin-modules = import ./nix/macOS/modules;
+		darwin-home-modules = import ./macOS/home/modules;
+		nix-modules = import ../modules;
+		nix-home-modules = import ../modules/home;
+		hosts = import ./nix/hosts {
+			inherit inputs;
+#			inherit nix-modules nix-home-modules darwin-modules darwin-home-modules;
+		};
 	in
 	{
 		nixosConfigurations = hosts.nixosConfigurations;

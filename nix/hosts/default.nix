@@ -3,10 +3,10 @@ let
 #	{ pkgs, unstable, nur, homeManager, homebrew, darwin, nixOnDroid, ... } = inputs;
 	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid;
 
-	darwinModules = import ./macOS/modules;
-	darwinHomeModules = import ./macOS/home/modules;
-	nixModules = import ../modules;
-	nixHomeModules = import ../modules/home;
+	darwin-modules = import ../modules/macOS;
+	darwin-home-modules = import ../modules/macOS/home;
+	nix-modules = import ../modules;
+	home-modules = import ../modules/home;
 	my-modules = {
 		nix = import ../modules;
 		home = import ../modules/home;
@@ -28,14 +28,14 @@ let
 					inherit system;
 #					services.nix-daemon.enable = true;
 #					security.pam.enableSudoTouchIdAuth = true;
-					specialArgs = { inherit pkgs pkgs-unstable inputs my-modules; };
+					specialArgs = { inherit pkgs pkgs-unstable inputs nix-modules darwin-modules; };
 					modules = [
 						configPath
 						homeManager.darwinModules.home-manager {
 							home-manager = {
-								useGlobalPkgs = true;
-								useUserPackages = true;
-								extraSpecialArgs = { inherit pkgs pkgs-unstable; };
+#								useGlobalPkgs = true;
+#								useUserPackages = true;
+								extraSpecialArgs = { inherit pkgs pkgs-unstable home-modules darwin-home-modules; };
 							};
 						}
 					];
