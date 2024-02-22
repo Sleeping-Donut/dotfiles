@@ -20,7 +20,7 @@
     "darwin": {
       "inputs": {
         "nixpkgs": [
-          "pkgs"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -80,7 +80,7 @@
     "homeManager": {
       "inputs": {
         "nixpkgs": [
-          "pkgs"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -164,7 +164,7 @@
         "home-manager": "home-manager",
         "nix-formatter-pack": "nix-formatter-pack",
         "nixpkgs": [
-          "pkgs"
+          "nixpkgs"
         ],
         "nixpkgs-for-bootstrap": "nixpkgs-for-bootstrap",
         "nmd": "nmd_2"
@@ -244,6 +244,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1704290814,
+        "narHash": "sha256-LWvKHp7kGxk/GEtlrGYV68qIvPHkU9iToomNFGagixU=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "70bdadeb94ffc8806c0570eb5c2695ad29f0e421",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nmd": {
       "flake": false,
       "locked": {
@@ -307,22 +323,6 @@
         "type": "github"
       }
     },
-    "pkgs": {
-      "locked": {
-        "lastModified": 1704290814,
-        "narHash": "sha256-LWvKHp7kGxk/GEtlrGYV68qIvPHkU9iToomNFGagixU=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "70bdadeb94ffc8806c0570eb5c2695ad29f0e421",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-23.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "darwin": "darwin",
@@ -330,8 +330,8 @@
         "nix-homebrew": "nix-homebrew",
         "nixOnDroid": "nixOnDroid",
         "nixos-hardware": "nixos-hardware",
+        "nixpkgs": "nixpkgs_3",
         "nur": "nur",
-        "pkgs": "pkgs",
         "unstable": "unstable"
       }
     },

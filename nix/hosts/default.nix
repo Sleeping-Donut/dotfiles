@@ -1,7 +1,7 @@
 { inputs }:
 let
 #	{ pkgs, unstable, nur, homeManager, homebrew, darwin, nixOnDroid, ... } = inputs;
-	inherit (inputs) pkgs unstable nur homeManager nix-homebrew darwin nixOnDroid;
+	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid;
 
 	darwinModules = import ./macOS/modules;
 	darwinHomeModules = import ./macOS/home/modules;
@@ -18,22 +18,24 @@ let
 	generateConfigurations = (systemType: configs:
 		builtins.mapAttrs (hostname: info:
 		let
-			inherit (info) configPath arch; 
+			inherit (info) configPath system;
+			pkgs = nixpkgs.legacyPackages.${system};
+			pkgs-unstable = unstable.legacyPackages.${system};
 		in
 			# nix-darwin default configuration layer
 			if systemType == "darwin" then
 				darwin.lib.darwinSystem {
-					system = arch;
+					inherit system;
 #					services.nix-daemon.enable = true;
 #					security.pam.enableSudoTouchIdAuth = true;
-					specialArgs = { inherit inputs my-modules; };
+					specialArgs = { inherit pkgs pkgs-unstable inputs my-modules; };
 					modules = [
 						configPath
 						homeManager.darwinModules.home-manager {
 							home-manager = {
 								useGlobalPkgs = true;
 								useUserPackages = true;
-								extraSpecialArgs = { nixpkgs = inputs.pkgs; };
+								extraSpecialArgs = { inherit pkgs pkgs-unstable; };
 							};
 						}
 					];
@@ -42,7 +44,7 @@ let
 #				nixOnDroid.lib.nixOnDroidConfiguration {
 #					modules = [
 #						import configPath {
-#							inherit hostname arch;
+#							inherit hostname system;
 #							inherit (inputs) pkgs unstable nur homeManager;
 #							inherit (inputs) nixOnDroid;
 #							inherit nixModules nixHomeModules;
@@ -53,7 +55,7 @@ let
 #				pkgs.lib.nixosSystem {
 #					modules = [
 #						import configPath {
-#							inherit hostname arch;
+#							inherit hostname system;
 #							inherit (inputs) pkgs unstable nur homeManager;
 #							inherit nixModules nixHomeModules;
 #						}
@@ -61,10 +63,10 @@ let
 #				}
 #			else if systemType == "linux" then
 #				homeManager.lib.homeManagerConfiguration {
-#					pkgs = pkgs.legacyPackages."${arch}";
+#					pkgs = pkgs.legacyPackages."${system}";
 #					modules = [
 #						import configPath {
-#							inherit hostname arch;
+#							inherit hostname system;
 #							inherit (inputs) pkgs unstable nur homeManager;
 #							inherit nixModules nixHomeModules;
 #						}
@@ -72,7 +74,7 @@ let
 #				}
 #			else if systemType == "diy" then
 #				# Something to let you just have a configuration.nix somewhere like a normal one
-#				configPath { inherit hostname arch inputs my-modules; }
+#				configPath { inherit hostname system inputs my-modules; }
 			else
 				throw "Invalid system type"
 		) configs
@@ -84,8 +86,8 @@ in
 #	linuxConfigurations = generateConfigurations "linux" {};
 
 	darwinConfigurations = generateConfigurations "darwin" {
-#		X68000 = { arch = "x86_64-darwin"; configPath = ./macOS/X68000; };
-		LHC = { arch = "aarch64-darwin"; configPath = ./macOS/LHC; };
+#		X68000 = { system = "x86_64-darwin"; configPath = ./macOS/X68000; };
+		LHC = { system = "aarch64-darwin"; configPath = ./macOS/LHC; };
 	};
 
 #	nixOnDroidConfigurations = generateConfigurations "nixOnDroid" {};
