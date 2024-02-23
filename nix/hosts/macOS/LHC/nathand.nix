@@ -9,13 +9,16 @@
 
 	home.stateVersion = "23.11";
 	home.file.".hushlogin".text = "";
-	
-#	programs.tmux.enable = true;
 
 	nd0.home = {
 		neovim.enable = true;
 		shell-profile = { enable = true; symlink.enable = false; };
 		tmux.enable = true;
 		zsh.enable = true;
+	};
+
+	programs = {
+		bat.enable = true;
+		ripgrep.enable = true;
 	};
 }
