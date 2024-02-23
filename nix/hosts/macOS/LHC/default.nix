@@ -29,8 +29,14 @@ in
 		};
 		global.brewfile = true;
 		caskArgs.language = "en-GB";
-		brews = [];
-		casks = [ "1password" "firefox" "iina" ];
+		brews = [ ];
+		casks = [
+			"1password" "1password-cli"
+			"firefox"
+			"iina"
+			"vlc"
+			"rectangle"
+		];
 		masApps = { inherit (mas-apps)
 			Twitter
 			WireGuard
