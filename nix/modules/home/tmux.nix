@@ -4,7 +4,6 @@ let
 in
 {
 	options.nd0.home.tmux = {
-#	options.nd0.home.neovim = {
 		enable = lib.mkEnableOption "Whether to install tmux in home";
 	};
 
@@ -16,6 +15,7 @@ in
 #		mkIf cfg.cop
 		{
 			source = ../../../config/tmux;
+			target = ".config/tmux";
 		};
 	};
 }
