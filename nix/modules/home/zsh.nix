@@ -1,6 +1,7 @@
 { lib, pkgs, config, ... }:
 let
 	cfg = config.nd0.home.zsh;
+	shellAliases = (import ../values.nix {}).shellAliases;
 in
 {
 	options.nd0.home.zsh = {
@@ -22,7 +23,7 @@ in
 				# custom = "$HOME/.config/zsh_nix/custom";
 			};
 
-			# shellAliases = shellAliases;
+			 shellAliases = shellAliases;
 
 			# initExtras = ........
 
