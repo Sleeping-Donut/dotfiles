@@ -18,7 +18,7 @@ in
 		programs.neovim = {
 			enable = true;
 		};
-		home.file."nvim" = 
+		home.file.".config/nvim" =
 #		mkIf cfg.cop
 		{
 			source = ../../../config/nvim;
