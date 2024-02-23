@@ -1,4 +1,4 @@
-{ pkgs, nur, home-modules, ... }:
+{ pkgs, pkgs-unstable, home-modules, ... }:
 {
 	imports = [
 		home-modules.neovim
@@ -17,8 +17,15 @@
 		zsh.enable = true;
 	};
 
+	home.packages = let
+		stable = with pkgs; [];
+		unstable = with pkgs-unstable; [];
+	in
+		stable ++ unstable;
+
 	programs = {
 		bat.enable = true;
 		ripgrep.enable = true;
+		fzf = { enable = true; enableZshIntegration = true; enableBashIntegration = true; };
 	};
 }

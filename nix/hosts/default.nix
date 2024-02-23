@@ -20,8 +20,20 @@ let
 				darwin.lib.darwinSystem {
 					inherit system;
 					specialArgs = { inherit inputs pkgs pkgs-unstable nix-modules darwin-modules; };
+#					nix = {
+#						gc = {											# garbage Collection
+#							automatic = true;
+#							interval.Day = 14;
+#							options = "--delete-older-than 14d";
+#						};
+#						extraOptions = ''
+#						auto-optimise-store = true
+#						experimental-features = nix-command flakes
+#						'';
+#					};
 					modules = [
 						configPath
+						nix-modules.nix
 						homeManager.darwinModules.home-manager {
 							home-manager = {
 								extraSpecialArgs = { inherit home-modules darwin-home-modules; };
