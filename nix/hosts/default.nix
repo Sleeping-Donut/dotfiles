@@ -3,10 +3,10 @@ let
 #	{ pkgs, unstable, nur, homeManager, homebrew, darwin, nixOnDroid, ... } = inputs;
 	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid;
 
-	darwin-modules = import ../modules/macOS;
-	darwin-home-modules = import ../modules/macOS/home;
-	nix-modules = import ../modules;
-	home-modules = import ../modules/home;
+	darwin-modules = import ../modules/darwin {};
+	darwin-home-modules = import ../modules/darwin/home {};
+	nix-modules = import ../modules {};
+	home-modules = import ../modules/home {};
 	my-modules = {
 		nix = import ../modules;
 		home = import ../modules/home;

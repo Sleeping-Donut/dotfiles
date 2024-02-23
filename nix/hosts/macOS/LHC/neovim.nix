@@ -1,10 +1,10 @@
 { lib, pkgs, config, ... }:
 let
-	cfg = config.nd0.neovim;
+	cfg = config.nd0.home.neovim;
 #	cfg = config.nd0.home.neovim;
 in
 {
-	options.nd0.neovim = {
+	options.nd0.home.neovim = {
 #	options.nd0.home.neovim = {
 		enable = lib.mkEnableOption "Whether to install neovim in home";
 		cop = lib.mkOption {
