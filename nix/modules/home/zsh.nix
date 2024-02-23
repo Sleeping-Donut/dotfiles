@@ -13,7 +13,8 @@ in
 		programs.zsh = {
 			enable = true;
 			enableAutosuggestions = true;
-			enableSyntaxHighlighting = true;
+#			enableSyntaxHighlighting = true; # DEPRICATED
+			syntaxHighlighting.enable = true;
 			history.size = 10000;
 
 			oh-my-zsh = {
