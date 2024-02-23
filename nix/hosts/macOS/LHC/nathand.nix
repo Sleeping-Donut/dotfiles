@@ -19,7 +19,7 @@
 
 	home.packages = let
 		stable = with pkgs; [];
-		unstable = with pkgs-unstable; [];
+		unstable = with pkgs-unstable; [ iina ];
 	in
 		stable ++ unstable;
 
