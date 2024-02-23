@@ -1,6 +1,10 @@
-. "$HOME/.cargo/env"
+if [ -e "$HOME/.cargo/env" ] then
+	source "$HOME/.cargo/env"
+fi
 
-source "$HOME/.SECRETS"
+if [ -e "$HOME/.SECRETS" ] then
+	source "$HOME/.SECRETS"
+fi
 
 export PATH="$PATH:$HOME/bin/"
 
