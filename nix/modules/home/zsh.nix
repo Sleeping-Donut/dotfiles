@@ -26,14 +26,15 @@ in
 
 			 shellAliases = shellAliases;
 
+			extraConfig = ''
+			# Nix
+			if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  				. '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+			fi
+			# End Nix
+			'';
 			# initExtras = ........
 
 		};
-#		home.file."nvim" = 
-##		mkIf cfg.cop
-#		{
-#			source = ../../../config/nvim;
-#			target = ".config/nvim";
-#		};
 	};
 }

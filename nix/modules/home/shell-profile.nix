@@ -11,7 +11,7 @@ in
 	config = lib.mkIf cfg.enable {
 		home.file.".profile" = {
 			source = ../../../home/.profile;
-			target = lib.mkIf cfg.symlink.enable ".profile"
+			target = lib.mkIf cfg.symlink.enable ".profile";
 		};
 	};
 }

@@ -14,7 +14,7 @@
 
 	nd0.home = {
 		neovim.enable = true;
-		shell-profile = { enable = true; symlink = false; };
+		shell-profile = { enable = true; symlink.enable = false; };
 #		tmux.enable = true;
 		zsh.enable = true;
 	};
