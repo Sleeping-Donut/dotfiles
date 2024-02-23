@@ -1,19 +1,12 @@
 { inputs }:
 let
-#	{ pkgs, unstable, nur, homeManager, homebrew, darwin, nixOnDroid, ... } = inputs;
 	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid;
+	# NOTE: nur has a whole rigmarole so look it up to set it up
 
-	darwin-modules = import ../modules/darwin {};
-	darwin-home-modules = import ../modules/darwin/home {};
 	nix-modules = import ../modules {};
 	home-modules = import ../modules/home {};
-	my-modules = {
-		nix = import ../modules;
-		home = import ../modules/home;
-		darwin = import ../modules/darwin;
-		darwin-home = import ../modules/darwin/home;
-#		nixOS = import ../modules/nixOS;
-	};
+	darwin-modules = import ../modules/darwin {};
+	darwin-home-modules = import ../modules/darwin/home {};
 
 	generateConfigurations = (systemType: configs:
 		builtins.mapAttrs (hostname: info:
@@ -26,69 +19,60 @@ let
 			if systemType == "darwin" then
 				darwin.lib.darwinSystem {
 					inherit system;
-#					services.nix-daemon.enable = true;
-#					security.pam.enableSudoTouchIdAuth = true;
-					specialArgs = { inherit pkgs pkgs-unstable inputs nix-modules darwin-modules; };
+					specialArgs = { inherit inputs pkgs pkgs-unstable nix-modules darwin-modules; };
 					modules = [
 						configPath
 						homeManager.darwinModules.home-manager {
 							home-manager = {
-#								useGlobalPkgs = true;
-#								useUserPackages = true;
-								extraSpecialArgs = { inherit pkgs pkgs-unstable home-modules darwin-home-modules; };
+								extraSpecialArgs = { inherit home-modules darwin-home-modules; };
 							};
 						}
 					];
 				}
-#			else if systemType == "nixOnDroid" then
-#				nixOnDroid.lib.nixOnDroidConfiguration {
-#					modules = [
-#						import configPath {
-#							inherit hostname system;
-#							inherit (inputs) pkgs unstable nur homeManager;
-#							inherit (inputs) nixOnDroid;
-#							inherit nixModules nixHomeModules;
-#						}
-#					];
-#				}
-#			else if systemType == "nixos" then
-#				pkgs.lib.nixosSystem {
-#					modules = [
-#						import configPath {
-#							inherit hostname system;
-#							inherit (inputs) pkgs unstable nur homeManager;
-#							inherit nixModules nixHomeModules;
-#						}
-#					];
-#				}
-#			else if systemType == "linux" then
-#				homeManager.lib.homeManagerConfiguration {
-#					pkgs = pkgs.legacyPackages."${system}";
-#					modules = [
-#						import configPath {
-#							inherit hostname system;
-#							inherit (inputs) pkgs unstable nur homeManager;
-#							inherit nixModules nixHomeModules;
-#						}
-#					];
-#				}
-#			else if systemType == "diy" then
-#				# Something to let you just have a configuration.nix somewhere like a normal one
-#				configPath { inherit hostname system inputs my-modules; }
+			else if systemType == "nixOnDroid" then
+				nixOnDroid.lib.nixOnDroidConfiguration {
+					inherit system;
+					specialArgs = { inherit inputs pkgs pkgs-unstable nix-modules home-modules; };
+					modules = [
+						configPath
+					];
+				}
+			else if systemType == "nixos" then
+				pkgs.lib.nixosSystem {
+					inherit system;
+					specialArgs = { inherit inputs pkgs pkgs-unstable nix-modules; };
+					modules = [
+						configPath
+						homeManager.nixosModules.home-manager {
+							extraSpecialArgs = { inherit home-modules; };
+						}
+					];
+				}
+			else if systemType == "linux" then
+				homeManager.lib.homeManagerConfiguration {
+					inherit system;
+					extraSpecialArgs = { inherit inputs pkgs pkgs-unstable home-modules; };
+					modules = [
+						configPath
+					];
+				}
+			else if systemType == "diy" then
+				# Something to let you just have a configuration.nix somewhere like a normal one
+				configPath { inherit inputs hostname system pkgs pkgs-unstable; }
 			else
 				throw "Invalid system type"
 		) configs
 	);
 in
 {
-#	nixosConfigurations = generateConfigurations "nixos" {};
+	nixosConfigurations = generateConfigurations "nixos" {};
 
-#	linuxConfigurations = generateConfigurations "linux" {};
+	linuxConfigurations = generateConfigurations "linux" {};
 
 	darwinConfigurations = generateConfigurations "darwin" {
 #		X68000 = { system = "x86_64-darwin"; configPath = ./macOS/X68000; };
 		LHC = { system = "aarch64-darwin"; configPath = ./macOS/LHC; };
 	};
 
-#	nixOnDroidConfigurations = generateConfigurations "nixOnDroid" {};
+	nixOnDroidConfigurations = generateConfigurations "nixOnDroid" {};
 }

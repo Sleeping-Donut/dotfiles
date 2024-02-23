@@ -5,9 +5,9 @@
 		home-modules.zsh
 		home-modules.tmux
 	];
+
 	home.stateVersion = "23.11";
 	home.file.".hushlogin".text = "";
-#	home.file."printresult.txt".text = "${./testfile.nix}";
 
 	nd0.home = {
 		neovim.enable = true;
