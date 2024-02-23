@@ -9,3 +9,9 @@ in `/etc/systemd/system/logind.conf`
 HandlePowerKey=suspend
 HandlePowerKeyLongPress=poweroff
 ```
+
+## Nix stuff
+
+Go change the relevant modules that have home.file.".config/NAME" to use the `xdg.configFile."NAME"`
+It has same target source thing but is more appropriate and target is within xdg_config
+

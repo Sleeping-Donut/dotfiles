@@ -1,23 +1,26 @@
-{ options, config, lib, pkgs, ... }:
+{ lib, pkgs, pkgs-unstable, system, config, ... }:
 with lib;
 let
-	cfg = config.nd0.home.firefox-home;
+	cfg = config.nd0.home.firefox;
 in {
-	options.nd0.home.firefox-home = with types; {
+	options.nd0.home.firefox = with types; {
 		enable = mkEnableOption "Whether to load firefox configs";
-		isDarwin = mkBoolOpt false "Whether to use the linux package or dummy placeholder";
+		useUnstable = mkEnableOption "Whether to use unstable pkgs";
 	};
 
-	config = mkIf cfg.Enable {
+	config = mkIf cfg.enable {
 		programs.firefox = {
 			enable = true;
 			package =
-				if cfg.isDarwin then
+				if system == "aarch64-darwin" || system == "x68_64_darwin" then
 					# Handled by Homebrew module
 					# Use dummy package to satisfy the requirement
 					pkgs.runCommand "firefox-0.0.0" { } "mkdir $out"
 				else
-					pkgs.firefox;
+					if cfg.useUnstable then
+						pkgs-unstable.firefox
+					else
+						pkgs.firefox;
 
 			profiles =
 				let
@@ -97,7 +100,7 @@ in {
 						id = 0;
 						name = "home";
 						isDefault = true;
-						inherit search settings;
+						inherit settings ;#search;
 						search = {
 							default = "DuckDuckGo";
 							order = [ "DuckDuckGo" "Google" ];

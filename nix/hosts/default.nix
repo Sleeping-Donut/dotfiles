@@ -19,24 +19,15 @@ let
 			if systemType == "darwin" then
 				darwin.lib.darwinSystem {
 					inherit system;
-					specialArgs = { inherit inputs pkgs pkgs-unstable nix-modules darwin-modules; };
-#					nix = {
-#						gc = {											# garbage Collection
-#							automatic = true;
-#							interval.Day = 14;
-#							options = "--delete-older-than 14d";
-#						};
-#						extraOptions = ''
-#						auto-optimise-store = true
-#						experimental-features = nix-command flakes
-#						'';
-#					};
+					specialArgs = { inherit inputs system hostname pkgs pkgs-unstable nix-modules darwin-modules; };
 					modules = [
 						configPath
 						nix-modules.nix
 						homeManager.darwinModules.home-manager {
 							home-manager = {
-								extraSpecialArgs = { inherit home-modules darwin-home-modules; };
+								extraSpecialArgs = {
+									inherit inputs system pkgs pkgs-unstable nix-modules home-modules;
+									inherit darwin-modules darwin-home-modules; };
 							};
 						}
 					];
@@ -44,7 +35,7 @@ let
 			else if systemType == "nixOnDroid" then
 				nixOnDroid.lib.nixOnDroidConfiguration {
 					inherit system;
-					specialArgs = { inherit inputs pkgs pkgs-unstable nix-modules home-modules; };
+					specialArgs = { inherit inputs system hostname pkgs pkgs-unstable nix-modules home-modules; };
 					modules = [
 						configPath
 					];
@@ -52,18 +43,21 @@ let
 			else if systemType == "nixos" then
 				pkgs.lib.nixosSystem {
 					inherit system;
-					specialArgs = { inherit inputs pkgs pkgs-unstable nix-modules; };
+					specialArgs = { inherit inputs system hostname pkgs pkgs-unstable nix-modules; };
 					modules = [
 						configPath
 						homeManager.nixosModules.home-manager {
-							extraSpecialArgs = { inherit home-modules; };
+							extraSpecialArgs = {
+								inherit inputs system pkgs pkgs-unstable nix-modules home-modules;
+#								inherit nixos-modules;
+							};
 						}
 					];
 				}
 			else if systemType == "linux" then
 				homeManager.lib.homeManagerConfiguration {
 					inherit system;
-					extraSpecialArgs = { inherit inputs pkgs pkgs-unstable home-modules; };
+					extraSpecialArgs = { inherit inputs system pkgs pkgs-unstable nix-modules home-modules; };
 					modules = [
 						configPath
 					];

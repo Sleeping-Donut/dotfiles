@@ -30,11 +30,16 @@ in
 		global.brewfile = true;
 		caskArgs.language = "en-GB";
 		brews = [];
-		casks = [];
-#		masApps = { inherit (mas-apps)
-#			Twitter
-#			WireGuard;
-#		};
+		casks = [ "1password" "firefox" "iina" ];
+		masApps = { inherit (mas-apps)
+			Twitter
+			WireGuard
+
+			# iOS apps don't workthrough mas at the moment
+#			Tachimanga
+#			Paperback
+			;
+		};
 	};
 }
 
