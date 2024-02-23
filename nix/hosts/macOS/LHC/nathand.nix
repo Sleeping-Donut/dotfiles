@@ -22,8 +22,8 @@
 	};
 
 	home.packages = let
-		stable = with pkgs; [];
-		unstable = with pkgs-unstable; [ yt-dlp];
+		stable = with pkgs; [ ];
+		unstable = with pkgs-unstable; [ yt-dlp ];
 	in
 		stable ++ unstable;
 
