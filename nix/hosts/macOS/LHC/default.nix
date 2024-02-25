@@ -31,11 +31,14 @@ in
 		caskArgs.language = "en-GB";
 		brews = [ ];
 		casks = [
+			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
 			"1password" "1password-cli"
 			"firefox"
 			"iina"
 			"vlc"
 			"rectangle"
+			"visual-studio-code"
+			"zed"
 		];
 		masApps = { inherit (mas-apps)
 			Twitter

@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, pkgs-unstable, config, ... }:
 let
 	cfg = config.nd0.home.neovim;
 #	cfg = config.nd0.home.neovim;
@@ -12,11 +12,33 @@ in
 			default = true;
 			description = "Whether to do bare install";
 		};
+		lsps = lib.mkEnableOption "Whether to install LSPs";
 	};
 
 	config = lib.mkIf cfg.enable {
 		programs.neovim = {
 			enable = true;
+			extraPackages = with pkgs-unstable; lib.mkIf cfg.lsps [
+				ccls
+				csharp-ls
+				emmet-ls
+				fsautocomplete
+				gopls
+				java-language-server
+				kotlin-language-server
+				lua-language-server
+				luajitPackages.lua-lsp
+				nil
+				ocamlPackages.lsp
+				python311Packages.python-lsp-server
+				rnix-lsp
+				rust-analyzer
+				tailwindcss-language-server
+				yaml-language-server
+
+				rustfmt
+				stylua
+			];
 		};
 		home.file.".config/nvim" =
 #		mkIf cfg.cop

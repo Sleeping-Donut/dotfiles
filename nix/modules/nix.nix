@@ -1,6 +1,7 @@
 { ... }:
 {
 	nix = {
+		settings.experimental-features = [ "nix-command" "flakes" ];	
 		# garbage Collection
 		gc = {
 			automatic = true;
