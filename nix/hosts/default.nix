@@ -27,7 +27,8 @@ let
 							home-manager = {
 								extraSpecialArgs = {
 									inherit inputs system pkgs pkgs-unstable nix-modules home-modules;
-									inherit darwin-modules darwin-home-modules; };
+									inherit darwin-modules darwin-home-modules;
+								};
 							};
 						}
 					];
@@ -81,4 +82,6 @@ in
 	};
 
 	nixOnDroidConfigurations = generateConfigurations "nixOnDroid" {};
+
+	diyConfigurations = generateConfigurations "diy" {};
 }
