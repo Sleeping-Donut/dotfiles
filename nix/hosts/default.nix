@@ -95,7 +95,9 @@ in
 		LHC = { system = "aarch64-darwin"; configPath = ./macOS/LHC; };
 	};
 
-	nixOnDroidConfigurations = generateConfigurations "nixOnDroid" {};
+	nixOnDroidConfigurations = generateConfigurations "nixOnDroid" {
+		NOP6 = { system = "aarch46-linux"; configPath = ./android/NOP6.nix; };
+	};
 
 	diyConfigurations = generateConfigurations "diy" {};
 }
