@@ -86,10 +86,14 @@ let
 	);
 in
 {
+	# Nix refs https://mynixos.com
+
 	nixosConfigurations = generateConfigurations "nixos" {};
 
 	linuxConfigurations = generateConfigurations "linux" {};
 
+	# macOS Configs
+	# `defaults` options ref https://macos-defaults.com
 	darwinConfigurations = generateConfigurations "darwin" {
 #		X68000 = { system = "x86_64-darwin"; configPath = ./macOS/X68000; };
 		LHC = { system = "aarch64-darwin"; configPath = ./macOS/LHC; };
