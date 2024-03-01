@@ -58,10 +58,64 @@ in
 			Twitter
 			WireGuard
 
-			# iOS apps don't workthrough mas at the moment
+			# iOS apps don't work through mas at the moment
 #			Tachimanga
 #			Paperback
 			;
+		};
+	};
+
+	system = {
+		stateVersion = 4;
+		activationScripts.postUserActivation.text = ''
+		# Following line should allow us to avoid a logout/login cycle
+		/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+		'';
+		defaults = {
+			dock = {
+				expose-group-by-app = true;
+				showhidden = true;
+				tilesize = 30;
+			};
+			finder = {
+				AppleShowAllExtensions = true;
+				AppleShowAllFiles = true;
+				ShowPathbar = true;
+				ShowStatusBar = true;
+			};
+			menuExtraClock.Show24Hour = true;
+			NSGlobalDomain = {
+				"com.apple.mouse.tapBehavior" = null;
+				"com.apple.swipescrolldirection" = true;
+				"com.apple.trackpad.enableSecondaryClick" = true;
+				AppleEnableMouseSwipeNavigateWithScrolls = true;
+				AppleEnableSwipeNavigateWithScrolls = true;
+				AppleInterfaceStyle = "Dark";
+				AppleInterfaceStyleSwitchesAutomatically = null; # bool
+				AppleMeasurementUnits = "Centimeters";
+				AppleMetricUnits = null; # 0, 1
+				AppleTemperatureUnit = "Celsius";
+				InitialKeyRepeat = null; # signed int
+				KeyRepeat = null; # signed int
+				NSAutomaticCapitalizationEnabled = false;
+				NSAutomaticDashSubstitutionEnabled = false;
+				NSAutomaticPeriodSubstitutionEnabled = false;
+				NSAutomaticQuoteSubstitutionEnabled = false;
+				NSAutomaticSpellingCorrectionEnabled = false;
+				NSDocumentSaveNewDocumentsToCloud = false;
+			};
+			screencapture.type = "png";
+			spaces.spans-displays = false;
+			trackpad = {
+				Dragging = false;
+				TrackpadRightClick = true;
+				TrackpadThreeFingerDrag = true;
+			};
+#			"com.apple.Safari" = {
+#				AutoFillFromiCloudKeychain = 0;
+#				AutoFillPasswords = 0; # I don't think I can link in with 1Password
+#				"com.apple.Safari.WebKitPreferences.developerExtrasEnabled" = 1;
+#			};
 		};
 	};
 }
