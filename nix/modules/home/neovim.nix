@@ -20,9 +20,9 @@ in
 			enable = true;
 			extraPackages = with pkgs-unstable; lib.mkIf cfg.lsps [
 				ccls
-				csharp-ls
+				# csharp-ls # unsupported for darwin
 				emmet-ls
-				fsautocomplete
+				# fsautocomplete # unsupported for darwin
 				gopls
 				java-language-server
 				kotlin-language-server

@@ -1,6 +1,8 @@
-{ pkgs, pkgs-unstable, home-modules, ... }:
+{ pkgs, pkgs-unstable, inputs, home-modules, ... }:
 {
 	imports = [
+		inputs.nur.hmModules.nur
+
 		home-modules.firefox
 		home-modules.neovim
 		home-modules.zsh
@@ -22,14 +24,23 @@
 	};
 
 	home.packages = let
-		stable = with pkgs; [ ];
-		unstable = with pkgs-unstable; [ yt-dlp ];
+		stable = with pkgs; [];
+		unstable = with pkgs-unstable; [
+			gifski
+			iina
+			raycast
+			yt-dlp
+		];
 	in
 		stable ++ unstable;
 
 	programs = {
-		bat.enable = true;
-		ripgrep.enable = true;
-		fzf = { enable = true; enableZshIntegration = true; enableBashIntegration = true; };
+		bat.enable = true; 
+		eza = { enable = true; package = pkgs-unstable.eza; };
+		fzf = { enable = true; package = pkgs-unstable.fzf; enableZshIntegration = true; enableBashIntegration = true; };
+		jq = { enable = true; package = pkgs-unstable.jq; };
+		ripgrep = { enable = true; package = pkgs-unstable.ripgrep; };
+		yt-dlp = { enable = true; package = pkgs-unstable.yt-dlp; };
+		vscode = { enable = true; package = pkgs-unstable.vscode; };
 	};
 }

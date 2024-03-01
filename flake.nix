@@ -42,7 +42,6 @@
 		nix-home-modules = import ../modules/home;
 		hosts = import ./nix/hosts {
 			inherit inputs;
-#			inherit nix-modules nix-home-modules darwin-modules darwin-home-modules;
 		};
 	in
 	{

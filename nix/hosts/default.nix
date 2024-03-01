@@ -12,21 +12,35 @@ let
 		builtins.mapAttrs (hostname: info:
 		let
 			inherit (info) configPath system;
-			pkgs = nixpkgs.legacyPackages.${system};
-			pkgs-unstable = unstable.legacyPackages.${system};
+
+			# Move this somewhere appropriate
+			unfreeFilter = src: pkg: builtins.elem (src.lib.getName pkg) [
+				"raycast"
+				"vscode"
+			];
+
+			pkgs = import nixpkgs { inherit system;
+				overlays = [];
+				config.allowUnfreePredicate = unfreeFilter nixpkgs;
+			};
+			pkgs-unstable = import unstable { inherit system;
+				overlays = [];
+				config.allowUnfreePredicate = unfreeFilter unstable;
+			};
+			pkgs-nur = import nur { pkgs = null; nurpks = pkgs-unstable; };
 		in
 			# nix-darwin default configuration layer
 			if systemType == "darwin" then
 				darwin.lib.darwinSystem {
 					inherit system;
-					specialArgs = { inherit inputs system hostname pkgs pkgs-unstable nix-modules darwin-modules; };
+					specialArgs = { inherit inputs system hostname pkgs pkgs-unstable pkgs-nur nix-modules darwin-modules; };
 					modules = [
 						configPath
 						nix-modules.nix
 						homeManager.darwinModules.home-manager {
 							home-manager = {
 								extraSpecialArgs = {
-									inherit inputs system pkgs pkgs-unstable nix-modules home-modules;
+									inherit inputs system pkgs pkgs-unstable pkgs-nur nix-modules home-modules;
 									inherit darwin-modules darwin-home-modules;
 								};
 							};
@@ -65,7 +79,7 @@ let
 				}
 			else if systemType == "diy" then
 				# Something to let you just have a configuration.nix somewhere like a normal one
-				configPath { inherit inputs hostname system pkgs pkgs-unstable; }
+				configPath { inherit inputs hostname system pkgs pkgs-unstable nur; }
 			else
 				throw "Invalid system type"
 		) configs
