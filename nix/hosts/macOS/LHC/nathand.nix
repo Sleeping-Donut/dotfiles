@@ -38,6 +38,7 @@
 		stable ++ unstable;
 
 	programs = {
+		git.enable = true;
 		bat.enable = true; 
 		eza = { enable = true; package = pkgs-unstable.eza; };
 		fzf = { enable = true; package = pkgs-unstable.fzf; enableZshIntegration = true; enableBashIntegration = true; };
