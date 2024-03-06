@@ -27,7 +27,7 @@ in
 			 shellAliases = shellAliases;
 
 			oh-my-zsh.extraConfig = ''
-			source .profile
+			source "$HOME/.profile"
 
 			# Nix
 			if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then

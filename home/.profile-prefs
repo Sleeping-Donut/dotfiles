@@ -1,0 +1,6 @@
+export EDITOR='nvim'
+export SUDO_EDITOR='env NVIM_MODE="BASIC" nvim'
+export VISUAL='nvim'
+
+export NVIM_CONFIG_MODE='LITE'
+

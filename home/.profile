@@ -1,18 +1,16 @@
-if [ -e "$HOME/.cargo/env" ] then
+if [ -e "$HOME/.cargo/env" ]; then
 	source "$HOME/.cargo/env"
 fi
 
-if [ -e "$HOME/.SECRETS" ] then
+if [ -e "$HOME/.SECRETS" ]; then
 	source "$HOME/.SECRETS"
 fi
 
+if [ -e "$HOME/.profile-prefs" ]; then
+	source "$HOME/.profile-prefs"
+fi
+
 export PATH="$PATH:$HOME/bin/"
-
-export EDITOR='nvim'
-export SUDO_EDITOR='env NVIM_MODE="BASIC" nvim'
-export VISUAL='nvim'
-
-export NVIM_CONFIG_MODE='FULL'
 
 export BAT_STYLE='header-filename,numbers,changes,grid'
 export FZF_DEFAULT_OPTS="--preview 'bat --color=always --style=header-filename,numbers,changes {}' --bind '?:toggle-preview,ctrl-u:preview-up,ctrl-d:preview-down' --preview-window hidden:up:20"
@@ -20,6 +18,9 @@ export FZF_DEFAULT_OPTS="--preview 'bat --color=always --style=header-filename,n
 alias ls='ls --color=auto'
 alias ll='ls -lh --color=auto'
 alias la='ls -lah --color=auto'
+alias exl='exa -l'
+alias exaa='exa -a'
+alias exla='exa -la'
 alias cls='clear'
 
 alias lsbin='compgen -c'
