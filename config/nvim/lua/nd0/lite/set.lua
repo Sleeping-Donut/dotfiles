@@ -29,4 +29,20 @@ vim.opt.colorcolumn = "80"
 vim.opt.encoding = "utf-8"
 vim.scriptencoding = "utf-8"
 
---vim.opt.listchars = { eol = "↵", tab = ">", space = "␣" }
+vim.opt.list = true
+
+local chars = {
+	interpunct = "·",
+	middle_ellipsis = "⋯",
+	newline = "↵",
+	right_arrow = "→",
+	whitespace = "␣",
+}
+vim.opt.listchars = {
+	conceal = chars.middle_ellipses,
+	eol = chars.newline,
+	nbsp = chars.interpunct,
+	precedes = nil, lead = nil, trail = nil,
+	space = chars.interpunct,
+	tab = chars.right_arrow .. " ",
+}
