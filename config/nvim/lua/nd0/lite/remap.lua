@@ -13,10 +13,13 @@ vim.keymap.set("n", "<leader>bw", function()
 	print(":w")
 end, {desc = "Save"})
 
+vim.keymap.set("n", "<C-u>", "<C-u>zz", {desc = "Jump up and center"})
+vim.keymap.set("n", "<C-d>", "<C-d>zz", {desc = "Jump down and center"})
+
 -- vim.keymap.set("x", "<leader>p", [["_dP]])
 
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]]) -- WHAT DO?
-vim.keymap.set("n", "<leader>Y", [["+Y]]) -- WHAT DO?
+vim.keymap.set({"n", "v"}, "<leader>y", [["+y]], {desc = "Copy to clipboard"})
+vim.keymap.set("n", "<leader>Y", [["+Y]], {desc = "Copy to clipboard"})
 
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]], {desc = "Delete to black hole"})
 
