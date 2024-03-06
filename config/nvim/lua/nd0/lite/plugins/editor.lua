@@ -172,15 +172,15 @@ return {
 				{desc = "Telescope LSP type definition"})
 
 			-- Git Pickers
-			-- vim.keymap.set("n", "<leader>tgc", builtin.git_commits,
+			-- vim.keymap.set("n", "<leader>tvc", builtin.git_commits,
 			-- 	{desc = "Telescope git commits"})
-			vim.keymap.set("n", "<leader>tgb", builtin.git_branches,
+			vim.keymap.set("n", "<leader>tvb", builtin.git_branches,
 				{desc = "Telescope git branches"})
-			vim.keymap.set("n", "<leader>tgs", builtin.git_status,
+			vim.keymap.set("n", "<leader>tvs", builtin.git_status,
 				{desc = "Telescope git status"})
-			vim.keymap.set("n", "<leader>tgst", builtin.git_stash,
+			vim.keymap.set("n", "<leader>tvS", builtin.git_stash,
 				{desc = "Telescope git stash"})
-			
+
 			-- Treesitter Pickers
 			vim.keymap.set("n", "<leader>tT", builtin.treesitter,
 				{desc = "Telescope treesitter"})
