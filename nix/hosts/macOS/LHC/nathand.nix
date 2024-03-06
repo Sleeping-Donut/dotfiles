@@ -14,6 +14,9 @@
 	home.stateVersion = "23.11";
 	home.file.".hushlogin".text = "";
 
+	# TODO: Need to copy .profile-prefs to $HOME
+	# NOTE: only copy if file does not exists
+
 	nd0.home = {
 		firefox.enable = true;
 		neovim = { enable = true; lsps = true; };

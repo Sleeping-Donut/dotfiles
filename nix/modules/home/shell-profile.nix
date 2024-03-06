@@ -13,9 +13,5 @@ in
 			source = ../../../home/.profile;
 			target = lib.mkIf cfg.symlink.enable ".profile";
 		};
-		home.file.".profile-prefs" = {
-			source = ../../../home/.profile-prefs;
-			target = ".profile-prefs";
-		};
 	};
 }
