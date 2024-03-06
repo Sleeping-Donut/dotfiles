@@ -12,4 +12,10 @@ if vim.g.config_mode == "full" then
 	vim.g.is_full_config = true
 end
 
-require("nd0." .. config_module)
+local ok, _ = pcall(require, "nd0." .. config_module)
+if not ok then
+	-- fallback to basic config
+	pcall(require, "nd0.basic")
+	vim.api.nvim_echo({{"error: could not load config " .. config_module .. " using fallback"}}, false, {})
+end
+-- require("nd0." .. config_module)
