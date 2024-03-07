@@ -23,6 +23,9 @@ return {
 		end
 	},
 	{
+		"tpope/vim-sleuth"
+	},
+	{
 		'mhartington/formatter.nvim',
 		config = function()
 			require('formatter').setup({
@@ -37,9 +40,9 @@ return {
 			vim.keymap.set("n", "<leader>F", "<cmd>Format<cr>", {desc = "Format"})
 		end,
 	},
-	--{
-	--	"folke/todo-comments.nvim",
-	--	dependencies = { "nvim-lua/plenary.nvim" },
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
 	--	opts = {
 	--		keywords = {
 	--			FIX = { icon = ICONS.TOOL, color = "info" },
@@ -60,7 +63,7 @@ return {
 	--			test = { "Identifier", "#FF00FF" },
 	--		},
 	--	},
-	--},
+	},
 	-- {
 	-- 	"nvim-telescope/telescope-fzf-native.nvim",
 	-- 	-- To compile:

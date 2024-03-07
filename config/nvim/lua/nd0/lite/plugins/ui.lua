@@ -1,3 +1,4 @@
+local utils = require("utils")
 return {
 	{
 		"nvim-lualine/lualine.nvim",
@@ -9,6 +10,22 @@ return {
 					section_separators = { left = "", right = "" },
 					component_separators = { left = "", right = "|" },
 				},
+				sections = {
+					lualine_a = {
+						{ 'mode', fmt = function(str)
+							local split_str = utils.split(str, "-")
+							local out_str = ""
+							for _, word in ipairs(split_str) do
+								if #out_str == 0 then
+									out_str = word:sub(1,1)
+								else
+									out_str = out_str .. "-" .. word:sub(1,1)
+								end
+							end
+							return out_str
+						end }
+					},
+				}
 			})
 		end,
 	},

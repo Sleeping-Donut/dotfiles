@@ -22,6 +22,8 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
+vim.opt.showmode = false
+
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
@@ -43,6 +45,6 @@ vim.opt.listchars = {
 	eol = chars.newline,
 	nbsp = chars.interpunct,
 	precedes = nil, lead = nil, trail = nil,
-	space = chars.interpunct,
+--	space = chars.interpunct,
 	tab = chars.right_arrow .. " ",
 }
