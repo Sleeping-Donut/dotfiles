@@ -19,7 +19,7 @@
 
 	nd0.home = {
 		firefox.enable = true;
-		neovim = { enable = true; lsps = true; };
+		neovim = { enable = true; lsps = true; formatters = true; };
 		shell-profile = { enable = true; symlink.enable = true; };
 		tealdeer.enable = true;
 		tmux.enable = true;
