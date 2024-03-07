@@ -29,6 +29,7 @@
 	home.packages = let
 		stable = with pkgs; [];
 		unstable = with pkgs-unstable; [
+			fd
 			gifski
 			iina
 			raycast
