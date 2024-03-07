@@ -38,6 +38,7 @@ local chars = {
 	middle_ellipsis = "⋯",
 	newline = "↵",
 	right_arrow = "→",
+	right_triangle = "▶",
 	whitespace = "␣",
 }
 vim.opt.listchars = {
@@ -46,5 +47,6 @@ vim.opt.listchars = {
 	nbsp = chars.interpunct,
 	precedes = nil, lead = nil, trail = nil,
 --	space = chars.interpunct,
+	multispace = "   "..chars.right_triangle,
 	tab = chars.right_arrow .. " ",
 }
