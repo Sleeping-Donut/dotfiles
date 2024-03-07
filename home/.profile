@@ -31,8 +31,11 @@ alias nvl='NVIM_CONFIG_MODE=LITE nvim'
 alias nvf='NVIM_CONFIG_MDOE=FULL nvim'
 
 alias rga='rg --hidden'
-alias fnv='out=$(fzf) && echo $out | xargs nvim'
 alias fcd='out=$(fd --type d | fzf) && echo $out | xargs cd'
+alias fnv='out=$(fzf) && echo $out | xargs nvim'
+alias fnvf='out=$(fzf) && echo $out | xargs nvf'
+alias fnvl='out=$(fzf) && echo $out | xargs nvl'
+alias fnvb='out=$(fzf) && echo $out | xargs nvb'
 # having trouble with `fd --folow` so using stock find
 alias fza='find -L -H | fzf'
 alias fnva='out=$(find -L -H | fzf) && echo $out | xargs nvim'
