@@ -5,7 +5,6 @@ let
 in
 {
 	options.nd0.home.zsh = {
-#	options.nd0.home.neovim = {
 		enable = lib.mkEnableOption "Whether to install zsh in home";
 	};
 
