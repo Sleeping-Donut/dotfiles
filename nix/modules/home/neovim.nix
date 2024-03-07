@@ -40,11 +40,16 @@ in
 				stylua
 			];
 		};
-		home.file.".config/nvim" =
+#		home.file.".config/nvim" = ;
+		home.file.".config/nvim/init.lua" =
 #		mkIf cfg.cop
 		{
-			source = ../../../config/nvim;
-			target = ".config/nvim";
+			source = ../../../config/nvim/init.lua;
+#			target = ".config/nvim";
+#			recursive = true;
 		};
+		home.file.".config/nvim/lua".source = ../../../config/nvim/lua;
+		home.file.".config/nvim/lazy-lock.json".source =
+			config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/nvim/lazy-lock.json";
 	};
 }
