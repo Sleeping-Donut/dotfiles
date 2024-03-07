@@ -16,6 +16,6 @@ local ok, _ = pcall(require, "nd0." .. config_module)
 if not ok then
 	-- fallback to basic config
 	pcall(require, "nd0.basic")
-	vim.api.nvim_echo({{"error: could not load config " .. config_module .. " using fallback"}}, false, {})
+	print("error: could not load config "..config_module.." using fallback")
 end
 -- require("nd0." .. config_module)

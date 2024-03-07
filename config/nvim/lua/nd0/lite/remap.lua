@@ -10,7 +10,7 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {desc = "Open Explorer"})
 
 vim.keymap.set("n", "<leader>bw", function()
 	vim.cmd("w")
-	print(":w")
+	vim.api.nvim_echo({{":w"}}, false, {})
 end, {desc = "Save"})
 
 vim.keymap.set("n", "<C-u>", "<C-u>zz", {desc = "Jump up and center"})
