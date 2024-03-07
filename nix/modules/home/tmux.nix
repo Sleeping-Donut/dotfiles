@@ -11,11 +11,7 @@ in
 		programs.tmux = {
 			enable = true;
 		};
-		home.file.".config/tmux" = 
-#		mkIf cfg.cop
-		{
-			source = ../../../config/tmux;
-			target = ".config/tmux";
-		};
+		home.file.".config/tmux".source = ../../../config/tmux;
+		home.file.".local/bin/tmux-sessionizer".source = ../../../local/bin/tmux-sessionizer;
 	};
 }
