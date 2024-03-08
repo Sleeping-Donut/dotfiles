@@ -5,7 +5,7 @@
 -- [Migrate away from lsp-zero](https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/you-might-not-need-lsp-zero.md)
 if vim.fn.executable("nix") then
 end
-
+local utils = require("utils")
 return {
 		{
 		"VonHeikemen/lsp-zero.nvim",
@@ -61,7 +61,6 @@ return {
 				table.insert(lsps, "pylsp")
 			end
 			if vim.fn.executable("lua-language-server") == 1 then
-				print("we got lua")
 				table.insert(lsps, "lua_ls")
 			end
 			if vim.fn.executable("node") == 1 then
@@ -84,12 +83,12 @@ return {
 				table.insert(lsps, "csharp_ls")
 				table.insert(lsps, "fsautocomplete")
 			end
-			if vim.fn.executable("java") == 1 then
-				table.insert(lsps, "java_language_server")
-				table.insert(lsps, "kotlin_language_server")
-			end
 			if vim.fn.executable("gcc") == 1 or vim.fn.executable("clang") == 1 then
 				table.insert(lsps, "clangd")
+			end
+			if utils.cmd_status("java --version") == 0 then
+				table.insert(lsps, "java_language_server")
+				table.insert(lsps, "kotlin_language_server")
 			end
 			lsp.ensure_installed(lsps)
 				-- "docker_compose_language_service",
@@ -120,22 +119,24 @@ return {
 
 			lsp.on_attach(function(client, bufnr)
 				local opts = {buffer = bufnr, remap = false}
+				-- opt extend
+				local opt_e = function(tbl) return utils.tbl_merge(opts, tbl) end
 
-				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-				vim.keymap.set("i", "C-K", vim.lsp.buf.hover, opts)
-				vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
-				vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
-				vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
-				vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
-				vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
-				vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
-				vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
+				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt_e({desc = "LSP definition"}))
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, opt_e({desc = "LSP hover prompt"}))
+				vim.keymap.set("i", "C-K", vim.lsp.buf.hover, opt_e({desc = "LSP hover prompt (insert)"}))
+				vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opt_e({desc = "LSP workspace symbol"}))
+				vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opt_e({desc = "LSP float diagnostic"}))
+				vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opt_e({desc = "LSP goto next"}))
+				vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opt_e({desc = "LSP goto prev"}))
+				vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opt_e({desc = "LSP code action"}))
+				vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opt_e({desc = "LSP references"}))
+				vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opt_e({desc = "LSP rename"}))
 				vim.keymap.set("n", "<leader>f", function()
 					vim.lsp.buf.format()
 					print("Formatted")
-				end, opts)
-				vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+				end, opt_e({desc = "LSP format"}))
+				vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opt_e({desc = "LSP signature help"}))
 			end)
 
 			local ok_cmp, cmp = pcall(require, "cmp")
