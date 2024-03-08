@@ -115,6 +115,25 @@ return {
 			end
 
 			local builtin = require("telescope.builtin")
+			local actions = require("telescope.actions")
+
+			require("telescope").setup({
+				pickers = {
+					find_files = { theme = "ivy" },
+					git_files = { theme = "ivy" },
+					git_status = { theme = "ivy" },
+					live_grep = { theme = "ivy" },
+					colorscheme = { theme = "dropdown" },
+				},
+				mappings = {
+					-- i | n | v etc. for modes
+					i = {
+						-- Will is in horizontal scroll is in master branch wait for release
+						-- ["<C-[>"] = actions.preview_scrolling_left,
+						-- ["<C-]>"] = actions.preview_scrolling_right,
+					},
+				},
+			})
 
 			-- File Pickers
 			vim.keymap.set("n", "<leader>tg", builtin.git_files,
@@ -123,7 +142,10 @@ return {
 				{desc = "Telescope find files"})
 			vim.keymap.set("n", "<leader>tF", function()
 				local ff_opts = { hidden = true }
-				if vim.fn.executable("rg") == 1 then
+				if vim.fn.executable("fd") == 1 then
+					-- L = sym; H = hidden; I = ignored;
+					ff_opts = { find_command = {"fd", "-HIL"} }
+				elseif vim.fn.executable("rg") == 1 then
 					ff_opts = { find_command = {"rg", "--files", "--hidden", "--follow"} }
 				end
 				builtin.find_files(ff_opts) end,
