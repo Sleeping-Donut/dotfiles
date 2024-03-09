@@ -68,7 +68,7 @@ return {
 			else print("err: not all TS installed dep node not found") end
 		end
 
-		# Register other filtypes to an existing parser
+		-- Register other filtypes to an existing parser
 		require("nvim-treesitter.parsers").filetype_to_parsername.zsh = "bash"
 
 		configs.setup({
