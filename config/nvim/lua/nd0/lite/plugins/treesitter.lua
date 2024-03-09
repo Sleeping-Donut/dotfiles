@@ -22,7 +22,7 @@ return {
 			-- Add in asciidoc once someone gets around to making the parser
 			"markdown", "comment", -- "asciidoc",
 			"python",
-			"bash", "fish",
+			"bash", "fish", -- "zsh", -- currently no zsh specific support
 			"c", "cpp", "cmake",
 			"zig",
 			"rust",
@@ -67,7 +67,10 @@ return {
 				end
 			else print("err: not all TS installed dep node not found") end
 		end
-			
+
+		# Register other filtypes to an existing parser
+		require("nvim-treesitter.parsers").filetype_to_parsername.zsh = "bash"
+
 		configs.setup({
 			-- parser_install_dir =	-- look at example on git readme
 			sync_install = false,
