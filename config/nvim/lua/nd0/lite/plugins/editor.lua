@@ -27,10 +27,15 @@ return {
 		config = function()
 			require('formatter').setup({
 				filetype = {
-					rust = { require('formatter.filetypes.rust').rustfmt },
-					typescript = { require('formatter.filetypes.typescript').prettier },
-					typescriptreact = { require('formatter.filetypes.typescriptreact').prettier },
-					lua = { require("formatter.filetypes.lua").luafmt }
+					lua = { require("formatter.filetypes.lua").luafmt },
+					mark = { require("formatter.filetypes.markdown").prettierd },
+					nix = { require("formatter.filetypes.nix").alejandra },
+					ocaml = { require("formatter.filetypes.ocaml").ocamlformat },
+					rust = { require("formatter.filetypes.rust").rustfmt },
+					svelte = { require("formatter.filetypes.svelte").prettier },
+					typescript = { require("formatter.filetypes.typescript").prettierd },
+					typescriptreact = { require("formatter.filetypes.typescriptreact").prettierd },
+					vue = { require("formatter.filetypes.vue").prettier },
 				}
 			})
 	
