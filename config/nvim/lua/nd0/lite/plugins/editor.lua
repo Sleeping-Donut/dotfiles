@@ -23,9 +23,6 @@ return {
 		end
 	},
 	{
-		"tpope/vim-sleuth"
-	},
-	{
 		'mhartington/formatter.nvim',
 		config = function()
 			require('formatter').setup({
