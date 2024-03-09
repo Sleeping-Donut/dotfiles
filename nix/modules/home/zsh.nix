@@ -19,8 +19,8 @@ in
 			oh-my-zsh = {
 				enable = true;
 				plugins = [ "git" ];
-				theme = "kphoen";
-				# custom = "$HOME/.config/zsh_nix/custom";
+				theme = "my_kphoen";
+				custom = "$HOME/.config/oh-my-zsh/custom";
 			};
 
 			 shellAliases = shellAliases;
@@ -30,7 +30,7 @@ in
 
 			# Nix
 			if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-  				source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+				source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 			fi
 			# End Nix
 			'';
