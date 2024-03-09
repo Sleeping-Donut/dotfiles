@@ -1,5 +1,21 @@
 local M = {}
 
+--- Stringify Table
+-- return table as string of all key value pairs
+-- @param tbl The table that will be turned into a string
+function M.table_stringify(tbl)
+	if type(tbl) == 'table' then
+		local s = '{ '
+		for k,v in pairs(tbl) do
+			if type(k) ~= 'number' then k = '"'..k..'"' end
+			s = s .. '['..k..'] = ' .. M.table_stringify(v) .. ','
+		end
+		return s .. '} '
+	else
+		return tostring(tbl)
+	end
+end
+
 --- Split string by delimiter
 -- use provided delimiter to split a string into a list
 -- @param instr The input string to be split.
