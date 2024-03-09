@@ -28,18 +28,31 @@ alias lsbin='compgen -c'
 alias nv='nvim'
 alias nvb='NVIM_CONFIG_MODE=BASIC nvim'
 alias nvl='NVIM_CONFIG_MODE=LITE nvim'
-alias nvf='NVIM_CONFIG_MDOE=FULL nvim'
+alias nvf='NVIM_CONFIG_MODE=FULL nvim'
 
 alias rga='rg --hidden'
-alias fcd='out=$(fd --type d | fzf) && echo $out | xargs cd'
-alias fnv='out=$(fzf) && echo $out | xargs nvim'
-alias fnvf='out=$(fzf) && echo $out | xargs nvf'
-alias fnvl='out=$(fzf) && echo $out | xargs nvl'
-alias fnvb='out=$(fzf) && echo $out | xargs nvb'
+
+alias find_all='fd -HI --follow'
+alias native_find_all='find . -follow'
+alias find_dir='OUT=$(fd --type d | fzf)'
+alias find_dir_all='OUT=$(find_all --type d | fzf)'
+alias native_find_dir='OUT=$(find . -type d | fzf)'
+alias native_find_dir_all='OUT=$(native_find_all -type d | fzf)'
+
+alias fcd='find_dir && cd $OUT'
+alias fcda='find_dir_all && cd $OUT'
+alias sfcd='native_find_dir && cd $OUT'
+alias sfcda='native_find_dir_all && cd $OUT'
+
+alias fnv='OUT=$(fzf) && nvim $OUT'
+alias fnva='OUT=$(native_find_all) && nvim $OUT'
+alias fnvb='NVIM_CONFIG_MODE=BASIC fnv'
+alias fnvl='NVIM_CONFIG_MODE=LITE fnv'
+alias fnvf='NVIM_CONFIG_MODE=FULL fnv'
 # having trouble with `fd --folow` so using stock find
 alias fza='find -L -H | fzf'
-alias fnva='out=$(find -L -H | fzf) && echo $out | xargs nvim'
-alias fcda='out=$(find -L -H -type d | fzf) && echo $out | nvim'
+alias fnva='OUT=$(find -L -H | fzf) && echo $OUT | xargs nvim'
+alias fcda='OUT=$(find -L -H -type d | fzf) && echo $out | nvim'
 
 short_pwd() {
 	local pwd=$(pwd)
