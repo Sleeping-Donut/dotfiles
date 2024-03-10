@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, inputs, home-modules, ... }:
+{ pkgs, pkgs-unstable, inputs, home-modules, darwin-home-modules, ... }:
 {
 	imports = [
 		inputs.nur.hmModules.nur
@@ -9,6 +9,8 @@
 		home-modules.shell-profile
 		home-modules.tealdeer
 		home-modules.tmux
+
+		darwin-home-modules.alacritty
 	];
 
 	home.stateVersion = "23.11";
@@ -18,6 +20,7 @@
 	# NOTE: only copy if file does not exists
 
 	nd0.home = {
+		alacritty.enable = true;
 		firefox.enable = true;
 		neovim = { enable = true; lsps = true; formatters = true; };
 		shell-profile = { enable = true; symlink.enable = true; };

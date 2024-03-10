@@ -44,6 +44,7 @@ in
 		casks = [
 			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
 			"1password" "1password-cli"
+			"alacritty"
 			"firefox"
 			"mediamate"
 			"rectangle"

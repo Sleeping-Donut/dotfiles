@@ -1,0 +1,5 @@
+{ ... }:
+{
+	alacritty = ./alacritty.nix;
+}
+
