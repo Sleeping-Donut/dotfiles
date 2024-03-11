@@ -1,5 +1,5 @@
 { ... }:
 {
-	alacritty = ./alacritty.nix;
+	alacritty-conf = ./alacritty-conf.nix;
 }
 

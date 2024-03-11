@@ -10,7 +10,7 @@
 		home-modules.tealdeer
 		home-modules.tmux
 
-		darwin-home-modules.alacritty
+		darwin-home-modules.alacritty-conf
 	];
 
 	home.stateVersion = "23.11";
@@ -20,7 +20,7 @@
 	# NOTE: only copy if file does not exists
 
 	nd0.home = {
-		alacritty.enable = true;
+		alacritty-conf.enable = true;
 		firefox.enable = true;
 		neovim = { enable = true; lsps = true; formatters = true; };
 		shell-profile = { enable = true; symlink.enable = true; };
