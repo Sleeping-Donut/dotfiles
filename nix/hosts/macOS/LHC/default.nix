@@ -40,7 +40,9 @@ in
 		};
 		global.brewfile = true;
 		caskArgs.language = "en-GB";
-		brews = [ ];
+		brews = [
+			"ata"
+		];
 		casks = [
 			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
 			"1password" "1password-cli"

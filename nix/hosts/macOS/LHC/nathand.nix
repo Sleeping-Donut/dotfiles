@@ -9,6 +9,7 @@
 		home-modules.shell-profile
 		home-modules.tealdeer
 		home-modules.tmux
+		home-modules.ata-conf
 
 		darwin-home-modules.alacritty-conf
 	];
@@ -21,6 +22,7 @@
 
 	nd0.home = {
 		alacritty-conf.enable = true;
+		ata-conf.enable = true;
 		firefox.enable = true;
 		neovim = { enable = true; lsps = true; formatters = true; };
 		shell-profile = { enable = true; symlink.enable = true; };
