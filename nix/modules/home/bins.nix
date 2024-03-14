@@ -6,7 +6,7 @@ in
 	options.nd0.home.bins = {
 		enable = lib.mkEnableOption "Whether to copy the binaries for local bin";
 	};
-	cfg = lib.mkIf {
+	config = lib.mkIf cfg.enable {
 		# xdg local etc etc
 		home.file.".local/bin/batterylvl".source = ../../../local/bin/batterylvl;
 		home.file.".local/bin/print-clrs".source = ../../../local/bin/print-clrs;
