@@ -9,10 +9,6 @@ in
 
 	config = lib.mkIf cfg.enable {
 		# Install with homebrew
-		xdg.configFile."alacritty" = 
-		{
-			source = config.lib.file.mkOutOfStoreSymlink ../../../../config/alacritty;
-		#	target = "alacritty";
-		};
+		xdg.configFile."alacritty/alacritty_REF.toml".source = ../../../../config/alacritty/alacritty.toml;
 	};
 }
