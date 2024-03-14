@@ -1,5 +1,6 @@
 { ... }:
 {
+	bins = ./bins.nix;
 	ata-conf = ./ata-conf.nix;
 	firefox = ./firefox.nix;
 	neovim = ./neovim.nix;

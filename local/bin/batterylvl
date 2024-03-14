@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+OS="${uname -s}"
+if [ "$OS" = "Linux" ]; then
+	echo "${cat /sys/class/power_supply/BAT0/capacity}"
+elif [ "$OS" = "Darwin" ]; then
+	echo "${pmset -g batt | grep -e '\d\{1,2\}%'}"
+fi
