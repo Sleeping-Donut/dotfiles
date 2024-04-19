@@ -1,6 +1,7 @@
 { ... }:
 {
 	Paperback = 1626613373;
+	MicrosoftRemoteDesktop = 1295203466;
 	Tachimanga = 6447486175;
 	Toggl = 1291898086;
 	Gifski = 1351639930;

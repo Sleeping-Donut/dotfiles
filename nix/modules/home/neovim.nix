@@ -38,6 +38,7 @@ in
 					yaml-language-server
 				];
 				fmt-pkgs = if !cfg.formatters then [] else [
+					alejandra
 					rustfmt
 					stylua
 				];

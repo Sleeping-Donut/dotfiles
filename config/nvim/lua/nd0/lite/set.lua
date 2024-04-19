@@ -27,6 +27,7 @@ vim.opt.showmode = false
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
+vim.opt.cursorline = true
 
 vim.opt.encoding = "utf-8"
 vim.scriptencoding = "utf-8"
@@ -50,3 +51,6 @@ vim.opt.listchars = {
 	multispace = "   "..chars.right_triangle,
 	tab = chars.right_arrow .. " ",
 }
+
+vim.opt.cmdheight = 1
+

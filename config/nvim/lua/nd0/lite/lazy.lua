@@ -18,7 +18,7 @@ local lazy_opts = {
 }
 
 local disabled_plugins = {}
-if vim.g.config_mode ~= "full" then
+if vim.g.config_mode ~= "lite" and vim.g.config_mode~="full" then
 	disabled_plugins = {
 		"rose-pine",
 		"tokyonight",

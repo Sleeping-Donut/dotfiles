@@ -28,13 +28,13 @@ return {
 			require('formatter').setup({
 				filetype = {
 					lua = { require("formatter.filetypes.lua").luafmt },
-					mark = { require("formatter.filetypes.markdown").prettierd },
+					mark = { require("formatter.filetypes.markdown").prettier },
 					nix = { require("formatter.filetypes.nix").alejandra },
 					ocaml = { require("formatter.filetypes.ocaml").ocamlformat },
 					rust = { require("formatter.filetypes.rust").rustfmt },
 					svelte = { require("formatter.filetypes.svelte").prettier },
-					typescript = { require("formatter.filetypes.typescript").prettierd },
-					typescriptreact = { require("formatter.filetypes.typescriptreact").prettierd },
+					typescript = { require("formatter.filetypes.typescript").prettier},
+					typescriptreact = { require("formatter.filetypes.typescriptreact").prettier },
 					vue = { require("formatter.filetypes.vue").prettier },
 				}
 			})
@@ -66,45 +66,91 @@ return {
 	--		},
 	--	},
 	},
-	-- {
-	-- 	"nvim-telescope/telescope-fzf-native.nvim",
-	-- 	-- To compile:
-	-- 	-- build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-	-- 	-- To download bins
-	-- 	-- branch = "feature/69-prebuilt-release-binaries",
-	-- 	build = function()
-	-- 		local jit_os = string.lower(jit.os)
-	-- 		local jit_arch = string.lower(jit.arch)
-
-	-- 		local pkg_os = "windows"
-	-- 		local pkg_comp = "cc"
-	-- 		if jit_os == "darwin" then
-	-- 			pkg_os = "macos"
-	-- 			pkg_comp = "gcc"
-	-- 		elseif jit_os == "linux" then
-	-- 			pkg_os = "ubuntu"
-	-- 			pkg_comp = "gcc"
-	-- 		end
-
-	-- 		local pkg_arch = ""
-	-- 		if jit_arch == "x64" or jit_arch == "x86" then
-	-- 			pkg_arch = "x64" -- pray x64 machines can run x86 anyway
-	-- 		elseif jit_arch == "arm" or jit_arch == "arm64" then
-	-- 			pkg_arch = "arm" -- pray whatever arm machine works for it
-	-- 		else
-	-- 			-- for mips and whatever - screw that noone uses it
-	-- 			-- I guess riscv stuff future but ¯\_(ツ)_/¯
-	-- 			pkg_arch = "arm"
-	-- 		end
-	-- 		
-	-- 		require('telescope-fzf-native').download_library({
-	-- 			platform = pkg_os, -- "windows" | "ubuntu" | "macos"
-	-- 			arch = pkg_arch, -- "x64" | "arm"
-	-- 			compiler = pkg_comp, -- windows: "cc", unix: "gcc" | "clang"
-	-- 			-- version = "0.0.2", -- release name found on GitHub release page, default: "dev"
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		"dinhhuy258/git.nvim",
+		config = function ()
+			require("git").setup({
+				default_mappings = true,
+			})
+		end
+	},
+	{
+		"ThePrimeagen/refactoring.nvim",
+		requires = {
+			{"nvim-lua/plenary.nvim"},
+			{"nvim-treesitter/nvim-treesitter"},
+		},
+		config = function ()
+			require("refactoring").setup()
+		end
+	},
+--	{
+--		-- Migrate away from this!
+--		--		I want auto hide
+--		--		Command input line not shown unless typing or something printed
+--		--		to it's buffer
+--		--		Hide again if buffer cleared
+--		--		Should be above status line
+--		"folke/noice.nvim",
+--		event = "VeryLazy",
+--		dependencies = {
+--			"MunifTanjim/nui.nvim",
+--			"rcarriga/nvim-notify",
+--		},
+--		config = function ()
+--			require("noice").setup({
+--				cmdline = {
+--					view = "cmdline",
+--				},
+--				messages = {
+--					enabled = true,
+--					view_search = false,
+--				},
+--				popupmenu = { enabled = true, },
+--				notify = { enabled = true, },
+--				lsp = {
+--					progress = { enabled = false, },
+--					hover = { enabled = false, },
+--					signature = { enabled = false, },
+--					message = { enabled = true, },
+--				},
+--			})
+--		end,
+--	},
+	{
+		"numToStr/Comment.nvim",
+		config = function ()
+			require("Comment").setup({
+				padding = true,
+				sticky = true,
+				ignore = nil,
+				---LHS of toggle mappings in NORMAL mode
+				toggler = {
+					---Line-comment toggle keymap
+					line = 'gcc',
+					---Block-comment toggle keymap
+					block = 'gbc',
+				},
+				---LHS of operator-pending mappings in NORMAL and VISUAL mode
+				opleader = {
+					---Line-comment keymap
+					line = 'gc',
+					---Block-comment keymap
+					block = 'gb',
+				},
+				---LHS of extra mappings
+				extra = {
+					---Add comment on the line above
+					above = 'gcO',
+					---Add comment on the line below
+					below = 'gco',
+					---Add comment at the end of line
+					eol = 'gcA',
+				},
+				mappings = { basic = true, extra = true },
+			})
+		end
+	},
 	{
 		"nvim-telescope/telescope.nvim", tag = "0.1.5",
 		dependencies = {

@@ -14,13 +14,14 @@ return {
 	config = function ()
 		local configs = require("nvim-treesitter.configs")
 		local sitters = {}
-		
+
 		for _, v in ipairs({
 			"lua", "vim", "vimdoc", "luadoc",
 			"html", "javascript", "css",
 			"json", "jsonc", "scss", "tsx", "vue", "svelte",
 			-- Add in asciidoc once someone gets around to making the parser
-			"markdown", "comment", -- "asciidoc",
+			"markdown", "markdown_inline", "comment", -- "asciidoc",
+			"regex",
 			"python",
 			"bash", "fish", -- "zsh", -- currently no zsh specific support
 			"c", "cpp", "cmake",
@@ -69,7 +70,8 @@ return {
 		end
 
 		-- Register other filtypes to an existing parser
-		require("nvim-treesitter.parsers").filetype_to_parsername.zsh = "bash"
+		-- require("nvim-treesitter.parsers").filetype_to_parsername.zsh = "bash"
+		vim.treesitter.language.register("bash", "zsh")
 
 		configs.setup({
 			-- parser_install_dir =	-- look at example on git readme

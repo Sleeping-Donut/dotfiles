@@ -31,20 +31,25 @@
 
 		nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
+		nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.4.1";
+
 	};
 
 	outputs = inputs @ { ... }:
 	let
 
+# TODO: only have modules imported in host generation file
 		darwin-modules = import ./nix/macOS/modules;
 		darwin-home-modules = import ./macOS/home/modules;
 		nix-modules = import ../modules;
 		nix-home-modules = import ../modules/home;
+
 		hosts = import ./nix/hosts {
 			inherit inputs;
 		};
 	in
 	{
+# TODO: change hosts.{type} to be nixos | home | darwin | nixOnDroid
 		nixosConfigurations = hosts.nixosConfigurations;
 		linuxConfigurations = hosts.linuxConfigurations;
 		darwinConfigurations = hosts.darwinConfigurations;			# macOS hosts

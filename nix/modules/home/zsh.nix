@@ -19,8 +19,8 @@ in
 			oh-my-zsh = {
 				enable = true;
 				plugins = [ "git" ];
-				theme = "my_kphoen";
-				custom = "$HOME/.config/oh-my-zsh/custom";
+				theme = "kphoen";
+			#	custom = "$HOME/.config/oh-my-zsh/custom";
 			};
 
 			 shellAliases = shellAliases;

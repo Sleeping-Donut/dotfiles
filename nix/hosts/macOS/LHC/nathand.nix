@@ -36,23 +36,39 @@
 	home.packages = let
 		stable = with pkgs; [];
 		unstable = with pkgs-unstable; [
+			age
+			ansible
+			btop
+			chatgpt-cli
+			ctop
+			fastfetch
 			fd
+			gallery-dl
 			gifski
-			iina
-			raycast
+			glow
+			lazygit
+			nix-output-monitor
+			speedtest-go
+			speedtest-rs
+			tokei
+			tz
+			utm
 			yt-dlp
+#			gobang
+#			twitch-tui
 		];
 	in
 		stable ++ unstable;
 
 	programs = {
-		git.enable = true;
 		bat.enable = true; 
 		eza = { enable = true; package = pkgs-unstable.eza; };
 		fzf = { enable = true; package = pkgs-unstable.fzf; enableZshIntegration = true; enableBashIntegration = true; };
+		git.enable = true;
 		jq = { enable = true; package = pkgs-unstable.jq; };
 		ripgrep = { enable = true; package = pkgs-unstable.ripgrep; };
-		yt-dlp = { enable = true; package = pkgs-unstable.yt-dlp; };
 		vscode = { enable = true; package = pkgs-unstable.vscode; };
+		yt-dlp = { enable = true; package = pkgs-unstable.yt-dlp; };
+		zellij = { enable = true; package = pkgs-unstable.zellij; };
 	};
 }

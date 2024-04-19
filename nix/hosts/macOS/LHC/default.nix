@@ -46,10 +46,23 @@ in
 		casks = [
 			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
 			"1password" "1password-cli"
+			"aegisub"
 			"alacritty"
+			"balenaetcher"
+			"discord"
 			"firefox"
+			"fork"
+			"gramps"
+			"iina"
 			"mediamate"
+			"mullvadvpn"
+			"pocket-casts"
+			"raycast"
 			"rectangle"
+			"tailscale"
+			"telegram"
+			"transmission"
+			"utm"
 			"vanilla"
 			"visual-studio-code"
 			"vlc"
@@ -60,6 +73,7 @@ in
 			Gifski
 			Twitter
 			WireGuard
+			MicrosoftRemoteDesktop
 
 			# iOS apps don't work through mas at the moment
 #			Tachimanga

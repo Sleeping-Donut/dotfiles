@@ -71,4 +71,16 @@ return {
 			})
 		end
 	},
+	{
+		"OlegGulevskyy/better-ts-errors.nvim",
+		dependencies = { "MunifTanjim/nui.nvim" },
+		-- config = function()
+		-- 	if (vim.fn.executable("prettier") == 1) then
+		-- 		require("better-ts-errors").setup({
+		-- 			keymap = "<leader>;p", -- Toggling keymap
+		-- 		})
+		-- 	end
+		-- end,
+		config = { keymaps = { toggle = "<leader>;p" } },
+	},
 }

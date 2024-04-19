@@ -1,6 +1,6 @@
 { inputs }:
 let
-	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid;
+	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid nix-flatpak;
 	# NOTE: nur has a whole rigmarole so look it up to set it up
 
 	nix-modules = import ../modules {};
@@ -28,6 +28,9 @@ let
 				config.allowUnfreePredicate = unfreeFilter unstable;
 			};
 			pkgs-nur = import nur { pkgs = null; nurpks = pkgs-unstable; };
+
+			flatpak = nix-flatpak.nixosModules.nix-flatpak;
+			flatpak-home = nix-flatpak.homeManagerModules.nix-flatpak;
 		in
 			# nix-darwin default configuration layer
 			if systemType == "darwin" then
@@ -58,12 +61,12 @@ let
 			else if systemType == "nixos" then
 				pkgs.lib.nixosSystem {
 					inherit system;
-					specialArgs = { inherit inputs system hostname pkgs pkgs-unstable nix-modules; };
+					specialArgs = { inherit inputs system hostname pkgs pkgs-unstable nix-modules flatpak; };
 					modules = [
 						configPath
 						homeManager.nixosModules.home-manager {
 							extraSpecialArgs = {
-								inherit inputs system pkgs pkgs-unstable nix-modules home-modules;
+								inherit inputs system pkgs pkgs-unstable nix-modules home-modules flatpak-home;
 #								inherit nixos-modules;
 							};
 						}
@@ -72,7 +75,7 @@ let
 			else if systemType == "linux" then
 				homeManager.lib.homeManagerConfiguration {
 					inherit system;
-					extraSpecialArgs = { inherit inputs system pkgs pkgs-unstable nix-modules home-modules; };
+					extraSpecialArgs = { inherit inputs system pkgs pkgs-unstable nix-modules home-modules flatpak-home; };
 					modules = [
 						configPath
 					];
@@ -84,19 +87,44 @@ let
 				throw "Invalid system type"
 		) configs
 	);
+	genConfs = import ./generateConfigurations.nix { inherit inputs; };
 in
 {
+	home = genConfs.home {
+	};
+	nixos = genConfs.nixos {
+#		zwei = { system = "x86_64-linux"; configPath = ./NixOS/zwei; unfreePkgs = [
+		]};
+	};
+	darwinConfigs = genConfs.darwinConfigs {
+#		X68000 = { system = "x86_64-darwin"; configPath = ./macOS/X68000; };
+		LHC = { system = "aarch64-darwin"; configPath = ./macOS/LHC; unfreePkgs = [
+			"raycast" "vscode"
+		]; };
+	};
+	nixOnDroid = genConfs.nixOnDroid {
+		NOP6 = { system = "aarch46-linux"; configPath = ./android/NOP6.nix; };
+		# dogwater
+	};
+	diy = genConfs.diy {
+	};
+
 	# Nix refs https://mynixos.com
 
-	nixosConfigurations = generateConfigurations "nixos" {};
+# TODO: move generateConfigurations to lib or utils file stop using string make attr
+# TODO: change to be nixos | home | darwin | nixOnDroid
+# TODO: add README.md to relevant areas like each module, host, etc.
+	nixosConfigurations = generateConfigurations "nixos" {
+#		zwei = { system = "x86_64-linux"; configPath = ./NixOS/zwei; unfreePkgs = [
+};
 
 	linuxConfigurations = generateConfigurations "linux" {};
 
 	# macOS Configs
 	# `defaults` options ref https://macos-defaults.com
 	darwinConfigurations = generateConfigurations "darwin" {
-#		X68000 = { system = "x86_64-darwin"; configPath = ./macOS/X68000; };
-		LHC = { system = "aarch64-darwin"; configPath = ./macOS/LHC; };
+#		X68000 = { system = "x86_64-darwin"; configPath = ./macOS/X68000; }; # Macbook12,1 A1502
+		LHC = { system = "aarch64-darwin"; configPath = ./macOS/LHC; }; # Mac15,6
 	};
 
 	nixOnDroidConfigurations = generateConfigurations "nixOnDroid" {
