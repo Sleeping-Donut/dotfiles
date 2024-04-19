@@ -1,0 +1,91 @@
+{
+	config, lib, pkgs,
+	pkgs-unstable,
+	hostname ? "zwei",
+	...
+}:
+let
+in
+{
+	imports = [
+		./hardware-configuration.nix;
+	];
+
+#	Use systemd-boot EFI bootloader
+	boot.loader.systemd-boot.enable = true;
+	boot.loader.canTouchEfiVariables = true;
+
+#	This defines first version of nixos installed - used to maintain
+#	 compatibility with application data (e.g. databases)
+#	Most users should NEVER update this value even when updating nixos
+#	Do NOT change this value unless you have manually inspected all changes it
+#	 would make to your configuration and migrated your data accordingly
+	system.stateVersion = "23.11"; # Did you read the comment?
+
+	networking = {
+		hostName = hostname;
+		networkmanager.enable = true;
+	};
+
+	fileSystems."/mnt/amadeus/fg8" = {
+		device = "whitefox.fglab:/mnt/amadeus/fg8";
+		fsType = "nfs";
+		options = [
+			"nfsvers=4.2"
+			"x-systemd.automount" "noauto" # automount
+			"x-systemd.idle-timeout=1200" # disconnects after 20 minutes (i.e. 1200 seconds)
+		];
+	};
+
+	time.timeZone = "GB";
+
+	i18n.defaultLocale = "en_GB.UTF-8";
+	console = {
+		font = "Lat2-Terminus16";
+		keyMap = "uk";
+		useXkbConfig = true; # for xkb.options in tty
+	};
+
+#	To enable sound
+	sound.enable = true;
+	hardware.pulseaudio = true;
+
+#	System packages
+	environment.systemPackages = with pkgs-unstable; [
+		curl
+		git
+		vim
+		wget
+	];
+
+#	System Services
+	services.openssh.enable = true;
+	services.plex = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/plex/data";
+		extraScanners = "/opt/plex/scanners";
+		extraPlugins = "/opt/plex/plugins";
+		openFirewall = true;
+		package = pkgs-unstable.plex;
+	};
+
+#	Firewall
+#	networking.firewall = { enable = true; allowedTCPPorts = []; allowedUDPPorts = []; };
+
+#	Copy configuration file from resulting system good if accidental delete
+	system.copySystemConfiguration = true;
+
+#	Users
+	users.users.nathand = import ./nathand.nix;
+
+	users.users.plex = {
+		isSystemUser = true;
+		description = "Plex media server service account";
+		group = "labmembers";
+	};
+
+#	Groups
+	users.groups.labmembers.gid = 8596;
+}
+

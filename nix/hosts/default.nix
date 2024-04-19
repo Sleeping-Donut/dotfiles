@@ -93,7 +93,7 @@ in
 	home = genConfs.home {
 	};
 	nixos = genConfs.nixos {
-#		zwei = { system = "x86_64-linux"; configPath = ./NixOS/zwei; unfreePkgs = [
+		zwei = { system = "x86_64-linux"; configPath = ./NixOS/zwei; unfreePkgs = [
 		]};
 	};
 	darwinConfigs = genConfs.darwinConfigs {
@@ -115,7 +115,7 @@ in
 # TODO: change to be nixos | home | darwin | nixOnDroid
 # TODO: add README.md to relevant areas like each module, host, etc.
 	nixosConfigurations = generateConfigurations "nixos" {
-#		zwei = { system = "x86_64-linux"; configPath = ./NixOS/zwei; unfreePkgs = [
+		zwei = { system = "x86_64-linux"; configPath = ./NixOS/zwei; unfreePkgs = [
 };
 
 	linuxConfigurations = generateConfigurations "linux" {};
