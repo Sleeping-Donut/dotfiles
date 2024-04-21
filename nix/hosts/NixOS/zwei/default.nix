@@ -70,7 +70,7 @@ in
 	programs.tmux = {
 		enable = true;
 		baseIndex = 1;
-		extraConfig = ''set-option -g prefix2 C-"\"'';
+		extraConfig = "set-option -g prefix2 C-'\\'";
 	};
 
 #	System Services
