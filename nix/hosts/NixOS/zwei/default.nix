@@ -8,12 +8,8 @@ let
 in
 {
 	imports = [
-		./hardware-configuration.nix;
+#		./hardware-configuration.nix
 	];
-
-#	Use systemd-boot EFI bootloader
-	boot.loader.systemd-boot.enable = true;
-	boot.loader.canTouchEfiVariables = true;
 
 #	This defines first version of nixos installed - used to maintain
 #	 compatibility with application data (e.g. databases)
@@ -27,6 +23,21 @@ in
 		networkmanager.enable = true;
 	};
 
+#	Use systemd-boot EFI bootloader
+	boot.loader.systemd-boot.enable = true;
+	boot.loader.efi.canTouchEfiVariables = true;
+
+#	fileSystems."/" = {
+#		device = "";
+#		fsType = "";
+#	};
+	fileSystems = {
+		"/".options = [ "compress=zstd" ];
+		"/home".options = [ "compress=zstd" ];
+		"/nix".options = [ "compress=zstd" "noatime" ];
+		"/swap".options = [ "noatime" ];
+	};
+	swapDevices = [];
 	fileSystems."/mnt/amadeus/fg8" = {
 		device = "whitefox.fglab:/mnt/amadeus/fg8";
 		fsType = "nfs";
@@ -48,7 +59,7 @@ in
 
 #	To enable sound
 	sound.enable = true;
-	hardware.pulseaudio = true;
+	hardware.pulseaudio.enable = true;
 
 #	System packages
 	environment.systemPackages = with pkgs-unstable; [
@@ -72,9 +83,6 @@ in
 
 #	Firewall
 #	networking.firewall = { enable = true; allowedTCPPorts = []; allowedUDPPorts = []; };
-
-#	Copy configuration file from resulting system good if accidental delete
-	system.copySystemConfiguration = true;
 
 #	Users
 	users.users.nathand = import ./nathand.nix;

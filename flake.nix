@@ -48,12 +48,14 @@
 			inherit inputs;
 		};
 	in
-	{
-# TODO: change hosts.{type} to be nixos | home | darwin | nixOnDroid
-		nixosConfigurations = hosts.nixosConfigurations;
-		linuxConfigurations = hosts.linuxConfigurations;
-		darwinConfigurations = hosts.darwinConfigurations;			# macOS hosts
-		nixOnDroidConfigurations = hosts.nixOnDroidConfigurations;	# android configs using nix-on-droid
-
-	};
+#	{
+## TODO: change hosts.{type} to be nixos | home | darwin | nixOnDroid
+#		nixosConfigurations = hosts.nixosConfigs;
+#		linuxConfigurations = hosts.linuxConfigurations;
+#		darwinConfigurations = hosts.darwinConfigurations;			# macOS hosts
+#		nixOnDroidConfigurations = hosts.nixOnDroidConfigurations;	# android configs using nix-on-droid
+#
+#	};
+	hosts;
 }
+
