@@ -27,11 +27,6 @@ in
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	fileSystems."/" = {
-		device = "";
-		fsType = "";
-	};
-	swapDevices = [];
 	fileSystems."/mnt/amadeus/fg8" = {
 		device = "whitefox.fglab:/mnt/amadeus/fg8";
 		fsType = "nfs";
@@ -62,69 +57,78 @@ in
 		vim
 		wget
 	];
+	programs.tmux = {
+		enable = true;
+		baseIndex = 1;
+		keyMode = "vi";
+		extraConfig = "set-option -g prefix2 C-'\\'";
+	};
 
 #	System Services
 	services.openssh.enable = true;
-	services.sonarr = {
-		enable = true;
-		group = "labmembers";
-		dataDir = "/opt/sonarr/data";
-		openFirewall = true;
-		package = pkgs-unstable.sonarr;
-	};
-	services.radarr = {
-		enable = true;
-		group = "labmembers";
-		dataDir = "/opt/radarr/data";
-		openFirewall = true;
-		package = pkgs-unstable.radarr;
-	};
-	services.lidarr = {
-		enable = true;
-		group = "labmembers";
-		dataDir = "/opt/lidarr/data";
-		openFirewall = true;
-		package = pkgs-unstable.lidarr;
-	};
-	services.readarr = {
-		enable = true;
-		group = "labmembers";
-		dataDir = "/opt/readarr/data";
-		openFirewall = true;
-		package = pkgs-unstable.readarr;
-	};
-	services.ombi = {
-		enable = true;
-		group = "labmembers";
-		dataDir = "/opt/ombi/data";
-		openFirewall = true;
-		package = pkgs-unstable.ombi;
-	};
-	services.tautulli = {
-		enable = true;
-		group = "labmembers";
-		dataDir = "/opt/tautulli/data";
-		configFile = "/opt/tautulli-config.ini";
-		openFirewall = true;
-		package = pkgs-unstable.tautulli;
-	};
-	services.transmission = {
-		enable = true;
-		group = "labmembers";
-		home = "/opt/transmission/home";
-		openFirewall = true;
-		openPeerPorts = true;
-		package = pkgs-unstable.transmission;
-		settings = {};
-	};
-	services.mullvad-vpn = {
-		enable = true;
-		package = pkgs-unstable.mullvad;
-	};
+#	services.sonarr = {
+#		enable = true;
+#		group = "labmembers";
+#		dataDir = "/opt/sonarr/data";
+#		openFirewall = true;
+#		package = pkgs-unstable.sonarr;
+#	};
+#	services.radarr = {
+#		enable = true;
+#		group = "labmembers";
+#		dataDir = "/opt/radarr/data";
+#		openFirewall = true;
+#		package = pkgs-unstable.radarr;
+#	};
+#	services.lidarr = {
+#		enable = true;
+#		group = "labmembers";
+#		dataDir = "/opt/lidarr/data";
+#		openFirewall = true;
+#		package = pkgs-unstable.lidarr;
+#	};
+#	services.readarr = {
+#		enable = true;
+#		group = "labmembers";
+#		dataDir = "/opt/readarr/data";
+#		openFirewall = true;
+#		package = pkgs-unstable.readarr;
+#	};
+#	services.ombi = {
+#		enable = true;
+#		group = "labmembers";
+#		dataDir = "/opt/ombi/data";
+#		openFirewall = true;
+#		package = pkgs-unstable.ombi;
+#	};
+#	services.tautulli = {
+#		enable = true;
+#		group = "labmembers";
+#		dataDir = "/opt/tautulli/data";
+#		configFile = "/opt/tautulli-config.ini";
+#		openFirewall = true;
+#		package = pkgs-unstable.tautulli;
+#	};
+#	services.transmission = {
+#		enable = true;
+#		group = "labmembers";
+#		home = "/opt/transmission/home";
+#		openFirewall = true;
+#		openPeerPorts = true;
+#		package = pkgs-unstable.transmission;
+#		settings = {};
+#	};
+#	services.mullvad-vpn = {
+#		enable = true;
+#		package = pkgs-unstable.mullvad;
+#	};
 #	TODO: suwayomi, prometheus
 
 #	Firewall
 #	networking.firewall = { enable = true; allowedTCPPorts = []; allowedUDPPorts = []; };
+
+#	Groups
+	users.groups.labmembers.gid = 8596;
 
 #	Users
 	users.users.nathand = import ./nathand.nix;
@@ -164,8 +168,5 @@ in
 		description = "Transmission service account";
 		group = "labmembers";
 	};
-
-#	Groups
-	users.groups.labmembers.gid = 8596;
 }
 
