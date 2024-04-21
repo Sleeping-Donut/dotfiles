@@ -8,7 +8,7 @@ let
 in
 {
 	imports = [
-#		./hardware-configuration.nix
+		./hardware-configuration.nix
 	];
 
 #	This defines first version of nixos installed - used to maintain
@@ -27,10 +27,6 @@ in
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-#	fileSystems."/" = {
-#		device = "";
-#		fsType = "";
-#	};
 	fileSystems = {
 		"/".options = [ "compress=zstd" ];
 		"/home".options = [ "compress=zstd" ];

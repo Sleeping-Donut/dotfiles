@@ -80,7 +80,7 @@ let
 		hostDetails.configPath {
 			inherit inputs;
 			inherit (hostDetails) hostname system;
-			inherit (sources) pkgs pkgs-unstable pkgs-nur;
+			inherit (sources) pkgs pkgs-unstable pkgs-nur flatpak flatpak-home;
 		}
 	);
 	genSources = (host: let
