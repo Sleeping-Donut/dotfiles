@@ -64,6 +64,19 @@ in
 		extraConfig = "set-option -g prefix2 C-'\\'";
 	};
 
+	udev.packages = with pkgs-unstable; [ gnome.gnome-settings-daemon ];
+	xserver = {
+#		To launch DE
+		enable = true;
+		displayManager.gdm = {
+			enable = true;
+			wayland = true;
+		};
+#		Enable DE
+		desktopManager.gnome.enable = true;
+		excludePackages = with pkgs; [ xterm ];
+	};
+
 #	System Services
 	services.openssh.enable = true;
 #	services.sonarr = {
