@@ -67,14 +67,14 @@ in
 		vim
 		wget
 	];
+	programs.tmux = {
+		enable = true;
+		baseIndex = 1;
+		extraConfig = ''set-option -g prefix2 C-"\"'';
+	};
 
 #	System Services
 	services.openssh.enable = true;
-	services.tmux = {
-		enable = true;
-		baseIndex = 1;
-		extraConfig = ''set-option -g prefix2 C-"\"''
-	};
 	services.plex = {
 		enable = true;
 		group = "labmembers";
