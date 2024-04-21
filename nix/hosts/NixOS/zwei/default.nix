@@ -70,6 +70,7 @@ in
 	programs.tmux = {
 		enable = true;
 		baseIndex = 1;
+		keyMode = "vi";
 		extraConfig = "set-option -g prefix2 C-'\\'";
 	};
 
