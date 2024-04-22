@@ -3,6 +3,7 @@ let
 	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid nix-flatpak;
 
 	nix-modules = import ../modules {};
+	nixos-modules = import ../modules/nixos {};
 	home-modules = import ../modules/home {};
 	darwin-modules = import ../modules/darwin {};
 	darwin-home-modules = import ../modules/darwin/home {};
@@ -11,7 +12,7 @@ let
 		nixpkgs.lib.nixosSystem {
 			inherit (hostDetails) system;
 			specialArgs = {
-				inherit inputs nix-modules;
+				inherit inputs nix-modules nixos-modules home-modules;
 				inherit (hostDetails) system hostname;
 				inherit (sources) pkgs pkgs-unstable pkgs-nur nur flatpak;
 			};

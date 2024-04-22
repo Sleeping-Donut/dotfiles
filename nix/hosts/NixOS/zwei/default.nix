@@ -2,6 +2,7 @@
 	config, lib, pkgs,
 	pkgs-unstable,
 	hostname ? "zwei",
+	nixos-modules,
 	...
 }:
 let
@@ -9,6 +10,8 @@ in
 {
 	imports = [
 		./hardware-configuration.nix
+
+		nixos-modules.plex-version-override
 	];
 
 #	This defines first version of nixos installed - used to maintain
@@ -17,6 +20,10 @@ in
 #	Do NOT change this value unless you have manually inspected all changes it
 #	 would make to your configuration and migrated your data accordingly
 	system.stateVersion = "23.11"; # Did you read the comment?
+
+	nix = {
+		gc.dates = "monthly";
+	};
 
 	networking = {
 		hostName = hostname;
@@ -76,6 +83,7 @@ in
 
 #	System Services
 	services.openssh.enable = true;
+
 	services.plex = {
 		enable = true;
 		group = "labmembers";
@@ -83,7 +91,10 @@ in
 		extraScanners = [];
 		extraPlugins = [];
 		openFirewall = true;
-		package = pkgs-unstable.plex;
+	};
+	nd0.plex-version-override = {
+		version = "1.40.2.8395-c67dce28e";
+		hash = "04qh6k5ayrr34nlgwf362ivyg7n8nmaq18in2phaaigshx063141";
 	};
 
 #	Firewall
