@@ -8,7 +8,7 @@ let
 in
 {
 	imports = [
-#		./hardware-configuration.nix
+		./hardware-configuration.nix
 	];
 
 #	This defines first version of nixos installed - used to maintain
