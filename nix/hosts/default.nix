@@ -12,7 +12,7 @@ in
 			hostname = "zwei"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/zwei;
 			unfreePkgs = [ "plexmediaserver" ];
 		}
-#		{ hostname = "vcu"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/vcu; }
+		{ hostname = "vcu"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/vcu; }
 		{ # Mac15,6
 			hostname = "LHC"; type = "darwin"; system = "aarch64-darwin"; configPath = ./macOS/LHC;
 			unfreePkgs = [ "raycast" "vscode" ];
