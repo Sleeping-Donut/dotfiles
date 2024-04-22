@@ -40,10 +40,20 @@ in
 	time.timeZone = "GB";
 
 	i18n.defaultLocale = "en_GB.UTF-8";
+	i18n.extraLocaleSettings = {
+		LC_ADDRESS = "en_GB.UTF-8";
+		LC_IDENTIFICATION = "en_GB.UTF-8";
+		LC_MEASUREMENT = "en_GB.UTF-8";
+		LC_MONETARY = "en_GB.UTF-8";
+		LC_NAME = "en_GB.UTF-8";
+		LC_NUMERIC = "en_GB.UTF-8";
+		LC_PAPER = "en_GB.UTF-8";
+		LC_TELEPHONE = "en_GB.UTF-8";
+		LC_TIME = "en_GB.UTF-8";
+	};
 	console = {
 		font = "Lat2-Terminus16";
 		keyMap = "uk";
-		useXkbConfig = true; # for xkb.options in tty
 	};
 
 #	To enable sound
@@ -64,18 +74,19 @@ in
 		extraConfig = "set-option -g prefix2 C-'\\'";
 	};
 
-	udev.packages = with pkgs-unstable; [ gnome.gnome-settings-daemon ];
-	xserver = {
-#		To launch DE
-		enable = true;
-		displayManager.gdm = {
-			enable = true;
-			wayland = true;
-		};
-#		Enable DE
-		desktopManager.gnome.enable = true;
-		excludePackages = with pkgs; [ xterm ];
-	};
+	services.xserver.enable = true;
+	services.xserver.displayManager.gdm = { enable = true;  wayland = true; };
+	services.xserver.desktopManager.gnome.enable = true;
+	environment.gnome.excludePackages = (with pkgs; [
+		gnome-photos
+		gnome-tour
+	]) ++ (with pkgs.gnome; [
+		cheese
+		gnome-music
+		epiphany
+#		etc.
+	]);
+	services.xserver.excludePackages = (with pkgs; [ xterm ]);
 
 #	System Services
 	services.openssh.enable = true;
