@@ -6,12 +6,16 @@
 	...
 }:
 let
+	plex-versioned = ({version, hash}:
+		pkgs.fetchurl {
+			url = "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
+			sha256 = hash;
+		}
+	);
 in
 {
 	imports = [
 		./hardware-configuration.nix
-
-		nixos-modules.plex-version-override
 	];
 
 #	This defines first version of nixos installed - used to maintain
@@ -91,10 +95,10 @@ in
 		extraScanners = [];
 		extraPlugins = [];
 		openFirewall = true;
-	};
-	nd0.plex-version-override = {
-		version = "1.40.2.8395-c67dce28e";
-		hash = "04qh6k5ayrr34nlgwf362ivyg7n8nmaq18in2phaaigshx063141";
+		package = plex-versioned {
+			version = "1.40.2.8395-c67dce28e";
+			hash = "04qh6k5ayrr34nlgwf362ivyg7n8nmaq18in2phaaigshx063141";
+		};
 	};
 
 #	Firewall
