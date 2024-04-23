@@ -111,11 +111,22 @@ in
 #	System Services
 	services.openssh.enable = true;
 	services.tailscale.enable = true;
+
 	services.mullvad-vpn = {
 		enable = true;
 		package = pkgs-unstable.mullvad-vpn;
 	};
-	services.resolved.enable = false; # NOTE: required otherwise mullvad cant resolve DNS correctly
+#	NOTE: required otherwise mullvad cant resolve DNS correctly
+	services.resolved.enable = false; 
+	networking.resolvconf.enable = false;
+	networking.networkmanager = {
+		dns = "default";
+		extraConfig = ''
+			[main]
+			rc-manager=symlink
+		'';
+	};
+
 #	services.sonarr = {
 #		enable = true;
 #		group = "labmembers";
