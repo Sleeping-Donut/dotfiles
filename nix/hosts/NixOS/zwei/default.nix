@@ -103,6 +103,7 @@ in
 		openFirewall = true;
 		package = plex-versioned {
 			version = "1.40.2.8395-c67dce28e";
+#			To get hash for new version use `sh nix/scripts/getPkgHash 'plex' '<VERSION>'
 			hash = "sha256-gYRhQIf6RaXgFTaigFW1yJ7ndxRmOP6oJSNnr8o0EBM=";
 		};
 	};

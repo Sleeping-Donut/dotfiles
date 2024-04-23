@@ -3,7 +3,7 @@
 # Package Handlers
 get_plex_hash() {
 	ver="$1"
-	nix-prefetch-url "https://downloads.plex.tv/plex-media-server-new/${ver}/debian/plexmediaserver_${ver}_amd64.deb"
+	nix-prefetch-url "https://downloads.plex.tv/plex-media-server-new/${ver}/debian/plexmediaserver_${ver}_amd64.deb" | xargs nix hash convert --hash-algo sha256
 }
 
 # Start
