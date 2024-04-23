@@ -115,7 +115,7 @@ in
 		enable = true;
 		package = pkgs-unstable.mullvad-vpn;
 	};
-	networking.resolvconf.enable = false; # NOTE: required otherwise mullvad cant resolve DNS correctly
+	services.resolved.enable = false; # NOTE: required otherwise mullvad cant resolve DNS correctly
 #	services.sonarr = {
 #		enable = true;
 #		group = "labmembers";
