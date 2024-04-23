@@ -6,10 +6,10 @@
 	...
 }:
 let
-	plex-versioned = ({version, hash}:
+	plex-versioned = ({version, sha512}:
 		pkgs.fetchurl {
 			url = "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
-			sha256 = hash;
+			hash = "";
 		}
 	);
 in
@@ -97,7 +97,7 @@ in
 		openFirewall = true;
 		package = plex-versioned {
 			version = "1.40.2.8395-c67dce28e";
-			hash = "04qh6k5ayrr34nlgwf362ivyg7n8nmaq18in2phaaigshx063141";
+			sha512 = "sha512-2swwd2qy97pqkciyfswjcbp2qfyd22h8jwkg2hnllwvv6hy9bm2050w35ii1r3hi0pxz7nvy35q4lacrcpjcs2pxmznd5shmzlv683a";
 		};
 	};
 
