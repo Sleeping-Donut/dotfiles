@@ -150,14 +150,14 @@ in
 #		openFirewall = true;
 #		package = pkgs-unstable.ombi;
 #	};
-#	services.tautulli = {
-#		enable = true;
-#		group = "labmembers";
-#		dataDir = "/opt/tautulli/data";
-#		configFile = "/opt/tautulli-config.ini";
-#		openFirewall = true;
-#		package = pkgs-unstable.tautulli;
-#	};
+	services.tautulli = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/tautulli/data";
+		configFile = "/opt/tautulli-config.ini";
+		openFirewall = true;
+		package = pkgs-unstable.tautulli;
+	};
 #	services.transmission = {
 #		enable = true;
 #		group = "labmembers";
