@@ -92,6 +92,10 @@ in
 			sleep-inactive-ac-type='nothing'
 		'';
 	};
+	services.gnome = {
+#		Remote desktop when GNOME 46 is here
+#		gnome-remote-desktop.enable = true;
+	};
 	environment.gnome.excludePackages = (with pkgs; [
 		gnome-photos
 		gnome-tour
