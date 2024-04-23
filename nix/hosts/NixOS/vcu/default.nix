@@ -74,6 +74,7 @@ in
 		extraConfig = "set-option -g prefix2 C-'\\'";
 	};
 
+#	GNOME stuff
 	services.xserver.enable = true;
 	services.xserver.displayManager.gdm = { enable = true;  wayland = true; };
 	services.xserver.desktopManager.gnome.enable = true;
@@ -90,6 +91,11 @@ in
 
 #	System Services
 	services.openssh.enable = true;
+	services.tailscale.enable = true;
+	services.mullvad-vpn = {
+		enable = true;
+		package = pkgs-unstable.mullvad-vpn;
+	};
 #	services.sonarr = {
 #		enable = true;
 #		group = "labmembers";
@@ -141,10 +147,6 @@ in
 #		openPeerPorts = true;
 #		package = pkgs-unstable.transmission;
 #		settings = {};
-#	};
-#	services.mullvad-vpn = {
-#		enable = true;
-#		package = pkgs-unstable.mullvad;
 #	};
 #	TODO: suwayomi, prometheus
 
