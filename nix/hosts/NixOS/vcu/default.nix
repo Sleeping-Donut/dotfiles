@@ -83,8 +83,8 @@ in
 	};
 	services.xserver.desktopManager.gnome = {
 		enable = true;
-		extraGSettingsOverridePackages = with pkgs; [gnome.gnome-settings-daemon];
 
+		extraGSettingsOverridePackages = with pkgs; [gnome.gnome-settings-daemon];
 #		Disable suspend when on AC power
 		extraGSettingsOverrides = ''
 			[org.gnome.settings-daemon.plugins.power]
@@ -95,6 +95,7 @@ in
 	environment.gnome.excludePackages = (with pkgs; [
 		gnome-photos
 		gnome-tour
+		snapshot
 	]) ++ (with pkgs.gnome; [
 		cheese
 		gnome-music
