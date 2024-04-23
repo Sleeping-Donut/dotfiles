@@ -81,7 +81,17 @@ in
 		wayland = true;
 		autoSuspend = false;
 	};
-	services.xserver.desktopManager.gnome.enable = true;
+	services.xserver.desktopManager.gnome = {
+		enable = true;
+		extraGSettingsOverridePackages = with pkgs; [gnome.gnome-settings-daemon];
+
+#		Disable suspend when on AC power
+		extraGSettingsOverrides = ''
+			[org.gnome.settings-daemon.plugins.power]
+			sleep-inactive-ac-timeout=0
+			sleep-inactive-ac-type='nothing'
+		'';
+	};
 	environment.gnome.excludePackages = (with pkgs; [
 		gnome-photos
 		gnome-tour
