@@ -17,6 +17,7 @@ let
 				inherit (sources) pkgs pkgs-unstable pkgs-nur nur flatpak;
 			};
 			modules = [
+				nix-modules.nix
 				hostDetails.configPath
 				homeManager.nixosModules.home-manager {
 					home-manager.extraSpecialArgs = {
@@ -38,6 +39,7 @@ let
 				inherit (sources) pkgs pkgs-unstable pkgs-nur flatpak-home;
 			};
 			modules = [
+				nix-modules.nix
 				hostDetails.configPath
 			];
 		}
@@ -73,6 +75,7 @@ let
 				inherit (sources) pkgs pkgs-unstable pkgs-nur;
 			};
 			modules = [
+				nix-modules.nix
 				hostDetails.configPath
 			];
 		}

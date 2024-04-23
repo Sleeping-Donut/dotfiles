@@ -5,8 +5,8 @@
 		# garbage Collection
 		gc = {
 			automatic = true;
-			interval.Day = 14;
-			options = "--delete-older-than 14d";
+			dates = "monthly";
+			options = "--delete-older-than 20d";
 		};
 		extraOptions = ''
 		auto-optimise-store = true
