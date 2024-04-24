@@ -169,7 +169,7 @@ in
 	services.transmission = {
 		enable = true;
 		group = "labmembers";
-		home = "/opt/transmission";
+#		home = "/opt/transmission";
 		openFirewall = true;
 		openPeerPorts = true;
 		package = pkgs-unstable.transmission;
