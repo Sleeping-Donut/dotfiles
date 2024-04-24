@@ -50,6 +50,7 @@
 			nix-output-monitor
 			speedtest-go
 			speedtest-rs
+			stow
 			tokei
 			tz
 			utm
