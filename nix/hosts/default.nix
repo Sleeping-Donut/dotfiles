@@ -8,11 +8,14 @@ in
 	generateConfigsFromHosts ([
 #		Type: "nixos" | "home" | "darwin" | "nixOnDroid" | "nixos-diy" | "home-diy" | "darwin-diy" | "nixOnDroid-diy"
 
-		{
+		{ # R710
 			hostname = "zwei"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/zwei;
 			unfreePkgs = [ "plexmediaserver" ];
 		}
-		{ hostname = "vcu"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/vcu; }
+		{ # R410
+			hostname = "vcu"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/vcu;
+		}
+		# whitefox R510
 		{ # Mac15,6
 			hostname = "LHC"; type = "darwin"; system = "aarch64-darwin"; configPath = ./macOS/LHC;
 			unfreePkgs = [ "raycast" "vscode" ];
