@@ -33,33 +33,29 @@
 		zsh.enable = true;
 	};
 
-	home.packages = let
-		stable = with pkgs; [];
-		unstable = with pkgs-unstable; [
-			age
-			ansible
-			btop
-			chatgpt-cli
-			ctop
-			fastfetch
-			fd
-			gallery-dl
-			gifski
-			glow
-			lazygit
-			nix-output-monitor
-			speedtest-go
-			speedtest-rs
-			stow
-			tokei
-			tz
-			utm
-			yt-dlp
-#			gobang
-#			twitch-tui
-		];
-	in
-		stable ++ unstable;
+	home.packages = with pkgs-unstable; [
+		age
+		ansible
+		btop
+		chatgpt-cli
+		ctop
+		fastfetch
+		fd
+		gifski
+		glow
+		lazygit
+		nix-output-monitor
+		pkgs.gallery-dl
+		speedtest-go
+		speedtest-rs
+		stow
+		tokei
+		tz
+		utm
+		yt-dlp
+#		gobang
+#		twitch-tui
+	];
 
 	programs = {
 		bat.enable = true; 
