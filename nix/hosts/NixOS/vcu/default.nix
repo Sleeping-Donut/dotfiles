@@ -119,7 +119,7 @@ in
 	};
 	environment.etc."mullvad-vpn".source = "/opt/mullvad";
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
-	services.resolved.enable = true;
+#	services.resolved.enable = true;
 #	networking.resolvconf.enable = false;
 #	networking.networkmanager = {
 #		dns = lib.mkForce "default";
