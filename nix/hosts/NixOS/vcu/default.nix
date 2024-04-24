@@ -117,7 +117,7 @@ in
 		package = pkgs-unstable.mullvad-vpn;
 	};
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
-	services.resolved.enable = false; 
+	services.resolved.enable = true;
 	networking.resolvconf.enable = false;
 	networking.networkmanager = {
 		dns = "default";
