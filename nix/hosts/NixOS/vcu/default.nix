@@ -167,7 +167,7 @@ in
 		package = pkgs-unstable.tautulli;
 	};
 	services.transmission = {
-		enable = true;
+		enable = false;
 		group = "labmembers";
 		home = "/opt/transmission";
 		openFirewall = true;
