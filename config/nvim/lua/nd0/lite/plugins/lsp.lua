@@ -155,7 +155,7 @@ return {
 		-- [LSP servers and configs](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md)
 		local lsps = {}
 		if vim.fn.executable("rustc") == 1 then
-			for _, v in ipairs({"rust_analyzer", "rnix",
+			for _, v in ipairs({"rust_analyzer", "nil",
 				-- "asm_lsp" -- dependent on some ssl dir check it out
 			}) do
 				table.insert(lsps, v)

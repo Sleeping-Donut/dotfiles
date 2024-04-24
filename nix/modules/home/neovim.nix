@@ -32,8 +32,9 @@ in
 					nil
 					ocamlPackages.lsp
 					python311Packages.python-lsp-server
-					rnix-lsp
 					rust-analyzer
+					nil
+					nixd
 					tailwindcss-language-server
 					yaml-language-server
 				];
