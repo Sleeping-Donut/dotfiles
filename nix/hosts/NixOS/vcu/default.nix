@@ -185,14 +185,14 @@ in
 			cache-size-mb = 4;
 			compact-view = false;
 			dht-enabled = true;
-#			download-dir = "/home/nathan/Downloads/transmission";
+			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
 			download-queue-size = 5;
+#			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
+			incomplete-dir-enabled = false;
 			encryption = 1;
 			idle-seeding-limit = 30;
 			idle-seeding-limit-enabled = false;
-#			incomplete-dir = "/home/nathan/Downloads";
-			incomplete-dir-enabled = false;
 		};
 	};
 #	TODO: suwayomi, prometheus
