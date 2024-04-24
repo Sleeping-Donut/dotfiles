@@ -117,17 +117,17 @@ in
 		package = pkgs-unstable.mullvad-vpn;
 		enableExcludeWrapper = false;
 	};
-#	environment.etc."mullvad-vpn".source = "/opt/mullvad";
+	environment.etc."mullvad-vpn".source = "/opt/mullvad";
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
 	services.resolved.enable = true;
-	networking.resolvconf.enable = false;
-	networking.networkmanager = {
-		dns = lib.mkForce "default";
-		extraConfig = ''
-			[main]
-			rc-manager=symlink
-		'';
-	};
+#	networking.resolvconf.enable = false;
+#	networking.networkmanager = {
+#		dns = lib.mkForce "default";
+#		extraConfig = ''
+#			[main]
+#			rc-manager=symlink
+#		'';
+#	};
 
 #	services.sonarr = {
 #		enable = true;
