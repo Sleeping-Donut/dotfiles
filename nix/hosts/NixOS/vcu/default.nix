@@ -172,7 +172,7 @@ in
 #		home = "/opt/transmission";
 		openFirewall = true;
 		openPeerPorts = true;
-		package = pkgs-unstable.transmission;
+		package = pkgs.transmission;
 		settings = {
 			alt-speed-down = 500;
 			alt-speed-enabled = false;
