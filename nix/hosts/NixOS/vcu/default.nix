@@ -120,7 +120,7 @@ in
 	services.resolved.enable = true;
 	networking.resolvconf.enable = false;
 	networking.networkmanager = {
-		dns = "default";
+		dns = lib.mkForce "default";
 		extraConfig = ''
 			[main]
 			rc-manager=symlink
