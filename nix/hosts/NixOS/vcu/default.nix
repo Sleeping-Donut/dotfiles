@@ -192,7 +192,7 @@ in
 	users.users.nathand = {
 		isNormalUser = true;
 		description = "Nathan";
-		extraGroups = [ "wheel" "networkmanager" "labemembers" ];
+		extraGroups = [ "wheel" "networkmanager" "labmembers" ];
 		openssh.authorizedKeys.keys = [
 			"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2rAuYj5hGLj6eFScSjJoz5XXZzTiQVPWdL+fWUtp9q" # LHC
 		];
