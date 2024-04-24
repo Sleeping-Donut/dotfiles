@@ -54,7 +54,7 @@ let
 			};
 			modules = [
 				hostDetails.configPath
-				nix-modules.nix
+				darwin-modules.nix
 				homeManager.darwinModules.home-manager {
 					home-manager.extraSpecialArgs = {
 						inherit inputs nur nix-modules home-modules;
