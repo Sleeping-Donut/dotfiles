@@ -117,8 +117,9 @@ in
 		package = pkgs-unstable.mullvad-vpn;
 		enableExcludeWrapper = false;
 	};
+#	TODO: make custom config dir work (below)
 #	environment.etc."mullvad-vpn".source = "/opt/mullvad";
-	environment.variables."MULLVAD_SETTINGS_DIR" = "/opt/mullvad";
+#	environment.variables."MULLVAD_SETTINGS_DIR" = "/opt/mullvad";
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
 	services.resolved.enable = true;
 
