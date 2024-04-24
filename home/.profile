@@ -11,6 +11,7 @@ if [ -e "$HOME/.profile-prefs" ]; then
 fi
 
 export PATH="$PATH:$HOME/.local/bin:$HOME/.turso"
+export DOT="$HOME/dotfiles"
 
 export BAT_STYLE='header-filename,numbers,changes,grid'
 export FZF_DEFAULT_OPTS="--preview 'bat --color=always --style=header-filename,numbers,changes {}' --bind '?:toggle-preview,ctrl-u:preview-up,ctrl-d:preview-down' --preview-window hidden:up:20"
