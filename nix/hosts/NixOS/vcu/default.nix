@@ -166,15 +166,35 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.tautulli;
 	};
-#	services.transmission = {
-#		enable = true;
-#		group = "labmembers";
-#		home = "/opt/transmission/home";
-#		openFirewall = true;
-#		openPeerPorts = true;
-#		package = pkgs-unstable.transmission;
-#		settings = {};
-#	};
+	services.transmission = {
+		enable = true;
+		group = "labmembers";
+		home = "/opt/transmission";
+		openFirewall = true;
+		openPeerPorts = true;
+		package = pkgs-unstable.transmission;
+		settings = {
+			alt-speed-down = 500;
+			alt-speed-enabled = false;
+			alt-speed-time-begin = 540;
+			alt-speed-time-day = 127;
+			alt-speed-time-enabled = false;
+			alt-speed-time-end = 1020;
+			alt-speed-up = 500;
+			blocklist-enabled = false;
+			cache-size-mb = 4;
+			compact-view = false;
+			dht-enabled = true;
+#			download-dir = "/home/nathan/Downloads/transmission";
+			download-queue-enabled = true;
+			download-queue-size = 5;
+			encryption = 1;
+			idle-seeding-limit = 30;
+			idle-seeding-limit-enabled = false;
+#			incomplete-dir = "/home/nathan/Downloads";
+			incomplete-dir-enabled = false;
+		};
+	};
 #	TODO: suwayomi, prometheus
 
 #	Firewall
@@ -228,10 +248,10 @@ in
 		description = "Tautulli service account";
 		group = "labmembers";
 	};
-	users.users.transmission = {
-		isSystemUser = true;
-		description = "Transmission service account";
-		group = "labmembers";
-	};
+#	users.users.transmission = {
+#		isSystemUser = true;
+#		description = "Transmission service account";
+#		group = "labmembers";
+#	};
 }
 
