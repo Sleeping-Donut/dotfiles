@@ -115,7 +115,9 @@ in
 	services.mullvad-vpn = {
 		enable = true;
 		package = pkgs-unstable.mullvad-vpn;
+		enableExcludeWrapper = false;
 	};
+#	environment.etc."mullvad-vpn".source = "/opt/mullvad";
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
 	services.resolved.enable = true;
 	networking.resolvconf.enable = false;
