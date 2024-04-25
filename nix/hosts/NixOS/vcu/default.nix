@@ -168,13 +168,17 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.tautulli;
 	};
+
+	systemd.tmpfiles.rules = [
+		"d /opt/transmission/home/.config/transmission-daemon 0770 transmission labmembers - -"
+	];
 	services.transmission = {
 		enable = true;
 		group = "labmembers";
-#		home = "/opt/transmission";
+		home = "/opt/transmission";
 		openFirewall = true;
 		openPeerPorts = true;
-		package = pkgs.transmission;
+		package = pkgs-unstable.transmission;
 		settings = {
 			alt-speed-down = 500;
 			alt-speed-enabled = false;
