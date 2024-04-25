@@ -1,10 +1,12 @@
 {
 	config, lib, pkgs,
 	pkgs-unstable,
+	nix-modules,
 	hostname ? "vcu",
 	...
 }:
 let
+	keys = import nix-modules.keys {};
 in
 {
 	imports = [
@@ -214,7 +216,8 @@ in
 		description = "Nathan";
 		extraGroups = [ "wheel" "networkmanager" "labmembers" ];
 		openssh.authorizedKeys.keys = [
-			"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2rAuYj5hGLj6eFScSjJoz5XXZzTiQVPWdL+fWUtp9q" # LHC
+			keys.LHC
+			keys.dogwater
 		];
 	};
 
