@@ -49,6 +49,7 @@ in
 			"aegisub"
 			"alacritty"
 			"balenaetcher"
+			"blender"
 			"discord"
 			"firefox"
 			"fork"
