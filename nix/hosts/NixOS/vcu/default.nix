@@ -174,7 +174,7 @@ in
 		"d /opt/transmission/home/.config/transmission-daemon 0770 transmission labmembers - -"
 	];
 	services.transmission = {
-		enable = false;
+		enable = true;
 		group = "labmembers";
 		home = "/opt/transmission";
 		openFirewall = true;
