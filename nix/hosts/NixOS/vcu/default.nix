@@ -175,6 +175,7 @@ in
 	];
 	services.transmission = {
 		enable = true;
+		user = "transmission";
 		group = "labmembers";
 		home = "/opt/transmission";
 		openFirewall = true;
@@ -195,7 +196,7 @@ in
 			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
 			download-queue-size = 5;
-			incomplete-dir = "${config.services.transmission.home}/incomplete";
+			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted/incomplete";
 			incomplete-dir-enabled = true;
 			encryption = 1;
 			idle-seeding-limit = 30;
@@ -256,10 +257,10 @@ in
 		description = "Tautulli service account";
 		group = "labmembers";
 	};
-#	users.users.transmission = {
-#		isSystemUser = true;
-#		description = "Transmission service account";
-#		group = "labmembers";
-#	};
+	users.users.transmission = {
+		isSystemUser = true;
+		description = lib.mkDefault "Transmission service account";
+		group = "labmembers";
+	};
 }
 
