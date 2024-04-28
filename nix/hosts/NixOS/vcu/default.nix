@@ -162,6 +162,7 @@ in
 #	};
 	services.tautulli = {
 		enable = true;
+		user = "tautulli";
 		group = "labmembers";
 		dataDir = "/opt/tautulli/data";
 		configFile = "/opt/tautulli-config.ini";
