@@ -165,7 +165,7 @@ in
 		user = "tautulli";
 		group = "labmembers";
 		dataDir = "/opt/tautulli/data";
-		configFile = "/opt/tautulli-config.ini";
+		configFile = "/opt/tautulli/config.ini";
 		openFirewall = true;
 		package = pkgs-unstable.tautulli;
 	};
