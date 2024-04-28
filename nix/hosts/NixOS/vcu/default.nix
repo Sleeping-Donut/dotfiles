@@ -173,7 +173,7 @@ in
 		"d /opt/transmission/home/.config/transmission-daemon 0770 transmission labmembers - -"
 	];
 	services.transmission = {
-		enable = true;
+		enable = false;
 		group = "labmembers";
 		home = "/opt/transmission";
 		openFirewall = true;
@@ -255,10 +255,10 @@ in
 		description = "Tautulli service account";
 		group = "labmembers";
 	};
-#	users.users.transmission = {
-#		isSystemUser = true;
-#		description = "Transmission service account";
-#		group = "labmembers";
-#	};
+	users.users.transmission = {
+		isSystemUser = true;
+		description = "Transmission service account";
+		group = "labmembers";
+	};
 }
 
