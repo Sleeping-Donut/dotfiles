@@ -106,7 +106,7 @@ in
 		package = plex-versioned {
 			version = "1.40.3.8555-fef15d30c";
 #			To get hash for new version use `sh nix/scripts/getPkgHash 'plex' '<VERSION>'
-			hash = "sha256-gYRhQIf6RaXgFTaigFW1yJ7ndxRmOP6oJSNnr8o0EBM=";
+			hash = "sha256-mJZHvK2dEaeDmmDwimBn606Ur89yPs/pitzuTFVPS1Q=";
 		};
 	};
 

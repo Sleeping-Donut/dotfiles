@@ -4,7 +4,7 @@
 get_pkg_hash() {
 	url="$1"
 	hash="$2"
-	nix-prefetch-url "$url" | xargs nix hash convert --hash-algo "$hash"
+	nix-prefetch-url "$url" | xargs nix hash convert --hash-algo "$hash" --from nix32
 }
 
 # Package Handlers
