@@ -12,7 +12,7 @@ in
 	security.pam.enableSudoTouchIdAuth = true;
 
 	networking = { hostName = hostname; computerName = hostname; };
-	fonts.fonts = with pkgs; [
+	fonts.packages = with pkgs; [
 		noto-fonts
 #		noto-fonts-cjk
 #		noto-fonts-extra
