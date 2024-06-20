@@ -198,7 +198,7 @@ in
 			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
 			download-queue-size = 5;
-			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted/incomplete";
+			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted/Incomplete";
 			incomplete-dir-enabled = true;
 			encryption = 1;
 			idle-seeding-limit = 30;
