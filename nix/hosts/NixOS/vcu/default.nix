@@ -23,6 +23,9 @@ in
 	networking = {
 		hostName = hostname;
 		networkmanager.enable = true;
+		extraHosts = ''
+			192.168.10.124	whitefox.fglab
+		'';
 	};
 
 #	Use systemd-boot EFI bootloader
