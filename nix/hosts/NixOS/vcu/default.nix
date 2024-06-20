@@ -172,9 +172,9 @@ in
 		package = pkgs-unstable.tautulli;
 	};
 
-#	systemd.tmpfiles.rules = [
-#		"d /opt/transmission/home/.config/transmission-daemon 0770 transmission labmembers - -"
-#	];
+	systemd.tmpfiles.rules = [
+		"d /opt/transmission/home/.config/transmission-daemon 0770 transmission labmembers - -"
+	];
 	services.transmission = {
 		enable = true;
 		user = "transmission";
