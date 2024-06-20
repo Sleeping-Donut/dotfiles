@@ -7,7 +7,7 @@
 {
 	description = "Personal config built with nix";
 	inputs = {
-		nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+		nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 		unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
 		darwin = {
@@ -16,7 +16,7 @@
 		};
 
 		homeManager = {
-			url = "github:nix-community/home-manager/release-23.11";
+			url = "github:nix-community/home-manager/release-24.05";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
@@ -25,7 +25,7 @@
 		nur.url = "github:nix-community/NUR";
 
 		nixOnDroid = {
-			url = "github:t184256/nix-on-droid/release-23.05";
+			url = "github:t184256/nix-on-droid/release-23.11";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
