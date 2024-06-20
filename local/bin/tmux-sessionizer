@@ -4,7 +4,7 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 elif command -v fd &> /dev/null; then
     # add ~ if want everything in home
-    selected=$(fd -L -H . ~/work ~/projects ~/personal ~/dotfiles --min-depth 1 --max-depth 2 --type d 2>/dev/null | fzf)
+    selected=$(fd -L -H . . ~/work ~/projects ~/personal ~/dotfiles --min-depth 1 --max-depth 2 --type d 2>/dev/null | fzf)
 else
     selected=$(find -L -H . ~/work ~/projects ~/personal ~/dotfiles -mindepth 1 -maxdepth 2 -type d | fzf)
 fi
