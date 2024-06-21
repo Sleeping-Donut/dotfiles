@@ -179,7 +179,7 @@ in
 		enable = true;
 		user = "transmission";
 		group = "labmembers";
-		home = "/opt/transmission";
+		home = "/opt/transmission/home";
 		openFirewall = true;
 		openPeerPorts = true;
 		package = pkgs-unstable.transmission;
