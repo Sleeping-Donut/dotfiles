@@ -200,11 +200,12 @@ in
 			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
 			download-queue-size = 5;
-			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted/Incomplete";
-			incomplete-dir-enabled = true;
 			encryption = 1;
 			idle-seeding-limit = 30;
 			idle-seeding-limit-enabled = false;
+			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted/Incomplete";
+			incomplete-dir-enabled = true;
+			rpc-authentication-required = false;
 		};
 	};
 #	TODO: suwayomi, prometheus
