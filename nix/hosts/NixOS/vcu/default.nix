@@ -173,6 +173,8 @@ in
 	};
 
 	systemd.tmpfiles.rules = [
+		"d /opt/transmission/home 0770 transmission labmembers"
+		"d /opt/transmission/home/.config 0770 transmission labmembers"
 		"d /opt/transmission/home/.config/transmission-daemon 0770 transmission labmembers"
 	];
 	services.transmission = {
