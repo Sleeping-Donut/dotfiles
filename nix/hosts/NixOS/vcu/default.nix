@@ -25,6 +25,7 @@ in
 		networkmanager.enable = true;
 		extraHosts = ''
 			192.168.10.124	whitefox.fglab
+			192.168.10.114	zwei.fglab
 		'';
 	};
 
