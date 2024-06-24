@@ -207,6 +207,8 @@ in
 			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted/Incomplete";
 			incomplete-dir-enabled = true;
 			rpc-authentication-required = false;
+			rpc-bind-address = "127.0.0.1";
+			rpc-whitelist-enabled = false;
 		};
 	};
 #	TODO: suwayomi, prometheus
