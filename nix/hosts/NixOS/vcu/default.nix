@@ -185,6 +185,7 @@ in
 		home = "/opt/transmission/home";
 		openFirewall = true;
 		openPeerPorts = true;
+		openRPCPort = true;
 		package = pkgs-unstable.transmission;
 		settings = {
 			alt-speed-down = 500;
@@ -209,8 +210,6 @@ in
 			rpc-authentication-required = false;
 			rpc-bind-address = "127.0.0.1";
 			rpc-host-whitelist-enabled = false;
-			rpc-port = 9091;
-			rpc-url = "/transmission/";
 			rpc-whitelist-enabled = false;
 		};
 	};
