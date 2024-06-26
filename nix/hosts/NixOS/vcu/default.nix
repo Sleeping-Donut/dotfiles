@@ -208,8 +208,10 @@ in
 			incomplete-dir-enabled = true;
 			rpc-authentication-required = false;
 			rpc-bind-address = "127.0.0.1";
-			rpc-whitelist-enabled = false;
 			rpc-host-whitelist-enabled = false;
+			rpc-port = 9091;
+			rpc-url = "/transmission/";
+			rpc-whitelist-enabled = false;
 		};
 	};
 #	TODO: suwayomi, prometheus
