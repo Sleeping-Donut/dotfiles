@@ -50,6 +50,7 @@ in
 			"alacritty"
 			"balenaetcher"
 			"blender"
+			"chatgpt"
 			"discord"
 			"firefox"
 			"fork"
