@@ -11,7 +11,7 @@ in
 	config = lib.mkIf cfg.enable {
 		programs.zsh = {
 			enable = true;
-			enableAutosuggestions = true;
+			autosuggestion.enable = true;
 #			enableSyntaxHighlighting = true; # DEPRICATED
 			syntaxHighlighting.enable = true;
 			history.size = 10000;
