@@ -1,3 +1,8 @@
 font = { size = 20 }
 
 shell = { program = "tmux" }
+
+key_bindings = [
+	{ key = "Left", mods = "Option", chars = "\x1bb" }, # Skip word left
+	{ key = "Right", mods = "Option", chars = "\x1bf" }, # Skip word right
+]
