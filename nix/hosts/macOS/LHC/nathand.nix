@@ -59,6 +59,10 @@
 
 	programs = {
 		bat.enable = true; 
+		gh = { enable = true; package = pkgs-unstable.gh; settings = {
+			editor = "nvim";
+			git_protocol = "ssh";
+		};};
 		eza = { enable = true; package = pkgs-unstable.eza; };
 		fzf = { enable = true; package = pkgs-unstable.fzf; enableZshIntegration = true; enableBashIntegration = true; };
 		git.enable = true;
