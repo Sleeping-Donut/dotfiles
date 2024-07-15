@@ -186,7 +186,7 @@ in
 		openFirewall = true;
 		openPeerPorts = true;
 		openRPCPort = true;
-		package = pkgs-unstable.transmission_4;
+		package = pkgs-unstable.transmission;
 		settings = {
 			alt-speed-down = 500;
 			alt-speed-enabled = false;
