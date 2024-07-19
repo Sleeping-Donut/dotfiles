@@ -49,6 +49,7 @@
 		speedtest-go
 		speedtest-rs
 		stow
+		termscp
 		tokei
 		tz
 		utm
