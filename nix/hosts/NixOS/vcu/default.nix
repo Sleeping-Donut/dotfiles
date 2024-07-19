@@ -186,6 +186,7 @@ in
 		openFirewall = true;
 		openPeerPorts = true;
 		openRPCPort = true;
+		downloadDirPermissions = "770";
 		package = pkgs-unstable.transmission_4;
 		settings = {
 			alt-speed-down = 500;
