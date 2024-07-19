@@ -59,6 +59,8 @@ alias fza='find -L -H | fzf'
 alias fnva='OUT=$(find -L -H | fzf) && echo $OUT | xargs nvim'
 alias fcda='OUT=$(find -L -H -type d | fzf) && echo $out | nvim'
 
+alias nixdev='nix develop --command $(echo $SHELL | xargs basename)'
+
 short_pwd() {
 	local pwd=$(pwd)
 	local shortened_pwd=""
