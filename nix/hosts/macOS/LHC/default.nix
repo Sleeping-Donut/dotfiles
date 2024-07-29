@@ -70,6 +70,7 @@ in
 			"vanilla"
 			"visual-studio-code"
 			"vlc"
+			"wireshark"
 			"zed"
 		];
 		masApps = { inherit (mas-apps)
