@@ -70,7 +70,6 @@
 		git.enable = true;
 		jq = { enable = true; package = pkgs-unstable.jq; };
 		ripgrep = { enable = true; package = pkgs-unstable.ripgrep; };
-		vscode = { enable = true; package = pkgs-unstable.vscode; };
 		yt-dlp = { enable = true; package = pkgs-unstable.yt-dlp; };
 		zellij = { enable = true; package = pkgs-unstable.zellij; };
 	};
