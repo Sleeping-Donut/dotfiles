@@ -43,6 +43,7 @@
 		fd
 		gifski
 		glow
+		jdk
 		lazygit
 		nix-output-monitor
 		pkgs.gallery-dl
