@@ -36,6 +36,7 @@
 	home.packages = with pkgs-unstable; [
 		age
 		ansible
+		bottom
 		btop
 		chatgpt-cli
 		ctop
@@ -43,6 +44,7 @@
 		fd
 		gifski
 		glow
+		httpie
 		jdk
 		lazygit
 		nix-output-monitor
