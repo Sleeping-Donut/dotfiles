@@ -70,7 +70,7 @@ in
 			"vanilla"
 			"visual-studio-code"
 			"vlc"
-			"Sleeping-Donut/homebrew-cask/wireshark"
+			"wireshark"
 			"zed"
 		];
 		masApps = { inherit (mas-apps)
