@@ -63,7 +63,7 @@ in
 			"pocket-casts"
 			"raycast"
 			"rectangle"
-			"Sleeping-Donut/brewstuff/casks/zen-browser"
+			"Sleeping-Donut/brewstuff/zen-browser"
 			"tailscale"
 			"telegram"
 			"transmission"
