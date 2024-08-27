@@ -200,6 +200,7 @@ in
 			cache-size-mb = 4;
 			compact-view = false;
 			dht-enabled = true;
+			umask = 68;
 			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
 			download-queue-size = 5;
