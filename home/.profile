@@ -60,6 +60,7 @@ alias fnva='OUT=$(find -L -H | fzf) && echo $OUT | xargs nvim'
 alias fcda='OUT=$(find -L -H -type d | fzf) && echo $out | nvim'
 
 alias nixdev='nix develop --command $(echo $SHELL | xargs basename)'
+alias init-flake-template='nix flake init --template "https://flakehub.com/f/the-nix-way/dev-templates/*#${ENV}"'
 
 short_pwd() {
 	local pwd=$(pwd)
