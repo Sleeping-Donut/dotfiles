@@ -60,6 +60,7 @@ in
 			"mediamate"
 			"mrkai77/cask/loop"
 			"mullvadvpn"
+			"ollamac"
 			"pocket-casts"
 			"raycast"
 			"rectangle"
