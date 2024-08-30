@@ -187,7 +187,7 @@ in
 		openPeerPorts = true;
 		openRPCPort = true;
 		downloadDirPermissions = "770";
-#		package = pkgs-unstable.transmission_4;
+		package = pkgs-unstable.transmission_4;
 		settings = {
 			alt-speed-down = 500;
 			alt-speed-enabled = false;
