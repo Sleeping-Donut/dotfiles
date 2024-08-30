@@ -269,10 +269,10 @@ in
 		description = "Tautulli service account";
 		group = "labmembers";
 	};
-	users.users.transmission = {
-		isSystemUser = true;
-		description = lib.mkDefault "Transmission service account";
-		group = "labmembers";
-	};
+#	users.users.transmission = {
+#		isSystemUser = true;
+#		description = lib.mkDefault "Transmission service account";
+#		group = "labmembers";
+#	};
 }
 
