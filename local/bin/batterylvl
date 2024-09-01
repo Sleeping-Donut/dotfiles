@@ -1,8 +1,52 @@
 #!/usr/bin/env sh
 
+# Function to get the battery percentage on Linux
+get_linux_battery() {
+	cat /sys/class/power_supply/BAT0/capacity
+}
+
+# Function to check if the system is connected to power on Linux
+is_linux_charging() {
+	grep -q "Charging" /sys/class/power_supply/BAT0/status
+}
+
+# Function to get the battery percentage on macOS
+get_darwin_battery() {
+	pmset -g batt | grep -o -e '\d\{1,3\}%'
+}
+
+# Function to check if the system is connected to power on macOS
+is_darwin_charging() {
+	pmset -g batt | grep -q 'AC Power'
+}
+
+# Determine the operating system
 OS="$(uname -s)"
-if [ "$OS" = "Linux" ]; then
-	echo "$(cat /sys/class/power_supply/BAT0/capacity)"
-elif [ "$OS" = "Darwin" ]; then
-	echo "$(pmset -g batt | grep -o -e '\d\{1,3\}%')"
+
+# Check for the -r flag
+raw_output=false
+if [ "$1" = "-r" ]; then
+	raw_output=true
 fi
+
+# Get the battery level and charging status
+if [ "$OS" = "Linux" ]; then
+	battery_level=$(get_linux_battery)
+	if is_linux_charging; then
+		charging_symbol="⌁"
+	fi
+elif [ "$OS" = "Darwin" ]; then
+	battery_level=$(get_darwin_battery)
+	if is_darwin_charging; then
+		charging_symbol="⌁"
+	fi
+fi
+
+# Remove the percentage symbol if the -r flag is used
+if [ "$raw_output" = true ]; then
+	battery_level="${battery_level%\%}"
+fi
+
+# Output the battery level with or without the charging symbol
+echo "${charging_symbol}${battery_level}"
+
