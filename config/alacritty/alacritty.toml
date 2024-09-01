@@ -1,8 +1,12 @@
-font = { size = 20 }
+shell = { program = "sh", args = [ "-l", "-c", "tmux"] }
 
-shell = { program = "tmux" }
+[font]
+size = 20
+normal = { family = "FiraCode Nerd Font Mono", style = "Retina" }
 
-key_bindings = [
+[keyboard]
+bindings = [
 	{ key = "Left", mods = "Alt", chars = "\u001BB" }, # Skip word left
 	{ key = "Right", mods = "Alt", chars = "\u001BF" }, # Skip word right
 ]
+
