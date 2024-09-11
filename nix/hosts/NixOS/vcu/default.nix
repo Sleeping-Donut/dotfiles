@@ -24,6 +24,7 @@ in
 		hostName = hostname;
 		networkmanager.enable = true;
 		extraHosts = ''
+			127.0.0.1		vcu.fglab
 			192.168.10.124	whitefox.fglab
 			192.168.10.114	zwei.fglab
 		'';
