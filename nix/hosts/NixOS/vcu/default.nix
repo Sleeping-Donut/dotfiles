@@ -128,13 +128,13 @@ in
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
 	services.resolved.enable = true;
 
-#	services.sonarr = {
-#		enable = true;
-#		group = "labmembers";
-#		dataDir = "/opt/sonarr/data";
-#		openFirewall = true;
-#		package = pkgs-unstable.sonarr;
-#	};
+	services.sonarr = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/sonarr/data";
+		openFirewall = true;
+		package = pkgs-unstable.sonarr;
+	};
 #	services.radarr = {
 #		enable = true;
 #		group = "labmembers";
