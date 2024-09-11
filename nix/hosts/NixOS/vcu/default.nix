@@ -1,7 +1,7 @@
 {
 	config, lib, pkgs,
 	pkgs-unstable,
-	nix-modules,
+	nix-modules, nixos-modules,
 	hostname ? "vcu",
 	...
 }:
@@ -11,6 +11,8 @@ in
 {
 	imports = [
 		./hardware-configuration.nix
+
+		nixos-modules.prowlarr
 	];
 
 #	This defines first version of nixos installed - used to maintain
@@ -128,6 +130,14 @@ in
 #	environment.variables."MULLVAD_SETTINGS_DIR" = "/opt/mullvad";
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
 	services.resolved.enable = true;
+
+	services.nd0-prowlarr = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/prowlarr/data";
+		openFirewall = true;
+		package = pkgs-unstable.prowlarr;
+	};
 
 	services.sonarr = {
 		enable = true;

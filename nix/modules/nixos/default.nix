@@ -1,4 +1,5 @@
 { ... }:
 {
+	prowlarr = ./prowlarr.nix;
 }
 
