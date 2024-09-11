@@ -210,7 +210,7 @@ in
 			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted/Incomplete";
 			incomplete-dir-enabled = true;
 			rpc-authentication-required = false;
-			rpc-bind-address = "127.0.0.1";
+			rpc-bind-address = "0.0.0.0"; # Listen on all interfaces
 			rpc-host-whitelist-enabled = false;
 			rpc-whitelist-enabled = false;
 		};
