@@ -129,6 +129,19 @@ in
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
 	services.resolved.enable = true;
 
+	services.prowlarr = {
+		enable = true;
+		package = pkgs-unstable.prowlarr;
+		openFirewall = true;
+	};
+	systemd.services.prowlarr.serviceConfig = {
+		# Override the ExecStart command
+		ExecStart = lib.mkForce "${lib.getExe pkgs.prowlarr} -nobrowser -data=/opt/prowlarr";
+		# Set group and UMask
+		Group = "labmembers";
+		UMask = "0007";
+	};
+
 	services.sonarr = {
 		enable = true;
 		group = "labmembers";
