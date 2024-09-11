@@ -182,7 +182,7 @@ in
 		user = "transmission";
 		group = "labmembers";
 		home = "/opt/transmission/home";
-		openFirewall = true;
+		openFirewall = false;
 		openRPCPort = true;
 		downloadDirPermissions = "770";
 		package = pkgs-unstable.transmission_4;
