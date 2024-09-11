@@ -197,7 +197,6 @@ in
 			alt-speed-time-end = 1020;
 			alt-speed-up = 500;
 			blocklist-enabled = false;
-			cache-size-mb = 4;
 			compact-view = false;
 			dht-enabled = true;
 			umask = 68;
