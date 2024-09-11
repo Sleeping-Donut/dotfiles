@@ -197,7 +197,7 @@ in
 			blocklist-enabled = false;
 			compact-view = false;
 			dht-enabled = true;
-			umask = 68;
+			umask = 7; # subtract from permissions so ___ - 007 = 770
 			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
 			download-queue-size = 5;
