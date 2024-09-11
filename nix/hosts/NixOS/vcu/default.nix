@@ -173,18 +173,16 @@ in
 		package = pkgs-unstable.tautulli;
 	};
 
-#	systemd.tmpfiles.rules = [
-#		"d /opt/transmission/home 0770 transmission labmembers"
-#		"d /opt/transmission/home/.config 0770 transmission labmembers"
-#		"d /opt/transmission/home/.config/transmission-daemon 0770 transmission labmembers"
-#	];
+	systemd.services.transmission.serviceConfig = {
+		# transmission service wants to set this to 0066 for some reason
+		UMask = lib.mkForce "0007";
+	};
 	services.transmission = {
 		enable = true;
 		user = "transmission";
 		group = "labmembers";
 		home = "/opt/transmission/home";
 		openFirewall = true;
-		openPeerPorts = true;
 		openRPCPort = true;
 		downloadDirPermissions = "770";
 		package = pkgs-unstable.transmission_4;
