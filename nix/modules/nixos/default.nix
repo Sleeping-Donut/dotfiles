@@ -1,5 +1,5 @@
 { ... }:
 {
-	prowlarr = ./prowlarr.nix
+	prowlarr = ./prowlarr.nix;
 }
 
