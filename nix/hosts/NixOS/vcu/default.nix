@@ -12,6 +12,7 @@ in
 	imports = [
 		./hardware-configuration.nix
 
+		nixos-modules.ombi
 		nixos-modules.prowlarr
 	];
 
@@ -167,7 +168,7 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.readarr;
 	};
-	services.ombi = {
+	nd0.services.ombi = {
 		enable = true;
 		group = "labmembers";
 		dataDir = "/opt/ombi/data";
