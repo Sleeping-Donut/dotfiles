@@ -153,13 +153,13 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.radarr;
 	};
-#	services.lidarr = {
-#		enable = true;
-#		group = "labmembers";
-#		dataDir = "/opt/lidarr/data";
-#		openFirewall = true;
-#		package = pkgs-unstable.lidarr;
-#	};
+	services.lidarr = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/lidarr/data";
+		openFirewall = true;
+		package = pkgs-unstable.lidarr;
+	};
 #	services.readarr = {
 #		enable = true;
 #		group = "labmembers";
