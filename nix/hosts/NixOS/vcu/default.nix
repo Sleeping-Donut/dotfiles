@@ -1,7 +1,7 @@
 {
 	config, lib, pkgs,
 	pkgs-unstable,
-	nix-modules,
+	nix-modules, nixos-modules,
 	hostname ? "vcu",
 	...
 }:
@@ -11,6 +11,8 @@ in
 {
 	imports = [
 		./hardware-configuration.nix
+
+		nixos-modules.prowlarr
 	];
 
 #	This defines first version of nixos installed - used to maintain
@@ -129,17 +131,12 @@ in
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
 	services.resolved.enable = true;
 
-	services.prowlarr = {
+	nd0.services.prowlarr = {
 		enable = true;
-		package = pkgs-unstable.prowlarr;
+		group = "labmembers";
+		dataDir = "/opt/prowlarr/data";
 		openFirewall = true;
-	};
-	systemd.services.prowlarr.serviceConfig = {
-		# Override the ExecStart command
-		ExecStart = lib.mkForce "${lib.getExe pkgs.prowlarr} -nobrowser -data=/opt/prowlarr";
-		# Set group and UMask
-		Group = "labmembers";
-		UMask = "0007";
+		package = pkgs-unstable.prowlarr;
 	};
 
 	services.sonarr = {
