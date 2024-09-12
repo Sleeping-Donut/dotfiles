@@ -12,6 +12,7 @@ in
 	imports = [
 		./hardware-configuration.nix
 
+		nixos-modules.ombi
 		nixos-modules.prowlarr
 	];
 
@@ -167,13 +168,13 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.readarr;
 	};
-#	services.ombi = {
-#		enable = true;
-#		group = "labmembers";
-#		dataDir = "/opt/ombi/data";
-#		openFirewall = true;
-#		package = pkgs-unstable.ombi;
-#	};
+	nd0.services.ombi = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/ombi/data";
+		openFirewall = true;
+		package = pkgs-unstable.ombi;
+	};
 	services.tautulli = {
 		enable = true;
 		user = "tautulli";
@@ -267,11 +268,11 @@ in
 #		description = "Readarr service account";
 #		group = "labmembers";
 #	};
-	users.users.ombi = {
-		isSystemUser = true;
-		description = "Ombi service acccount";
-		group = "labmembers";
-	};
+#	users.users.ombi = {
+#		isSystemUser = true;
+#		description = "Ombi service acccount";
+#		group = "labmembers";
+#	};
 	users.users.tautulli = {
 		isSystemUser = true;
 		description = "Tautulli service account";
