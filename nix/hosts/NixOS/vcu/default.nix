@@ -247,26 +247,26 @@ in
 		];
 	};
 
-	users.users.sonarr = {
-		isSystemUser = true;
-		description = "Sonarr service account";
-		group = "labmembers";
-	};
-	users.users.radarr = {
-		isSystemUser = true;
-		description = "Radarr service account";
-		group = "labmembers";
-	};
-	users.users.lidarr = {
-		isSystemUser = true;
-		description = "Radarr service account";
-		group = "labmembers";
-	};
-	users.users.readarr = {
-		isSystemUser = true;
-		description = "Readarr service account";
-		group = "labmembers";
-	};
+#	users.users.sonarr = {
+#		isSystemUser = true;
+#		description = "Sonarr service account";
+#		group = "labmembers";
+#	};
+#	users.users.radarr = {
+#		isSystemUser = true;
+#		description = "Radarr service account";
+#		group = "labmembers";
+#	};
+#	users.users.lidarr = {
+#		isSystemUser = true;
+#		description = "Radarr service account";
+#		group = "labmembers";
+#	};
+#	users.users.readarr = {
+#		isSystemUser = true;
+#		description = "Readarr service account";
+#		group = "labmembers";
+#	};
 	users.users.ombi = {
 		isSystemUser = true;
 		description = "Ombi service acccount";
