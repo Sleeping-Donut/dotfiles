@@ -2,11 +2,11 @@
 
 with lib;
 
-let cfg = config.services.ombi;
+let cfg = config.nd0.services.ombi;
 
 in {
 	options = {
-		services.ombi = {
+		nd0.services.ombi = {
 			enable = mkEnableOption ''
 				Ombi, a web application that automatically gives your shared Plex or
 				Emby users the ability to request content by themselves!
