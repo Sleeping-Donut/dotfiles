@@ -66,14 +66,15 @@ in
 
 		users.users = mkIf (cfg.user == "prowlarr") {
 			prowlarr = {
+				description = "Prowlarr service";
 				group = cfg.group;
 				home = cfg.dataDir;
-				uid = config.ids.uids.prowlarr;
+				isSystemUser = true;
 			};
 		};
 
 		users.groups = mkIf (cfg.group == "prowlarr") {
-			prowlarr.gid = config.ids.gids.prowlarr;
+			prowlarr = {};
 		};
 	};
 }
