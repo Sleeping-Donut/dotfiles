@@ -131,7 +131,7 @@ in
 #	NOTE: required otherwise mullvad cant resolve DNS correctly
 	services.resolved.enable = true;
 
-	services.nd0-prowlarr = {
+	nd0.services.prowlarr = {
 		enable = true;
 		group = "labmembers";
 		dataDir = "/opt/prowlarr/data";
