@@ -3,12 +3,12 @@
 with lib;
 
 let
-	cfg = config.services.nd0-prowlarr;
+	cfg = config.nd0.services.prowlarr;
 
 in
 {
 	options = {
-		services.nd0-prowlarr = {
+		nd0.services.prowlarr = {
 			enable = mkEnableOption "Prowlarr, an indexer manager/proxy for Torrent trackers and Usenet indexers";
 
 			package = mkPackageOption pkgs "prowlarr" { };
