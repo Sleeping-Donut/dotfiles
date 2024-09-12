@@ -160,13 +160,13 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.lidarr;
 	};
-#	services.readarr = {
-#		enable = true;
-#		group = "labmembers";
-#		dataDir = "/opt/readarr/data";
-#		openFirewall = true;
-#		package = pkgs-unstable.readarr;
-#	};
+	services.readarr = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/readarr/data";
+		openFirewall = true;
+		package = pkgs-unstable.readarr;
+	};
 #	services.ombi = {
 #		enable = true;
 #		group = "labmembers";
