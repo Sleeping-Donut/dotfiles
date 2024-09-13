@@ -124,7 +124,7 @@ in
 			proxyPass = toUrl vcu "5000";
 		};
 		"plex.${zwei}" = {
-			proxyPass = toUrl zwei "32400"
+			proxyPass = toUrl zwei "32400";
 		};
 		"transmission.${zwei}" = {
 			proxyPass = "${toUrl vcu "9091"}/transmission";
