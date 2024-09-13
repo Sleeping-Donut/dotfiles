@@ -104,9 +104,9 @@ in
 		extraPlugins = [];
 		openFirewall = true;
 		package = plex-versioned {
-			version = "1.40.3.8555-fef15d30c";
+			version = "1.41.0.8992-8463ad060";
 #			To get hash for new version use `sh nix/scripts/getPkgHash 'plex' '<VERSION>'
-			hash = "sha256-mJZHvK2dEaeDmmDwimBn606Ur89yPs/pitzuTFVPS1Q=";
+			hash = "sha256-ldBJz2nqlzcx/FvKzMCgXkVO0omcojlU9sq6fAiknD8=";
 		};
 	};
 
