@@ -118,27 +118,26 @@ in
 		vcu = "vcu.${localDomain}";
 		zwei = "zwei.${localDomain}";
 		toUrl = domain: port: "http://${domain}:${port}";
-
 	in {
 		"${zwei}" = {
 			proxyPass = toUrl vcu "5000";
 		};
-		"plex.${zwei}" = {
+		"plex.${zwei}".locations."/" = {
 			proxyPass = toUrl zwei "32400";
 		};
-		"transmission.${zwei}" = {
+		"transmission.${zwei}".locations."/" = {
 			proxyPass = "${toUrl vcu "9091"}/transmission";
 		};
-		"sonarr.${zwei}" = {
+		"sonarr.${zwei}".locations."/" = {
 			proxyPass = toUrl vcu "8989";
 		};
-		"radarr.${zwei}" = {
+		"radarr.${zwei}".locations."/" = {
 			proxyPass = toUrl vcu "7878";
 		};
-		"lidarr.${zwei}" = {
+		"lidarr.${zwei}".locations."/" = {
 			proxyPass = toUrl vcu "8686";
 		};
-		"readarr.${zwei}" = {
+		"readarr.${zwei}".locations."/" = {
 			proxyPass = toUrl vcu "8787";
 		};
 	};
