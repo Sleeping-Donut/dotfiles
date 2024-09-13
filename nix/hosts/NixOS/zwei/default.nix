@@ -110,6 +110,39 @@ in
 		};
 	};
 
+	# To handle SSL
+	# security.acme = { acceptTerms = true; defaults.email = ""; };
+	services.nginx.enable = true;
+	services.nginx.virtualHosts = let
+		localDomain = "fglab";
+		vcu = "vcu.${localDomain}";
+		zwei = "zwei.${localDomain}";
+		toUrl = domain: port: "http://${domain}:${port}";
+
+	in {
+		"${zwei}" = {
+			proxyPass = toUrl vcu "5000";
+		};
+		"plex.${zwei}" = {
+			proxyPass = toUrl zwei "32400"
+		};
+		"transmission.${zwei}" = {
+			proxyPass = "${toUrl vcu "9091"}/transmission";
+		};
+		"sonarr.${zwei}" = {
+			proxyPass = toUrl vcu "8989";
+		};
+		"radarr.${zwei}" = {
+			proxyPass = toUrl vcu "7878";
+		};
+		"lidarr.${zwei}" = {
+			proxyPass = toUrl vcu "8686";
+		};
+		"readarr.${zwei}" = {
+			proxyPass = toUrl vcu "8787";
+		};
+	};
+
 #	Firewall
 #	networking.firewall = { enable = true; allowedTCPPorts = []; allowedUDPPorts = []; };
 
