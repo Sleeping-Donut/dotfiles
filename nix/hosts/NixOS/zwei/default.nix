@@ -119,7 +119,7 @@ in
 		zwei = "zwei.${localDomain}";
 		toUrl = domain: port: "http://${domain}:${port}";
 	in {
-		"${zwei}" = {
+		"${zwei}".locations."/" = {
 			proxyPass = toUrl vcu "5000";
 		};
 		"plex.${zwei}".locations."/" = {
