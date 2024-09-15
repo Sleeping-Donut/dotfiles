@@ -211,16 +211,20 @@ in
 			dht-enabled = true;
 			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
-			download-queue-size = 5;
+			download-queue-size = 20;
 			encryption = 1;
 			idle-seeding-limit = 30;
 			idle-seeding-limit-enabled = false;
 			incomplete-dir = "/mnt/amadeus/fg8/Pending/Unsorted/Incomplete";
 			incomplete-dir-enabled = true;
+			queue-stalled-enabled = true;
+			queue-stalled-minutes = 30; # minutes
 			rpc-authentication-required = false;
 			rpc-bind-address = "0.0.0.0"; # Listen on all interfaces
 			rpc-host-whitelist-enabled = false;
 			rpc-whitelist-enabled = false;
+			seed-queue-enabled = true;
+			seed-queue-size = 40;
 			umask = 7; # subtract from permissions so ___ - 007 = 770
 		};
 	};
