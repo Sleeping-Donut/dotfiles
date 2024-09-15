@@ -209,7 +209,6 @@ in
 			blocklist-enabled = false;
 			compact-view = false;
 			dht-enabled = true;
-			umask = 7; # subtract from permissions so ___ - 007 = 770
 			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
 			download-queue-size = 5;
@@ -222,6 +221,7 @@ in
 			rpc-bind-address = "0.0.0.0"; # Listen on all interfaces
 			rpc-host-whitelist-enabled = false;
 			rpc-whitelist-enabled = false;
+			umask = 7; # subtract from permissions so ___ - 007 = 770
 		};
 	};
 #	TODO: suwayomi, prometheus
