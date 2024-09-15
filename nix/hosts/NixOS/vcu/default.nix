@@ -226,6 +226,35 @@ in
 	};
 #	TODO: suwayomi, prometheus
 
+	services.nginx.virtualHosts = let
+		localDomain = "fglab";
+		vcu = "vcu.${localDomain}";
+		zwei = "zwei.${localDomain}";
+		toUrl = domain: port: "http://${domain}:${port}";
+	in {
+		"${vcu}".locations."/" = {
+			proxyPass = toUrl vcu "5000";
+		};
+		"plex.${vcu}".locations."/" = {
+			proxyPass = toUrl vcu "32400";
+		};
+		"transmission.${vcu}".locations."/" = {
+			proxyPass = "${toUrl vcu "9091"}/transmission";
+		};
+		"sonarr.${vcu}".locations."/" = {
+			proxyPass = toUrl vcu "8989";
+		};
+		"radarr.${vcu}".locations."/" = {
+			proxyPass = toUrl vcu "7878";
+		};
+		"lidarr.${vcu}".locations."/" = {
+			proxyPass = toUrl vcu "8686";
+		};
+		"readarr.${vcu}".locations."/" = {
+			proxyPass = toUrl vcu "8787";
+		};
+	};
+
 #	Firewall
 #	networking.firewall = { enable = true; allowedTCPPorts = []; allowedUDPPorts = []; };
 
