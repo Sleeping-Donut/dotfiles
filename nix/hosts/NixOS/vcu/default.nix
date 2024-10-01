@@ -218,9 +218,7 @@ in
 			dht-enabled = true;
 			download-dir = "/mnt/amadeus/fg8/Pending/Unsorted";
 			download-queue-enabled = true;
-			download-queue-enabled = true;
 			download-queue-size = 20;
-			download-queue-size = 5;
 			encryption = 1;
 			idle-seeding-limit = 30;
 			idle-seeding-limit-enabled = false;
