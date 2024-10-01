@@ -12,6 +12,7 @@ in
 	imports = [
 		./hardware-configuration.nix
 
+		nixos-modules.bazarr
 		nixos-modules.ombi
 		nixos-modules.prowlarr
 	];
@@ -153,6 +154,13 @@ in
 		dataDir = "/opt/radarr/data";
 		openFirewall = true;
 		package = pkgs-unstable.radarr;
+	};
+	nd0.services.bazarr = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/bazarr/data";
+		openFirewall = true;
+		package = pkgs-unstable.bazarr;
 	};
 	services.lidarr = {
 		enable = true;
