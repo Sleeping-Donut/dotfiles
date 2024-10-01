@@ -12,6 +12,7 @@ in
 	imports = [
 		./hardware-configuration.nix
 
+		nixos-modules.bazarr
 		nixos-modules.ombi
 		nixos-modules.prowlarr
 	];
