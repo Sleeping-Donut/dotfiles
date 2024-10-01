@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.nd0.services.bazarr;
+  cfg = config.services.bazarr;
 in
 {
   options = {
-    services.bazarr = {
+    nd0.services.bazarr = {
       enable = lib.mkEnableOption "bazarr, a subtitle manager for Sonarr and Radarr";
 
       package = lib.mkOption {
