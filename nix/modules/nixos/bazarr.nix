@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.services.bazarr;
+  cfg = config.nd0.services.bazarr;
 in
 {
   options = {
