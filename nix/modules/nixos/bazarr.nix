@@ -47,6 +47,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+		systemd.tmpfiles.settings."10-bazarr".${cfg.dataDir}.d = {
+		inherit (cfg) user group;
+		mode = "0700";
+	};
+
     systemd.services.bazarr = {
       description = "bazarr";
       after = [ "network.target" ];
