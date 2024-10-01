@@ -154,6 +154,13 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.radarr;
 	};
+	nd0.services.bazarr = {
+		enable = true;
+		group = "labmembers";
+		dataDir = "/opt/bazarr/data";
+		openFirewall = true;
+		package = pkgs-unstable.bazarr;
+	};
 	services.lidarr = {
 		enable = true;
 		group = "labmembers";
