@@ -67,6 +67,10 @@
 			editor = "nvim";
 			git_protocol = "ssh";
 		};};
+		direnv = {
+			enable = true;
+			enableZshIntegration = true;
+		};
 		eza = { enable = true; package = pkgs-unstable.eza; };
 		fzf = { enable = true; package = pkgs-unstable.fzf; enableZshIntegration = true; enableBashIntegration = true; };
 		git.enable = true;
