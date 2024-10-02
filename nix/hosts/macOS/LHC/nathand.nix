@@ -63,16 +63,25 @@
 
 	programs = {
 		bat.enable = true; 
-		gh = { enable = true; package = pkgs-unstable.gh; settings = {
-			editor = "nvim";
-			git_protocol = "ssh";
-		};};
 		direnv = {
 			enable = true;
 			enableZshIntegration = true;
 		};
 		eza = { enable = true; package = pkgs-unstable.eza; };
-		fzf = { enable = true; package = pkgs-unstable.fzf; enableZshIntegration = true; enableBashIntegration = true; };
+		fzf = {
+			enable = true;
+			package = pkgs-unstable.fzf;
+			enableZshIntegration = true;
+			enableBashIntegration = true;
+		};
+		gh = {
+			enable = true;
+			package = pkgs-unstable.gh;
+			settings = {
+				editor = "nvim";
+				git_protocol = "ssh";
+			};
+		};
 		git.enable = true;
 		jq = { enable = true; package = pkgs-unstable.jq; };
 		ripgrep = { enable = true; package = pkgs-unstable.ripgrep; };
