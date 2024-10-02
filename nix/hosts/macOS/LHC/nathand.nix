@@ -21,18 +21,6 @@
 	# TODO: Need to copy .profile-prefs to $HOME
 	# NOTE: only copy if file does not exists
 
-	nd0.home = {
-		alacritty-conf.enable = true;
-		ata-conf.enable = true;
-		bins.enable = true;
-		firefox.enable = true;
-		neovim = { enable = true; lsps = true; formatters = true; };
-		shell-profile = { enable = true; symlink.enable = true; };
-		tealdeer.enable = true;
-		tmux.enable = true;
-		zsh.enable = true;
-	};
-
 	home.packages = with pkgs-unstable; [
 		age
 		ansible
@@ -60,6 +48,18 @@
 #		gobang
 #		twitch-tui
 	];
+
+	nd0.home = {
+		alacritty-conf.enable = true;
+		ata-conf.enable = true;
+		bins.enable = true;
+		firefox.enable = true;
+		neovim = { enable = true; lsps = true; formatters = true; };
+		shell-profile = { enable = true; symlink.enable = true; };
+		tealdeer.enable = true;
+		tmux.enable = true;
+		zsh.enable = true;
+	};
 
 	programs = {
 		bat.enable = true; 
