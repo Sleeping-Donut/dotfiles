@@ -4,5 +4,5 @@ require("nd0.lite.lazy")
 
 -- find a better place to put this...
 -- if vim.g.config_mode == "full" then
-	vim.cmd.colorscheme("rose-pine")
+	vim.cmd.colorscheme("tokyonight-night")
 --end
