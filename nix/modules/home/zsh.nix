@@ -33,6 +33,10 @@ in
 				source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 			fi
 			# End Nix
+
+			if [ command -v direnv &> /dev/null ]; then
+				eval "$(direnv hook zsh)"
+			fi
 			'';
 			# initExtras = ........
 
