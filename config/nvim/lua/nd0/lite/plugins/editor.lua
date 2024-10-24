@@ -22,26 +22,26 @@ return {
 			vim.cmd('hi! LspInlayHint guifg=#403d52 guibg=#1f1d2e')
 		end
 	},
-	{
-		'mhartington/formatter.nvim',
-		config = function()
-			require('formatter').setup({
-				filetype = {
-					lua = { require("formatter.filetypes.lua").luafmt },
-					mark = { require("formatter.filetypes.markdown").prettier },
-					nix = { require("formatter.filetypes.nix").alejandra },
-					ocaml = { require("formatter.filetypes.ocaml").ocamlformat },
-					rust = { require("formatter.filetypes.rust").rustfmt },
-					svelte = { require("formatter.filetypes.svelte").prettier },
-					typescript = { require("formatter.filetypes.typescript").prettier},
-					typescriptreact = { require("formatter.filetypes.typescriptreact").prettier },
-					vue = { require("formatter.filetypes.vue").prettier },
-				}
-			})
-	
-			vim.keymap.set("n", "<leader>F", "<cmd>Format<cr>", {desc = "Format"})
-		end,
-	},
+	-- {
+	-- 	'mhartington/formatter.nvim',
+	-- 	config = function()
+	-- 		require('formatter').setup({
+	-- 			filetype = {
+	-- 				lua = { require("formatter.filetypes.lua").luafmt },
+	-- 				mark = { require("formatter.filetypes.markdown").prettier },
+	-- 				nix = { require("formatter.filetypes.nix").alejandra },
+	-- 				ocaml = { require("formatter.filetypes.ocaml").ocamlformat },
+	-- 				rust = { require("formatter.filetypes.rust").rustfmt },
+	-- 				svelte = { require("formatter.filetypes.svelte").prettier },
+	-- 				typescript = { require("formatter.filetypes.typescript").prettier},
+	-- 				typescriptreact = { require("formatter.filetypes.typescriptreact").prettier },
+	-- 				vue = { require("formatter.filetypes.vue").prettier },
+	-- 			}
+	-- 		})
+	-- 
+	-- 		vim.keymap.set("n", "<leader>F", "<cmd>Format<cr>", {desc = "Format"})
+	-- 	end,
+	-- },
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },

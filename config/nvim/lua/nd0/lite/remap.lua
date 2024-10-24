@@ -1,3 +1,6 @@
+local _, defaults_ok = pcall(require, "nd0.default_keymap_descriptions")
+if not defaults_ok then print("nd0.default_keymap_descriptions") end
+
 vim.g.mapleader = " "
 vim.keymap.set("n", "<Space>", "<Nop>", {desc = "Prevent moving cursor for <leader>"})
 
@@ -37,3 +40,4 @@ vim.keymap.set("n", "<leader>ld", function()
 	vim.cmd("lcd %:p:h")
 	vim.cmd("pwd")
 end, {desc = "Load current path as working directory"})
+

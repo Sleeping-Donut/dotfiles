@@ -46,3 +46,8 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- filetype plugin indent on
+
+-- Load default keymap descriptions
+local _, ok = pcall(require, "nd0.default_keymap_descriptions")
+if not ok then print("Error: Failed to load module nd0.default_keymap_descriptions") end
+
