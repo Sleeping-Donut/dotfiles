@@ -28,6 +28,7 @@
 		btop
 		chatgpt-cli
 		ctop
+		dust
 		fastfetch
 		fd
 		gifski
@@ -39,6 +40,7 @@
 		pkgs.gallery-dl
 		speedtest-go
 		speedtest-rs
+		starship
 		stow
 		termscp
 		tokei
@@ -54,7 +56,7 @@
 		ata-conf.enable = true;
 		bins.enable = true;
 		firefox.enable = true;
-		neovim = { enable = true; lsps = true; formatters = true; };
+		neovim = { enable = true; lsps = false; formatters = false; };
 		shell-profile = { enable = true; symlink.enable = true; };
 		tealdeer.enable = true;
 		tmux.enable = true;

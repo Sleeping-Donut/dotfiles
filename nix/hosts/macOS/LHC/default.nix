@@ -49,6 +49,7 @@ in
 			"aegisub"
 			"alacritty"
 			"balenaetcher"
+			"blackhole-2ch"
 			"blender"
 			"chatgpt"
 			"discord"
@@ -58,13 +59,12 @@ in
 			"iina"
 			"jordanbaird-ice"
 			"mediamate"
-			"mrkai77/cask/loop"
+			"loop"
 			"mullvadvpn"
 			"ollamac"
 			"pocket-casts"
 			"raycast"
 			"rectangle"
-			"Sleeping-Donut/brewstuff/zen-browser"
 			"tailscale"
 			"telegram"
 			"transmission"
@@ -74,6 +74,7 @@ in
 			"vlc"
 			"wireshark"
 			"zed"
+			"zen-browser"
 		];
 		masApps = { inherit (mas-apps)
 			# Must first be logged in to App Store with account that has previously downloaded these applications
