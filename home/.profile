@@ -39,7 +39,7 @@ alias rga='rg --hidden'
 
 alias find_all='fd -HI --follow'
 alias native_find_all='find . -follow'
-alias find_dir='OUT=$(fd --type d | fzf)'
+alias find_dir='OUT=$(fd --type d | fzf --height=50%)'
 alias find_dir_all='OUT=$(find_all --type d | fzf)'
 alias native_find_dir='OUT=$(find . -type d | fzf)'
 alias native_find_dir_all='OUT=$(native_find_all -type d | fzf)'
