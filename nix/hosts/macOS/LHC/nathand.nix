@@ -37,12 +37,13 @@
 		jdk
 		lazygit
 		nix-output-monitor
+		ollama
 		pkgs.gallery-dl
 		speedtest-go
 		speedtest-rs
 		starship
 		stow
-		termscp
+		# termscp
 		tokei
 		tz
 		utm
