@@ -33,7 +33,10 @@ in
 	system.stateVersion = "23.11"; # Did you read the comment?
 
 	nix = {
-		gc.dates = "monthly";
+		gc.automatic = true;
+		gc.dates = "weekly";
+		gc.options = "--delete-older-than 30d";
+		settings.auto-optimise-store = true;
 	};
 
 	networking = {
@@ -43,6 +46,7 @@ in
 
 #	Use systemd-boot EFI bootloader
 	boot.loader.systemd-boot.enable = true;
+	boot.loader.systemd-boot.configurationLimit = 8;
 	boot.loader.efi.canTouchEfiVariables = true;
 
 	fileSystems."/mnt/amadeus/fg8" = {

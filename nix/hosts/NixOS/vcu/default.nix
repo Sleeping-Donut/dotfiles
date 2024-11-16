@@ -24,6 +24,13 @@ in
 #	 would make to your configuration and migrated your data accordingly
 	system.stateVersion = "23.11"; # Did you read the comment?
 
+	nix = {
+		gc.automatic = true;
+		gc.dates = "weekly";
+		gc.options = "--delete-older-than 30d";
+		settings.auto-optimise-store = true;
+	};
+
 	networking = {
 		hostName = hostname;
 		networkmanager.enable = true;
@@ -36,6 +43,7 @@ in
 
 #	Use systemd-boot EFI bootloader
 	boot.loader.systemd-boot.enable = true;
+	boot.loader.systemd-boot.configurationLimit = 8;
 	boot.loader.efi.canTouchEfiVariables = true;
 
 	fileSystems."/mnt/amadeus/fg8" = {
