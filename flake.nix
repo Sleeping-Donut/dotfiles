@@ -33,6 +33,9 @@
 
 		nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.4.1";
 
+		# Nixpkgs that has transmission 4.0.5 as seen on https://lazamar.co.uk/nix-versions/?package=transmission&version=4.0.5&fullName=transmission-4.0.5&keyName=transmission_4&revision=0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb&channel=nixpkgs-unstable#instructions
+		nixpkgs-transmission-safe.url = "github:NixOS/nixpkgs/0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb";
+
 	};
 
 	outputs = inputs @ { ... }:
