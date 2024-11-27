@@ -1,4 +1,3 @@
-{ ... }:
 {
 	bazarr = ./bazarr.nix;
 	ombi = ./ombi.nix;

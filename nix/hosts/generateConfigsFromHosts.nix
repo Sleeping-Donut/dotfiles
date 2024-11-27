@@ -2,11 +2,11 @@
 let
 	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid nix-flatpak;
 
-	nix-modules = import ../modules {};
-	nixos-modules = import ../modules/nixos {};
-	home-modules = import ../modules/home {};
-	darwin-modules = import ../modules/darwin {};
-	darwin-home-modules = import ../modules/darwin/home {};
+	nix-modules = import ../modules;
+	nixos-modules = import ../modules/nixos;
+	home-modules = import ../modules/home;
+	darwin-modules = import ../modules/darwin;
+	darwin-home-modules = import ../modules/darwin/home;
 
 	genNixosConfig = (hostDetails: sources:
 		nixpkgs.lib.nixosSystem {

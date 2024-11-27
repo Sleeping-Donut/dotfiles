@@ -1,4 +1,3 @@
-{ ... }:
 {
 	bins = ./bins.nix;
 	ata-conf = ./ata-conf.nix;
