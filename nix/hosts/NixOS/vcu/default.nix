@@ -2,7 +2,8 @@
 	config, lib, pkgs,
 	pkgs-unstable,
 	nix-modules, nixos-modules, overrides, own-pkgs,
-	hostname ? "vcu",
+	hostname ? "vcu", system,
+	inputs,
 	...
 }:
 let
