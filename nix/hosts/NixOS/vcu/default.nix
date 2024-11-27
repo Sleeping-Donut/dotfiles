@@ -1,7 +1,7 @@
 {
 	config, lib, pkgs,
 	pkgs-unstable,
-	nix-modules, nixos-modules,
+	nix-modules, nixos-modules, overrides, own-pkgs,
 	hostname ? "vcu",
 	...
 }:

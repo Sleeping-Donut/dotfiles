@@ -2,6 +2,8 @@
 let
 	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid nix-flatpak;
 
+	own-pkgs = import ../pkgs;
+	overrides = import ../overrides;
 	nix-modules = import ../modules;
 	nixos-modules = import ../modules/nixos;
 	home-modules = import ../modules/home;
@@ -12,7 +14,7 @@ let
 		nixpkgs.lib.nixosSystem {
 			inherit (hostDetails) system;
 			specialArgs = {
-				inherit inputs nix-modules nixos-modules home-modules;
+				inherit inputs own-pkgs overrides nix-modules nixos-modules home-modules;
 				inherit (hostDetails) system hostname;
 				inherit (sources) pkgs pkgs-unstable pkgs-nur nur flatpak;
 			};
@@ -21,7 +23,7 @@ let
 				hostDetails.configPath
 				homeManager.nixosModules.home-manager {
 					home-manager.extraSpecialArgs = {
-						inherit inputs nix-modules home-modules;
+						inherit inputs own-pkgs overrides nix-modules home-modules;
 						inherit (hostDetails) system;
 						inherit (sources) pkgs pkgs-unstable pkgs-nur flatpak-home;
 						# inherit nixos-modules;
@@ -34,7 +36,7 @@ let
 		homeManager.lib.homeManagerConfiguration {
 			inherit (hostDetails) system;
 			home-manager.extraSpecialArgs = {
-				inherit inputs nix-modules home-modules;
+				inherit inputs own-pkgs overrides nix-modules home-modules;
 				inherit (hostDetails) system;
 				inherit (sources) pkgs pkgs-unstable pkgs-nur flatpak-home;
 			};
@@ -48,7 +50,7 @@ let
 		darwin.lib.darwinSystem {
 			inherit (hostDetails) system;
 			specialArgs = {
-				inherit inputs nur nix-modules darwin-modules;
+				inherit inputs own-pkgs overrides nur nix-modules darwin-modules;
 				inherit (hostDetails) system hostname;
 				inherit (sources) pkgs pkgs-unstable pkgs-nur;
 			};
@@ -57,7 +59,7 @@ let
 				darwin-modules.nix
 				homeManager.darwinModules.home-manager {
 					home-manager.extraSpecialArgs = {
-						inherit inputs nur nix-modules home-modules;
+						inherit inputs own-pkgs overrides nur nix-modules home-modules;
 						inherit darwin-modules darwin-home-modules;
 						inherit (hostDetails) system;
 						inherit (sources) pkgs pkgs-unstable pkgs-nur;
@@ -82,7 +84,7 @@ let
 	);
 	genDiyConfig = (hostDetails: sources:
 		hostDetails.configPath {
-			inherit inputs;
+			inherit inputs own-pkgs overrides nix-modules home-modules darwin-modules;
 			inherit (hostDetails) hostname system;
 			inherit (sources) pkgs pkgs-unstable pkgs-nur flatpak flatpak-home;
 		}
