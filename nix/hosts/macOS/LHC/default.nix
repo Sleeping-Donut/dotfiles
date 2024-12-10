@@ -87,9 +87,9 @@ in
 		masApps = { inherit (mas-apps)
 			# Must first be logged in to App Store with account that has previously downloaded these applications
 			Gifski
+			MicrosoftRemoteDesktop
 			Twitter
 			WireGuard
-			MicrosoftRemoteDesktop
 
 			# iOS apps don't work through mas at the moment
 #			Tachimanga
