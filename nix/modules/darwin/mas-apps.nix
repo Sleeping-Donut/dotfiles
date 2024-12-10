@@ -1,5 +1,6 @@
 { ... }:
 {
+	DaVinciResolve = 571213070;
 	Gifski = 1351639930;
 	MicrosoftRemoteDesktop = 1295203466;
 	Paperback = 1626613373;

@@ -86,6 +86,7 @@ in
 		];
 		masApps = { inherit (mas-apps)
 			# Must first be logged in to App Store with account that has previously downloaded these applications
+			DaVinciResolve
 			Gifski
 			MicrosoftRemoteDesktop
 			Twitter
