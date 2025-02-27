@@ -32,6 +32,11 @@ in
 	networking = {
 		hostName = hostname;
 		networkmanager.enable = true;
+		firewall = {
+			enable = true;
+			allowedTCPPorts = [ 8443 ]; # Unifi remote login
+			# allowedUDPPorts = [];
+		};
 	};
 
 #	Use systemd-boot EFI bootloader
@@ -104,6 +109,13 @@ in
 		};
 	};
 
+	services.unifi = {
+		enable = true;
+		maximumJavaHeapSize = 2048;
+		openFirewall = true;
+		# Files have to be in `/var/lib/unifi` (╥‸╥)
+	};
+
 	# To handle SSL
 	# security.acme = { acceptTerms = true; defaults.email = ""; };
 	services.nginx.enable = true;
@@ -135,9 +147,6 @@ in
 			proxyPass = toUrl vcu "8787";
 		};
 	};
-
-#	Firewall
-#	networking.firewall = { enable = true; allowedTCPPorts = []; allowedUDPPorts = []; };
 
 #	Home Configs
 	home-manager = {
