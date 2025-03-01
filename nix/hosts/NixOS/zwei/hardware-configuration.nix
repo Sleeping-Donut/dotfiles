@@ -18,17 +18,17 @@
 			fsType = "btrfs";
 			options = [ "subvol=@" ];
 		};
-	fileSystems."/" =
+	fileSystems."/home" =
 		{ device = "/dev/disk/by-uuid/7035c625-7d81-4d64-9e4c-caab52688d49";
 			fsType = "btrfs";
 			options = [ "subvol=@home" ];
 		};
-	fileSystems."/" =
+	fileSystems."/opt" =
 		{ device = "/dev/disk/by-uuid/7035c625-7d81-4d64-9e4c-caab52688d49";
 			fsType = "btrfs";
 			options = [ "subvol=@opt" ];
 		};
-	fileSystems."/" =
+	fileSystems."/var/lib" =
 		{ device = "/dev/disk/by-uuid/7035c625-7d81-4d64-9e4c-caab52688d49";
 			fsType = "btrfs";
 			options = [ "subvol=@var_lib" ];
