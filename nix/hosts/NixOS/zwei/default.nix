@@ -113,6 +113,8 @@ in
 		enable = true;
 		maximumJavaHeapSize = 2048;
 		openFirewall = true;
+		unifiPackage = unstable.unifi;
+		mongodbPackage = unstable.mongodb-7_0;
 		# Files have to be in `/var/lib/unifi` (╥‸╥)
 	};
 
