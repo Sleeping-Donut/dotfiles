@@ -1,7 +1,7 @@
 { pkgs, pkgs-unstable, inputs, home-modules, darwin-home-modules, ... }:
 {
 	imports = [
-		inputs.nur.hmModules.nur
+		inputs.nur.modules.homeManager.default
 
 		home-modules.firefox
 		home-modules.neovim

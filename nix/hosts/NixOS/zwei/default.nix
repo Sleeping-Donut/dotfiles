@@ -73,10 +73,6 @@ in
 		keyMap = "uk";
 	};
 
-#	To enable sound
-	sound.enable = true;
-	hardware.pulseaudio.enable = true;
-
 #	System packages
 	environment.systemPackages = with pkgs-unstable; [
 		curl

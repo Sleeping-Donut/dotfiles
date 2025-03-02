@@ -11,9 +11,9 @@ in
 	services.nix-daemon.enable = true;
 	nix = {
 		gc.automatic = true;
-		gc.dates = "weekly";
+		gc.interval = { Weekday = 5; Hour = 3; Minute = 0; };
 		gc.options = "--delete-older-than 30d";
-		optimise.autiomatic = true;
+		optimise.automatic = true;
 	};
 
 	security.pam.enableSudoTouchIdAuth = true;
@@ -107,7 +107,7 @@ in
 		'';
 		defaults = {
 			dock = {
-				expose-group-by-app = true;
+				expose-group-apps = true;
 				showhidden = true;
 				tilesize = 30;
 			};

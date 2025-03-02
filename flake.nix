@@ -7,7 +7,7 @@
 {
 	description = "Personal config built with nix";
 	inputs = {
-		nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+		nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 		unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
 		darwin = {
@@ -16,7 +16,7 @@
 		};
 
 		homeManager = {
-			url = "github:nix-community/home-manager/release-24.05";
+			url = "github:nix-community/home-manager/release-24.11";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
@@ -36,6 +36,9 @@
 		# Nixpkgs that has transmission 4.0.5 as seen on https://lazamar.co.uk/nix-versions/?package=transmission&version=4.0.5&fullName=transmission-4.0.5&keyName=transmission_4&revision=0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb&channel=nixpkgs-unstable#instructions
 		nixpkgs-transmission-safe.url = "github:NixOS/nixpkgs/0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb";
 
+		# Check pinned pkg versions with these resources
+		# https://lazamar.co.uk/nix-versions
+		# https://nixhub.io
 	};
 
 	outputs = inputs @ { ... }:

@@ -81,10 +81,6 @@ in
 		keyMap = "uk";
 	};
 
-#	To enable sound
-	sound.enable = true;
-	hardware.pulseaudio.enable = true;
-
 #	System packages
 	environment.systemPackages = with pkgs-unstable; [
 		curl
@@ -109,7 +105,7 @@ in
 	services.xserver.desktopManager.gnome = {
 		enable = true;
 
-		extraGSettingsOverridePackages = with pkgs; [gnome.gnome-settings-daemon];
+		extraGSettingsOverridePackages = with pkgs; [gnome-settings-daemon];
 #		Disable suspend when on AC power
 		extraGSettingsOverrides = ''
 			[org.gnome.settings-daemon.plugins.power]
@@ -124,10 +120,10 @@ in
 		gnome-photos
 		gnome-tour
 		snapshot
-	]) ++ (with pkgs.gnome; [
 		cheese
 		gnome-music
 		epiphany
+	]) ++ (with pkgs.gnome; [
 #		etc.
 	]);
 	services.xserver.excludePackages = (with pkgs; [ xterm ]);
