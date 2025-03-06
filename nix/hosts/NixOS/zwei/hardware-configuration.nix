@@ -14,35 +14,35 @@
 	boot.extraModulePackages = [ ];
 
 	fileSystems."/" =
-		{ device = "/dev/disk/by-uuid/d3b3bb7b-107c-4c85-a9d3-6364d4e55df1";
+		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
 			options = [ "subvol=@" ];
 		};
 	fileSystems."/home" =
-		{ device = "/dev/disk/by-uuid/d3b3bb7b-107c-4c85-a9d3-6364d4e55df1";
+		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
 			options = [ "subvol=@home" ];
 		};
 	fileSystems."/opt" =
-		{ device = "/dev/disk/by-uuid/d3b3bb7b-107c-4c85-a9d3-6364d4e55df1";
+		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
 			options = [ "subvol=@opt" ];
 		};
 	fileSystems."/var/lib" =
-		{ device = "/dev/disk/by-uuid/d3b3bb7b-107c-4c85-a9d3-6364d4e55df1";
+		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
 			options = [ "subvol=@var_lib" ];
 		};
 
 	fileSystems."/boot" =
-		{ device = "/dev/disk/by-uuid/9926-909A";
+		{ device = "/dev/disk/by-label/NIXBOOT";
 			fsType = "vfat";
 			options = [ "fmask=0022" "dmask=0022" ];
 		};
 
 	swapDevices =
 		[
-			{ device = "/dev/disk/by-uuid/2a049521-1946-4afc-9570-88a21d235c28"; }
+			{ device = "/dev/disk/by-label/NIXSWAP"; }
 		];
 
 	# Enables DHCP on each ethernet and wireless interface. In case of scripted networking
