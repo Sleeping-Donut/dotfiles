@@ -105,14 +105,14 @@ in
 		};
 	};
 
-	# services.unifi = {
-	# 	enable = true;
-	# 	maximumJavaHeapSize = 2048;
-	# 	openFirewall = true;
-	# 	unifiPackage = pkgs-unstable.unifi;
-	# 	mongodbPackage = pkgs.mongodb-7_0;
-	# 	# Files have to be in `/var/lib/unifi` (╥‸╥)
-	# };
+	services.unifi = {
+		enable = true;
+		maximumJavaHeapSize = 2048;
+		openFirewall = true;
+		unifiPackage = pkgs-unstable.unifi;
+		mongodbPackage = pkgs.mongodb-7_0;
+		# Files have to be in `/var/lib/unifi` (╥‸╥)
+	};
 
 	# To handle SSL
 	# security.acme = { acceptTerms = true; defaults.email = ""; };
