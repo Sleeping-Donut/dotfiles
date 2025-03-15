@@ -10,7 +10,7 @@ in
 
 		{ # R710
 			hostname = "zwei"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/zwei;
-			unfreePkgs = [ "plexmediaserver" "unifi-controller" "mongodb" ];
+			unfreePkgs = [ "plexmediaserver" "unifi-controller" "mongodb-ce" ];
 		}
 		{ # R410
 			hostname = "vcu"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/vcu;
