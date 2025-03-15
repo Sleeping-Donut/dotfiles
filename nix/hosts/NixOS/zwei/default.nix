@@ -123,7 +123,7 @@ in
 		maximumJavaHeapSize = 2048;
 		openFirewall = true;
 		unifiPackage = pkgs-unstable.unifi;
-		mongodbPackage = pkgs.mongodb-7_0;
+		mongodbPackage = pkgs.mongodb-ce;
 		# Files have to be in `/var/lib/unifi` (╥‸╥)
 	};
 
