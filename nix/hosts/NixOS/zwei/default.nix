@@ -105,6 +105,19 @@ in
 		};
 	};
 
+	services.jellyfin = let
+		jellyDir = "/opt/jellyfin";
+	in {
+		enable = true;
+		group = "labmembers";
+		dataDir = "${jellyDir}/data";
+		logDir = "${jellyDir}/logs";
+		configDir = "${jellyDir}/config";
+		cacheDir = "${jellyDir}/cache";
+		openFirewall = true;
+		package = pkgs-unstable.jellyfin;
+	};
+
 	services.unifi = {
 		enable = true;
 		maximumJavaHeapSize = 2048;
