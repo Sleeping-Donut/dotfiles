@@ -92,7 +92,7 @@ in
 	services.tailscale.enable = true;
 
 	services.plex = {
-		enable = true;
+		enable = false;
 		group = "labmembers";
 		dataDir = "/opt/plex/data";
 		extraScanners = [];
