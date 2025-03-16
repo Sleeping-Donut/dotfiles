@@ -85,7 +85,7 @@ in
 	environment.systemPackages = with pkgs-unstable; [
 		curl
 		git
-		vim
+		neovim
 		wget
 	];
 	programs.tmux = {
