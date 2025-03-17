@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
+search_dirs=(~/work ~/projects ~/personal ~/dotfiles ~/Documents)
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 elif command -v fd &> /dev/null; then
     # add ~ if want everything in home
-    selected=$(fd -L -H . . ~/work ~/projects ~/personal ~/dotfiles --min-depth 1 --max-depth 2 --type d 2>/dev/null | fzf)
+    selected=$(fd -L -H . . "${search_dirs[@]}" --min-depth 1 --max-depth 2 --type d 2>/dev/null | fzf)
 else
-    selected=$(find -L -H . ~/work ~/projects ~/personal ~/dotfiles -mindepth 1 -maxdepth 2 -type d | fzf)
+    selected=$(find -L -H . "${search_dirs[@]}" -mindepth 1 -maxdepth 2 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
