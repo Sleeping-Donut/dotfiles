@@ -59,7 +59,14 @@ alias fza='find -L -H | fzf'
 alias fnva='OUT=$(find -L -H | fzf) && echo $OUT | xargs nvim'
 alias fcda='OUT=$(find -L -H -type d | fzf) && echo $out | nvim'
 
-alias nixdev='nix develop --command $(echo $SHELL | xargs basename)'
+nixdev() {
+	pid="$$"
+	shell_context=$(ps -p "$pid" -o comm= | sed 's/^-//')
+	nix develop "$@" --command $(echo $shell_context | xargs basename)
+}
+nixdevh() {
+	nixdev "$@" --override-input nixpkgs ~/dotfiles
+}
 alias init-flake-template='nix flake init --template "https://flakehub.com/f/the-nix-way/dev-templates/*#${ENV}"'
 
 alias shlvl='echo "$SHLVL"'
