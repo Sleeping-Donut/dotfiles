@@ -9,26 +9,41 @@
 			(modulesPath + "/installer/scan/not-detected.nix")
 		];
 
-	boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ata_piix" "megaraid_sas" "usbhid" "usb_storage" "sd_mod" "sr_mod" ];
+	boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ata_piix" "megaraid_sas" "usbhid" "usb_storage" "sd_mod" "sr_mod" "mpt2sas" "mpt3sas" ];
 	boot.initrd.kernelModules = [ ];
 	boot.kernelModules = [ "kvm-intel" ];
 	boot.extraModulePackages = [ ];
 
 	fileSystems."/" =
-		{ device = "/dev/disk/by-uuid/a04d1cbf-2d20-4406-a650-78016a214f13";
+		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
 			options = [ "subvol=@" ];
 		};
+	fileSystems."/home" =
+		{ device = "/dev/disk/by-label/NIXROOT";
+			fsType = "btrfs";
+			options = [ "subvol=@home" ];
+		};
+	fileSystems."/opt" =
+		{ device = "/dev/disk/by-label/NIXROOT";
+			fsType = "btrfs";
+			options = [ "subvol=@opt" ];
+		};
+	fileSystems."/var/lib" =
+		{ device = "/dev/disk/by-label/NIXROOT";
+			fsType = "btrfs";
+			options = [ "subvol=@var_lib" ];
+		};
 
 	fileSystems."/boot" =
-		{ device = "/dev/disk/by-uuid/E3F8-603F";
+		{ device = "/dev/disk/by-label/NIXBOOT";
 			fsType = "vfat";
 			options = [ "fmask=0022" "dmask=0022" ];
 		};
 
 	swapDevices =
 		[
-			{ device = "/dev/disk/by-uuid/0af30aa5-44de-4f36-ba25-eddedb82b818"; }
+			{ device = "/dev/disk/by-label/NIXSWAP"; }
 		];
 
 	# Enables DHCP on each ethernet and wireless interface. In case of scripted networking
