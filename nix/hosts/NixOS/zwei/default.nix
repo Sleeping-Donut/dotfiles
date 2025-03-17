@@ -76,6 +76,9 @@ in
 #	System packages
 	environment.systemPackages = with pkgs-unstable; [
 		curl
+		duf
+		dust
+		fd
 		git
 		neovim
 		wget
