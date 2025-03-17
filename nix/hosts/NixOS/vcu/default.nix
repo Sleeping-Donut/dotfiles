@@ -57,7 +57,7 @@ in
 		fsType = "nfs";
 		options = [
 			"nfsvers=4.2"
-			"x-systemd.noauto" #"noauto" # automount
+			"x-systemd.automount" # noauto | automount
 			"x-systemd.idle-timeout=1200" # disconnects after 20 minutes (i.e. 1200 seconds)
 		];
 	};
