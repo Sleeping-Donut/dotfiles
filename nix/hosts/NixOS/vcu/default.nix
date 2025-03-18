@@ -298,7 +298,7 @@ in
 		extraGroups = [ "wheel" "networkmanager" "labmembers" ];
 		openssh.authorizedKeys.keys = [
 			keys.LHC
-			keys.dogwater
+			keys.s24u
 		];
 	};
 
