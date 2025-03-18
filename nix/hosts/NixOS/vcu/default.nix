@@ -249,7 +249,17 @@ in
 			umask = 7; # subtract from permissions so ___ - 007 = 770
 		};
 	};
-#	TODO: suwayomi, prometheus
+
+	services.prometheus = {
+		package = pkgs-unstable.prometheus;
+		exporters.node = {
+			enable = true;
+			port = 9001;
+			enabledCollectors = [ "systemd" ];
+			extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
+		};
+	};
+#	TODO: suwayomi
 
 	services.nginx.virtualHosts = let
 		localDomain = "fglab";

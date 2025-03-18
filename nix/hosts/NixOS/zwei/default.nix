@@ -130,35 +130,95 @@ in
 		# Files have to be in `/var/lib/unifi` (╥‸╥)
 	};
 
+	services.prometheus = {
+		package = pkgs-unstable.prometheus;
+
+		# Client to monitor system
+		exporters.node = {
+			enable = true;
+			port = 9001;
+			enabledCollectors = [ "systemd" ];
+			extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
+		};
+
+		# Server to collect the data
+		enable = true;
+		port = 9039;
+		globalConfig.scrape_interval = "10s";
+		scrapeConfigs = [
+			{
+				job_name = "node_clients";
+				static_configs = [
+					{ targets = [ "localhost:9001" ]; }
+					{ targets = [ "vcu.fglab:9001" ]; }
+				];
+			}
+		];
+	};
+	services.grafana = {
+		enable = true;
+		package = pkgs-unstable.grafana;
+		dataDir = "/opt/grafana";
+		settings = {
+			server = {
+				http_addr = "127.0.0.1";
+				http_port = 3000;
+				domian = ""; # blank to use host headers from req
+				root_url = "%(protocol)s://%(http_host)s/";
+				serve_from_sub_path = false;
+			};
+		};
+		provision.datasources = {
+			prometheus = {
+				type = "prometheus";
+				access = "proxy";
+				isDefault = true;
+				url = "localhost:${config.services.prometheus.port}";
+			};
+		};
+	};
+
 	# To handle SSL
 	# security.acme = { acceptTerms = true; defaults.email = ""; };
 	services.nginx.enable = true;
 	services.nginx.virtualHosts = let
 		localDomain = "fglab";
+		tailnet = "tail4fc89.ts.net";
 		vcu = "vcu.${localDomain}";
 		zwei = "zwei.${localDomain}";
+		zweiTail = "zwei.${tailnet}";
 		toUrl = domain: port: "http://${domain}:${port}";
 	in {
 		"${zwei}".locations."/" = {
 			proxyPass = toUrl vcu "5000";
 		};
-		"plex.${zwei}".locations."/" = {
-			proxyPass = toUrl zwei "32400";
+		"grafana.${zwei}" = {
+			serverAliases = [ "grafana.${zweiTail}" ];
+			locations."/".proxyPass = toUrl zwei config.services.grafana.settings.server.http_port;
 		};
-		"transmission.${zwei}".locations."/" = {
-			proxyPass = "${toUrl vcu "9091"}/transmission";
+		"plex.${zwei}" = {
+			serverAliases = [ "plex.${zweiTail}" ];
+			locations."/".proxyPass = toUrl zwei 32400;
 		};
-		"sonarr.${zwei}".locations."/" = {
-			proxyPass = toUrl vcu "8989";
+		"transmission.${zwei}" = {
+			serverAliases = [ "transmission.${zweiTail}" ];
+			locations."/".proxyPass = "${toUrl vcu 9091}/transmission";
 		};
-		"radarr.${zwei}".locations."/" = {
-			proxyPass = toUrl vcu "7878";
+		"sonarr.${zwei}" = {
+			serverAliases = [ "sonarr.${zweiTail}" ];
+			locations."/".proxyPass = toUrl vcu 8989;
 		};
-		"lidarr.${zwei}".locations."/" = {
-			proxyPass = toUrl vcu "8686";
+		"radarr.${zwei}" = {
+			serverAliases = [ "radarr.${zweiTail}" ];
+			locations."/".proxyPass = toUrl vcu 7878;
 		};
-		"readarr.${zwei}".locations."/" = {
-			proxyPass = toUrl vcu "8787";
+		"lidarr.${zwei}" = {
+			serverAliases = [ "lidarr.${zweiTail}" ];
+			locations."/".proxyPass = toUrl vcu 8686;
+		};
+		"readarr.${zwei}" = {
+			serverAliases = [ "readarr.${zweiTail}" ];
+			locations."/".proxyPass = toUrl vcu 8787;
 		};
 	};
 
