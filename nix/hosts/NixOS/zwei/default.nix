@@ -168,14 +168,15 @@ in
 				serve_from_sub_path = false;
 			};
 		};
-		provision.datasources = {
-			prometheus = {
+		provision.datasources.settings.datasources = [
+			{
+				name = "prometheus";
 				type = "prometheus";
 				access = "proxy";
 				isDefault = true;
-				url = "localhost:${config.services.prometheus.port}";
-			};
-		};
+				url = "localhost:${toString config.services.prometheus.port}";
+			}
+		];
 	};
 
 	# To handle SSL
@@ -187,7 +188,7 @@ in
 		vcu = "vcu.${localDomain}";
 		zwei = "zwei.${localDomain}";
 		zweiTail = "zwei.${tailnet}";
-		toUrl = domain: port: "http://${domain}:${port}";
+		toUrl = domain: port: "http://${domain}:${toString port}";
 	in {
 		"${zwei}".locations."/" = {
 			proxyPass = toUrl vcu "5000";
