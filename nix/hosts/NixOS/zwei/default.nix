@@ -164,8 +164,7 @@ in
 			server = {
 				http_addr = "127.0.0.1";
 				http_port = 3000;
-				domian = ""; # blank to use host headers from req
-				root_url = "%(protocol)s://%(http_host)s/";
+				enforce_domain = false;
 				serve_from_sub_path = false;
 			};
 		};

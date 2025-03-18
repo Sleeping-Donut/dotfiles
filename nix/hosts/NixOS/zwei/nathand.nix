@@ -9,9 +9,9 @@ in
 	home.stateVersion = "23.11";
 
 	home.packages = with pkgs-unstable; [
-		ripgrep
 		bat
 		btop
+		ripgrep
 		speedtest-go
 		systemctl-tui
 		traceroute
