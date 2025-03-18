@@ -13,6 +13,7 @@ in
 		bat
 		btop
 		speedtest-go
+		traceroute
 	];
 }
 
