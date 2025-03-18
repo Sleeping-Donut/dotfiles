@@ -13,6 +13,7 @@ in
 		btop
 		ripgrep
 		speedtest-go
+		systemctl-tui
 		traceroute
 	];
 }
