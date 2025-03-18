@@ -76,6 +76,7 @@ in
 #	System packages
 	environment.systemPackages = with pkgs-unstable; [
 		curl
+		dua
 		duf
 		dust
 		fd
