@@ -138,6 +138,7 @@ in
 		exporters.node = {
 			enable = true;
 			port = 9001;
+			openFirewall = true;
 			enabledCollectors = [ "systemd" ];
 			extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
 		};
