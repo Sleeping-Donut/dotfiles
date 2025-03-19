@@ -93,7 +93,10 @@ in
 
 #	System Services
 	services.openssh.enable = true;
-	services.tailscale.enable = true;
+	services.tailscale = {
+		enable = true;
+		package = pkgs-unstable.tailscale;
+	};
 
 	services.plex = {
 		enable = true;
