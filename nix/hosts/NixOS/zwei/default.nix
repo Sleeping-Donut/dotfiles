@@ -188,7 +188,7 @@ in
 	services.nginx.enable = true;
 	services.nginx.virtualHosts = let
 		localDomain = "fglab";
-		tailnet = "tail4fc89.ts.net";
+		tailnet = "time-augmented.ts.net";
 		vcu = "vcu.${localDomain}";
 		zwei = "zwei.${localDomain}";
 		zweiTail = "zwei.${tailnet}";
