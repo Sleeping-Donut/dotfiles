@@ -24,9 +24,10 @@
 
 		nur.url = "github:nix-community/NUR";
 
+		nixpkgs-droid-compat.url = "github:nixos/nixpkgs/nixos-24.05";
 		nixOnDroid = {
-			url = "github:t184256/nix-on-droid/release-23.11";
-			inputs.nixpkgs.follows = "nixpkgs";
+			url = "github:nix-community/nix-on-droid/release-24.05";
+			inputs.nixpkgs.follows = "nixpkgs-droid-compat";
 		};
 
 		nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
