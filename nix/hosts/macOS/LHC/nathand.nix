@@ -28,6 +28,7 @@
 		btop
 		chatgpt-cli
 		ctop
+		dua
 		dust
 		fastfetch
 		fd
