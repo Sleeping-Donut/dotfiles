@@ -53,11 +53,13 @@ in
 		casks = [
 			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
 			"1password" "1password-cli"
+			"LocalSend"
 			"aegisub"
 			"alacritty"
 			"balenaetcher"
 			"blackhole-2ch"
 			"blender"
+			"calibre"
 			"chatgpt"
 			"discord"
 			"firefox"
@@ -65,6 +67,7 @@ in
 			"gramps"
 			"iina"
 			"jordanbaird-ice"
+			"kitty"
 			"loop"
 			"mediamate"
 			"mullvadvpn"
