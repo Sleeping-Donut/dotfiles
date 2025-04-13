@@ -1,6 +1,6 @@
 { inputs }:
 let
-	inherit (inputs) nixpkgs unstable nur homeManager nix-homebrew darwin nixOnDroid nix-flatpak;
+	inherit (inputs) nixpkgs unstable nixpkgs-droid-compat nur homeManager nix-homebrew darwin nixOnDroid nix-flatpak;
 
 	own-pkgs = import ../pkgs;
 	overrides = import ../overrides;
@@ -9,6 +9,25 @@ let
 	home-modules = import ../modules/home;
 	darwin-modules = import ../modules/darwin;
 	darwin-home-modules = import ../modules/darwin/home;
+
+	genSources = (host: let
+		unfreePkgs = host.unfreePkgs or [];
+		unfreeFilter = (src: pkg: builtins.elem (src.lib.getName pkg) unfreePkgs);
+		mkPkgs = pkgsIn: import pkgsIn {
+			inherit (host) system;
+			overlays = [];
+			config.allowUnfreePredicate = unfreeFilter pkgsIn;
+		};
+		pkgs = mkPkgs nixpkgs;
+		pkgs-unstable = mkPkgs unstable;
+		pkgs-droid-compat = mkPkgs nixpkgs-droid-compat;
+
+		pkgs-nur = import nur { pkgs = null; nurpks = pkgs-unstable; };
+
+		flatpak = nix-flatpak.nixosModules.nix-flatpak;
+		flatpak-home = nix-flatpak.homeManagerModules.nix-flatpak;
+	in { inherit pkgs pkgs-unstable pkgs-droid-compat pkgs-nur flatpak flatpak-home;
+	});
 
 	genNixosConfig = (hostDetails: sources:
 		nixpkgs.lib.nixosSystem {
@@ -70,11 +89,12 @@ let
 	);
 	genNixOnDroidConfig = (hostDetails: sources:
 		nixOnDroid.lib.nixOnDroidConfiguration {
+			pkgs = sources.pkgs-droid-compat;
 			inherit (hostDetails) system;
 			extraSpecialArgs = {
 				inherit inputs nur nix-modules home-modules;
 				inherit (hostDetails) hostname system;
-				inherit (sources) pkgs pkgs-unstable pkgs-nur;
+				inherit (sources) pkgs pkgs-unstable pkgs-droid-compat pkgs-nur;
 			};
 			modules = [
 				nix-modules.nix
@@ -86,26 +106,9 @@ let
 		hostDetails.configPath {
 			inherit inputs own-pkgs overrides nix-modules home-modules darwin-modules;
 			inherit (hostDetails) hostname system;
-			inherit (sources) pkgs pkgs-unstable pkgs-nur flatpak flatpak-home;
+			inherit (sources) pkgs pkgs-unstable pkgs-droid-compat pkgs-nur flatpak flatpak-home;
 		}
 	);
-	genSources = (host: let
-		unfreePkgs = host.unfreePkgs or [];
-		unfreeFilter = (src: pkg: builtins.elem (src.lib.getName pkg) unfreePkgs);
-		mkPkgs = pkgsIn: import pkgsIn {
-			inherit (host) system;
-			overlays = [];
-			config.allowUnfreePredicate = unfreeFilter pkgsIn;
-		};
-		pkgs = mkPkgs nixpkgs;
-		pkgs-unstable = mkPkgs unstable;
-
-		pkgs-nur = import nur { pkgs = null; nurpks = pkgs-unstable; };
-
-		flatpak = nix-flatpak.nixosModules.nix-flatpak;
-		flatpak-home = nix-flatpak.homeManagerModules.nix-flatpak;
-	in { inherit pkgs pkgs-unstable pkgs-nur flatpak flatpak-home;
-	});
 	genConfigsForHostType = (type: generator: hosts: let
 		filteredHosts = builtins.filter (host: host.type == type) hosts;
 		transformedHostList = builtins.map (host:
