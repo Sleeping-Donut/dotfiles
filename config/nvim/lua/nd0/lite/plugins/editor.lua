@@ -233,16 +233,20 @@ return {
 			-- builtin.colorscheme (FULL)
 
 			-- LSP Pickers
-			vim.keymap.set("n", "<leader>tlr", builtin.lsp_references,
+			vim.keymap.set("n", "<leader>vtrr", builtin.lsp_references,
 				{desc = "Telescope LSP references"})
 			vim.keymap.set("n", "<leader>tlD", builtin.diagnostics,
 				{desc = "Telescope LSP diagnostics"})
-			vim.keymap.set("n", "<leader>tli", builtin.lsp_implementations,
+			vim.keymap.set("n", "<leader>gti", builtin.lsp_implementations,
 				{desc = "Telescope LSP implementations"})
-			vim.keymap.set("n", "<leader>tld", builtin.lsp_definitions,
+			vim.keymap.set("n", "<leader>gtd", builtin.lsp_definitions,
 				{desc = "Telescope LSP definitions"})
-			vim.keymap.set("n", "<leader>tltd", builtin.lsp_type_definitions,
+			vim.keymap.set("n", "<leader>gto", builtin.lsp_type_definitions,
 				{desc = "Telescope LSP type definition"})
+			vim.keymap.set("n", "<leader>vtws", builtin.lsp_workspace_symbols,
+				{desc = "Telescope LSP Workspace Symbols"})
+			vim.keymap.set("n", "<leader>vtbs", builtin.lsp_document_symbols,
+				{desc = "Telescope LSP Document Symbols"})
 
 			-- Git Pickers
 			-- vim.keymap.set("n", "<leader>tvc", builtin.git_commits,
@@ -294,8 +298,8 @@ return {
 
 			-- do a QWERTY / DVORK switcher
 			vim.keymap.set("n", "<leader>ha",
-				function() harpoon:list():append() end,
-				{desc = "Harpoon append list"})
+				function() harpoon:list():add() end,
+				{desc = "Harpoon add to list"})
 			vim.keymap.set("n", "<C-e>",
 				function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
 				{desc = "Harpoon toggle quick menu"})

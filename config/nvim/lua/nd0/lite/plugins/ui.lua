@@ -10,7 +10,7 @@ return {
 			---@return "LSP ☐" | "LSP ⊡" | "LSP ☒" # empty for LSP off,
 			--- dot for LSP running, cross if no LSP found
 			local function lsp_status()
-				if not vim.g.is_full_config then
+				if not vim.g.is_full_config or vim.bo.filetype == "" then
 					return "LSP ☐"
 				elseif utils.is_lsp_attached() then
 					return "LSP ⊡"
@@ -87,14 +87,14 @@ return {
 			})
 		end
 	},
-	{ 
+	{
 		"olivercederborg/poimandres.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
 			require("poimandres").setup({})
 		end,
-	
+
 		-- optionally set the colorscheme within lazy config
 		-- init = function()
 		-- 	vim.cmd("colorscheme poimandres")

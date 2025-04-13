@@ -25,4 +25,5 @@ desc_map("<<", "Unindent line")
 desc_map("~", "Switch case")
 desc_map("C-a", "Increment number")
 desc_map("C-x", "Decrement number")
+desc_map(":help normal-index", "default keymaps normal mode")
 

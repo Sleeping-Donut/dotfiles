@@ -301,7 +301,7 @@ return {
 --
 --				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt_e({desc = "LSP definition"}))
 --				vim.keymap.set("n", "K", vim.lsp.buf.hover, opt_e({desc = "LSP hover prompt"}))
---				vim.keymap.set("i", "C-K", vim.lsp.buf.hover, opt_e({desc = "LSP hover prompt (insert)"}))
+--				vim.keymap.set("i", "<C-K>", vim.lsp.buf.hover, opt_e({desc = "LSP hover prompt (insert)"}))
 --				vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opt_e({desc = "LSP workspace symbol"}))
 --				vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opt_e({desc = "LSP float diagnostic"}))
 --				vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opt_e({desc = "LSP goto next"}))
