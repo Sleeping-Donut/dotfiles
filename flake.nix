@@ -1,11 +1,6 @@
-#
-# Nix flake config
-# 
-# README.md for guide
-#
-
 {
-	description = "Personal config built with nix";
+	description = "Personal configs built with nix";
+
 	inputs = {
 		nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 		unstable.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -46,28 +41,16 @@
 	outputs = inputs @ { ... }:
 	let
 
-# TODO: only have modules imported in host generation file
-		darwin-modules = import ./nix/macOS/modules;
-		darwin-home-modules = import ./macOS/home/modules;
-		nix-modules = import ../modules;
-		nix-home-modules = import ../modules/home;
-
 		hosts = import ./nix/hosts {
 			inherit inputs;
 		};
 
-		pkgsWithUnfree = (pkgs: system: unfreePkgs: import pkgs {
-				# inherit system;
-				config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) unfreePkgs;
-				crossSystem = { config = system; };
-		} );
-
 		# Systems supported
 		allSystems = [
-			"x86_64-linux" # 64-bit Intel/AMD Linux
-			"aarch64-linux" # 64-bit ARM Linux
-			"x86_64-darwin" # 64-bit Intel macOS
-			"aarch64-darwin" # 64-bit ARM macOS
+			"x86_64-linux" # 64-bit Linux Intel/AMD
+			"aarch64-linux" # 64-bit Linux ARM
+			"x86_64-darwin" # 64-bit macOS Intel
+			"aarch64-darwin" # 64-bit macOS ARM
 		];
 		forAllSystems = f: inputs.nixpkgs.lib.genAttrs allSystems (system: f {
 			pkgs = import inputs.nixpkgs { inherit system; };
