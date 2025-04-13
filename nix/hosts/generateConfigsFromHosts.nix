@@ -92,14 +92,14 @@ let
 	genSources = (host: let
 		unfreePkgs = host.unfreePkgs or [];
 		unfreeFilter = (src: pkg: builtins.elem (src.lib.getName pkg) unfreePkgs);
-		pkgs = import nixpkgs { inherit (host) system;
+		mkPkgs = pkgsIn: import pkgsIn {
+			inherit (host) system;
 			overlays = [];
-			config.allowUnfreePredicate = unfreeFilter nixpkgs;
+			config.allowUnfreePredicate = unfreeFilter pkgsIn;
 		};
-		pkgs-unstable = import unstable { inherit (host) system;
-			overlays = [];
-			config.allowUnfreePredicate = unfreeFilter unstable;
-		};
+		pkgs = mkPkgs nixpkgs;
+		pkgs-unstable = mkPkgs unstable;
+
 		pkgs-nur = import nur { pkgs = null; nurpks = pkgs-unstable; };
 
 		flatpak = nix-flatpak.nixosModules.nix-flatpak;
