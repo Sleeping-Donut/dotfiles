@@ -36,6 +36,8 @@ alias nvl='NVIM_CONFIG_MODE=LITE nvim'
 alias nvf='NVIM_CONFIG_MODE=FULL nvim'
 
 alias rga='rg --hidden'
+alias rgc='rg --color=always'
+alias rgca='rg --hidden --color=always'
 
 alias find_all='fd -HI --follow'
 alias native_find_all='find . -follow'
@@ -58,6 +60,13 @@ alias fnvf='NVIM_CONFIG_MODE=FULL fnv'
 alias fza='find -L -H | fzf'
 alias fnva='OUT=$(find -L -H | fzf) && echo $OUT | xargs nvim'
 alias fcda='OUT=$(find -L -H -type d | fzf) && echo $out | nvim'
+
+rgp() {
+	rg --color=always "$@" | bat -p
+}
+rgpa() {
+	rg --hidden --color=always "$@" | bat -p
+}
 
 nixdev() {
 	pid="$$"
