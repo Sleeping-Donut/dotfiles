@@ -11,7 +11,7 @@
 		unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
 		darwin = {
-			url = "github:lnl7/nix-darwin";
+			url = "github:lnl7/nix-darwin/nix-darwin-24.11";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
@@ -34,6 +34,7 @@
 		nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.4.1";
 
 		# Nixpkgs that has transmission 4.0.5 as seen on https://lazamar.co.uk/nix-versions/?package=transmission&version=4.0.5&fullName=transmission-4.0.5&keyName=transmission_4&revision=0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb&channel=nixpkgs-unstable#instructions
+		# pin because of bug (or you'll get banned)
 		nixpkgs-transmission-safe.url = "github:NixOS/nixpkgs/0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb";
 
 		# Check pinned pkg versions with these resources
@@ -53,6 +54,12 @@
 		hosts = import ./nix/hosts {
 			inherit inputs;
 		};
+
+		pkgsWithUnfree = (pkgs: system: unfreePkgs: import pkgs {
+				# inherit system;
+				config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) unfreePkgs;
+				crossSystem = { config = system; };
+		} );
 
 		# Systems supported
 		allSystems = [
@@ -79,6 +86,8 @@
 			default = pkgs.mkShell {
 				packages = with pkgs; [
 					lua-language-server
+					nil
+					nixfmt-rfc-style
 				];
 			};
 		});
