@@ -1,5 +1,5 @@
 { ... }:
 {
-	nix.settings.experimental-features = [ "nix-command" "flakes" "pipe-operator" ];
+	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }
 
