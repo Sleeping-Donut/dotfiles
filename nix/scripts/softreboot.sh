@@ -1,4 +1,4 @@
-#!/bin/env sh
+#!/usr/bin/env sh
 
 # This script performs a soft reboot using kexec.
 # It loads the current kernel and initramfs into memory
