@@ -210,7 +210,7 @@ in
 			locations = {
 				"/" = {
 					# proxyPass = toUrl vcu "5000";
-					return = "200 \"At least this is running\";";
+					return = "200 \"At least this is running\"";
 				};
 				"/grafana" = {
 					proxyPass = toUrl zwei config.services.grafana.settings.server.http_port;
