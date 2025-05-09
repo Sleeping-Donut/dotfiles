@@ -301,8 +301,25 @@ in
 						proxy_set_header X-Real-IP $remote_addr;
 						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 						proxy_set_header X-Forwarded-Proto $scheme;
-						# This header is specifically needed for Transmission's RPC calls
-						proxy_pass_header X-Transmission-Session-Id;
+
+						# --- Handle 409 Conflict for Transmission Session ID ---
+						# If Transmission returns a 409 error (missing session ID),
+						# Nginx will internally redirect to the @transmission_reload location.
+						error_page 409 = @transmission_reload;
+					'';
+				};
+				# --- Named location to handle the 409 Session ID reload ---
+				# This location is triggered internally by Nginx when a 409 error
+				# is received by the /transmission/ location.
+				"@transmission_reload" = {
+					extraConfig = ''
+						# Add the X-Transmission-Session-Id header received from the backend
+						# to the response sent back to the client.
+						add_header X-Transmission-Session-Id $upstream_http_x_transmission_session_id;
+						# Return a 302 redirect to the original requested URI.
+						# This tells the browser to resend the request, and the browser
+						# should now include the X-Transmission-Session-Id header it just received.
+						return 302 $request_uri;
 					'';
 				};
 			};
