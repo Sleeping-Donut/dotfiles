@@ -10,10 +10,6 @@
 	home.file.".profile".text = ''
 		export PATH="$PATH:$HOME/.local/bin"
 	'';
-	home.file.".local/bin/softreboot" = {
-		source = repo-root + /nix/scripts/softreboot.sh;
-		executable = true;
-	};
 
 	home.packages = with pkgs-unstable; [
 		bat
