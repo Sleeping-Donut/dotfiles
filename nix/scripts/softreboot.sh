@@ -36,9 +36,13 @@ if [ ! -f "$INITRD_IMAGE" ]; then
 	exit 1
 fi
 
+# --- Get the current kernel command line ---
+CURRENT_CMDLINE=$(cat /proc/cmdline)
+echo "Using kernel command line: $CURRENT_CMDLINE"
+
 # Load the kernel using kexec
-# --reuse-cmdline uses the current kernel command line arguments
-sudo kexec -l "$KERNEL_IMAGE" --initrd="$INITRD_IMAGE" --reuse-cmdline
+# Explicitly append the current command line instead of --reuse-cmdline
+sudo kexec -l "$KERNEL_IMAGE" --initrd="$INITRD_IMAGE" --append="$CURRENT_CMDLINE"
 
 # Check if kexec loading was successful
 if [ $? -ne 0 ]; then
