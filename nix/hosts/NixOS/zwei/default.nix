@@ -36,7 +36,7 @@ in
 			enable = true;
 			allowedTCPPorts = [ 8443 ]; # Unifi remote login
 			# allowedUDPPorts = [];
-		}
+		};
 		extraHosts = ''
 			127.0.0.1		zwei.fglab
 			192.168.10.124	whitefox.fglab
@@ -190,8 +190,7 @@ in
 
 	# To handle SSL
 	# security.acme = { acceptTerms = true; defaults.email = ""; };
-	services.nginx.enable = true;
-	services.nginx.virtualHosts = let
+	services.nginx = let
 		localDomain = "fglab";
 		tailnet = "time-augmented.ts.net";
 		vcu = "vcu.${localDomain}";
@@ -199,99 +198,104 @@ in
 		zweiTail = "zwei.${tailnet}";
 		toUrl = domain: port: "http://${domain}:${toString port}";
 	in {
-			recommendedGzipSettings = true;
-			recommendedOptimisation = true;
-			recommendedProxySettings = true;
-			recommendedTlsSettings = true;
+		enable = true;
+
+		recommendedGzipSettings = true;
+		recommendedOptimisation = true;
+		recommendedProxySettings = true;
+		recommendedTlsSettings = true;
+
+		virtualHosts."${zwei}" = {
 			serverAliases = [ zweiTail ];
-		"${zwei}".locations = {
-			"/" = {
-				# proxyPass = toUrl vcu "5000";
-				return = "200 \"At least this is running\";";
+			locations = {
+				"/" = {
+					# proxyPass = toUrl vcu "5000";
+					return = "200 \"At least this is running\";";
+				};
+				"/grafana" = {
+					proxyPass = toUrl zwei config.services.grafana.settings.server.http_port;
+					proxyWebsockets = true;
+					extraConfig = ''
+						proxy_set_header Host $host;
+						proxy_set_header X-Real-IP $remote_addr;
+						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_set_header X-Forwarded-Proto $scheme;
+					'';
+				};
+				"/plex" = {
+					proxyPass = toUrl vcu 32400;
+					proxyWebsockets = true;
+					extraConfig = ''
+						proxy_set_header Host $host;
+						proxy_set_header X-Real-IP $remote_addr;
+						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_set_header X-Forwarded-Proto $scheme;
+						# Additional headers often recommended for Plex
+						proxy_set_header X-Plex-Client-Identifier $http_x_plex_client_identifier;
+						proxy_set_header X-Plex-Device $http_x_plex_device;
+						proxy_set_header X-Plex-Device-Name $http_x_plex_device_name;
+						proxy_set_header X-Plex-Platform $http_x_plex_platform;
+						proxy_set_header X-Plex-Platform-Version $http_x_plex_platform_version;
+						proxy_set_header X-Plex-Provides $http_x_plex_provides;
+						proxy_set_header X-Plex-Product $http_x_plex_product;
+						proxy_set_header X-Plex-Version $http_x_plex_version;
+						proxy_set_header X-Plex-Device-Screen-Resolution $http_x_plex_device_screen_resolution;
+						proxy_set_header X-Plex-Token $http_x_plex_token;
+					'';
+				};
+				"/sonarr" = {
+					proxyPass = toUrl vcu 8989;
+					proxyWebsockets = true;
+					extraConfig = ''
+						proxy_set_header Host $host;
+						proxy_set_header X-Real-IP $remote_addr;
+						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_set_header X-Forwarded-Proto $scheme;
+					'';
+				};
+				"/radarr" = {
+					proxyPass = toUrl vcu 7878;
+					proxyWebsockets = true;
+					extraConfig = ''
+						proxy_set_header Host $host;
+						proxy_set_header X-Real-IP $remote_addr;
+						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_set_header X-Forwarded-Proto $scheme;
+					'';
+				};
+				"/lidarr" = {
+					proxyPass = toUrl vcu 8686;
+					proxyWebsockets = true;
+					extraConfig = ''
+						proxy_set_header Host $host;
+						proxy_set_header X-Real-IP $remote_addr;
+						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_set_header X-Forwarded-Proto $scheme;
+					'';
+				};
+				"/readarr" = {
+					proxyPass = toUrl vcu 8787;
+					proxyWebsockets = true;
+					extraConfig = ''
+						proxy_set_header Host $host;
+						proxy_set_header X-Real-IP $remote_addr;
+						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_set_header X-Forwarded-Proto $scheme;
+					'';
+				};
+				"/transmission" = {
+					proxyPass = (toUrl vcu 9091) + "/transmission/";
+					proxyWebsockets = true;
+					extraConfig = ''
+						proxy_set_header Host $host;
+						proxy_set_header X-Real-IP $remote_addr;
+						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_set_header X-Forwarded-Proto $scheme;
+						# This header is specifically needed for Transmission's RPC calls
+						proxy_pass_header X-Transmission-Session-Id;
+					'';
+				};
 			};
-			"/grafana" = {
-				proxyPass = toUrl zwei config.services.grafana.settings.server.http_port;
-				proxyWebsockets = true;
-				extraConfig = ''
-					proxy_set_header Host $host;
-					proxy_set_header X-Real-IP $remote_addr;
-					proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-					proxy_set_header X-Forwarded-Proto $scheme;
-				'';
-			};
-			"/plex" = {
-				proxyPass = toUrl vcu 32400;
-				proxyWebsockets = true;
-				extraConfig = ''
-					proxy_set_header Host $host;
-					proxy_set_header X-Real-IP $remote_addr;
-					proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-					proxy_set_header X-Forwarded-Proto $scheme;
-					# Additional headers often recommended for Plex
-					proxy_set_header X-Plex-Client-Identifier $http_x_plex_client_identifier;
-					proxy_set_header X-Plex-Device $http_x_plex_device;
-					proxy_set_header X-Plex-Device-Name $http_x_plex_device_name;
-					proxy_set_header X-Plex-Platform $http_x_plex_platform;
-					proxy_set_header X-Plex-Platform-Version $http_x_plex_platform_version;
-					proxy_set_header X-Plex-Provides $http_x_plex_provides;
-					proxy_set_header X-Plex-Product $http_x_plex_product;
-					proxy_set_header X-Plex-Version $http_x_plex_version;
-					proxy_set_header X-Plex-Device-Screen-Resolution $http_x_plex_device_screen_resolution;
-					proxy_set_header X-Plex-Token $http_x_plex_token;
-				'';
-			};
-		};
-		"/sonarr" = {
-			proxyPass = toUrl vcu 8989;
-			proxyWebsockets = true;
-			extraConfig = ''
-				proxy_set_header Host $host;
-				proxy_set_header X-Real-IP $remote_addr;
-				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-				proxy_set_header X-Forwarded-Proto $scheme;
-			'';
-		};
-		"/radarr" = {
-			proxyPass = toUrl vcu 7878;
-			proxyWebsockets = true;
-			extraConfig = ''
-				proxy_set_header Host $host;
-				proxy_set_header X-Real-IP $remote_addr;
-				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-				proxy_set_header X-Forwarded-Proto $scheme;
-			'';
-		};
-		"/lidarr" = {
-			proxyPass = toUrl vcu 8686;
-			proxyWebsockets = true;
-			extraConfig = ''
-				proxy_set_header Host $host;
-				proxy_set_header X-Real-IP $remote_addr;
-				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-				proxy_set_header X-Forwarded-Proto $scheme;
-			'';
-		};
-		"/readarr" = {
-			proxyPass = toUrl vcu 8787;
-			proxyWebsockets = true;
-			extraConfig = ''
-				proxy_set_header Host $host;
-				proxy_set_header X-Real-IP $remote_addr;
-				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-				proxy_set_header X-Forwarded-Proto $scheme;
-			'';
-		};
-		"/transmission" = {
-			proxyPass = (toUrl vcu 9091) + "/transmission/";
-			proxyWebsockets = true;
-			extraConfig = ''
-				proxy_set_header Host $host;
-				proxy_set_header X-Real-IP $remote_addr;
-				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-				proxy_set_header X-Forwarded-Proto $scheme;
-				# This header is specifically needed for Transmission's RPC calls
-				proxy_pass_header X-Transmission-Session-Id;
-			'';
 		};
 	};
 
