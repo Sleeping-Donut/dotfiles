@@ -205,6 +205,10 @@ in
 		recommendedProxySettings = true;
 		recommendedTlsSettings = true;
 
+		# Increased to avoid warnings
+		serverNamesHashBucketSize = 1024;
+		serverNamesHashMaxSize = 128;
+
 		virtualHosts."${zwei}" = {
 			serverAliases = [ zweiTail ];
 			locations = {
