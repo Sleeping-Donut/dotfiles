@@ -218,6 +218,9 @@ in
 				"/" = {
 					# proxyPass = toUrl vcu "5000";
 					return = "200 \"At least this is running\"";
+					extraConfig = ''
+						add_header Content-Type text/plain;
+					'';
 				};
 				"/grafana" = {
 					proxyPass = toUrl zwei config.services.grafana.settings.server.http_port;
