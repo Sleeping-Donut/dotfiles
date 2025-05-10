@@ -267,11 +267,31 @@ in
 					proxyPass = toUrl vcu 7878;
 					proxyWebsockets = true;
 					extraConfig = ''
+						#proxy_set_header Host $host;
+						#proxy_set_header X-Real-IP $remote_addr;
+						#proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						#proxy_set_header X-Forwarded-Proto $scheme;
+
 						proxy_set_header Host $host;
-						proxy_set_header X-Real-IP $remote_addr;
-						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_set_header X-Forwarded-Host $host;
 						proxy_set_header X-Forwarded-Proto $scheme;
+						proxy_redirect off;
+						proxy_http_version 1.1;
+
+						proxy_set_header Upgrade $http_upgrade;
+						proxy_set_header Connection $http_connection;
+
 					'';
+					locations."/radarr/api/" = {
+						proxyPass = "${toUrl vcu 7878}/api/";
+						extraConfig = ''
+							auth_basic off;
+							proxy_set_header Host $host;
+							proxy_set_header X-Real-IP $remote_addr;
+							proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+							proxy_set_header X-Forwarded-Proto $scheme;
+						'';
+					};
 				};
 				"/lidarr" = {
 					proxyPass = toUrl vcu 8686;
