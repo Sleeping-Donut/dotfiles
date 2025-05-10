@@ -203,10 +203,10 @@ in
 	in {
 		enable = true;
 
-		recommendedGzipSettings = true;
-		recommendedOptimisation = true;
-		recommendedProxySettings = true;
-		recommendedTlsSettings = true;
+		# recommendedGzipSettings = true;
+		# recommendedOptimisation = true;
+		# recommendedProxySettings = true;
+		# recommendedTlsSettings = true;
 
 		# Increased to avoid warnings
 		serverNamesHashBucketSize = 1024;
