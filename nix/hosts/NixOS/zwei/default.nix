@@ -214,7 +214,40 @@ in
 
 		virtualHosts."${zwei}" = {
 			serverAliases = [ zweiTail ];
-			locations = {
+			locations = let
+				arrConfig = service: port: let
+					servicePath = "/${service}";
+					apiPath = if service == "prowlarr" then
+						"/prowlarr(/[0-9]+)?/api"
+					else
+						"/${service}/api";
+				in {
+					"${servicePath}" = {
+						proxyPass = toUrl vcu port;
+						proxyWebsockets = true;
+						extraConfig = ''
+							proxy_set_header Host $host;
+							proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+							proxy_set_header X-Forwarded-Host $host;
+							proxy_set_header X-Forwarded-Proto $scheme;
+							proxy_redirect off;
+						'';
+					};
+					"${apiPath}" = {
+						proxyPass = "${toUrl vcu port}";
+						extraConfig = ''
+							auth_basic off;
+						'';
+					};
+				};
+				arrServices = {}
+					// (arrConfig "sonarr" 8989)
+					// (arrConfig "radarr" 7878)
+					// (arrConfig "lidarr" 8686)
+					// (arrConfig "readarr" 8787)
+					// (arrConfig "prowlarr" 9696)
+				;
+			in  arrServices // {
 				"/" = {
 					# proxyPass = toUrl vcu "5000";
 					return = "200 \"At least this is running\"";
@@ -253,89 +286,15 @@ in
 						proxy_set_header X-Plex-Token $http_x_plex_token;
 					'';
 				};
-				"/sonarr" = {
-					proxyPass = toUrl vcu 8989;
-					proxyWebsockets = true;
-					extraConfig = ''
-						proxy_set_header Host $host;
-						proxy_set_header X-Real-IP $remote_addr;
-						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-						proxy_set_header X-Forwarded-Proto $scheme;
-					'';
-				};
-				"/radarr" = {
-					proxyPass = toUrl vcu 7878;
-					proxyWebsockets = true;
-					extraConfig = ''
-						#proxy_set_header Host $host;
-						#proxy_set_header X-Real-IP $remote_addr;
-						#proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-						#proxy_set_header X-Forwarded-Proto $scheme;
-
-						proxy_set_header Host $host;
-						proxy_set_header X-Forwarded-Host $host;
-						proxy_set_header X-Forwarded-Proto $scheme;
-						proxy_redirect off;
-
-					'';
-				};
-				"/radarr/api/" = {
-					proxyPass = "${toUrl vcu 7878}/api/";
-					extraConfig = ''
-						auth_basic off;
-						proxy_set_header Host $host;
-						proxy_set_header X-Real-IP $remote_addr;
-						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-						proxy_set_header X-Forwarded-Proto $scheme;
-					'';
-				};
-				"/lidarr" = {
-					proxyPass = toUrl vcu 8686;
-					proxyWebsockets = true;
-					extraConfig = ''
-						proxy_set_header Host $host;
-						proxy_set_header X-Real-IP $remote_addr;
-						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-						proxy_set_header X-Forwarded-Proto $scheme;
-					'';
-				};
-				"/readarr" = {
-					proxyPass = toUrl vcu 8787;
-					proxyWebsockets = true;
-					extraConfig = ''
-						proxy_set_header Host $host;
-						proxy_set_header X-Real-IP $remote_addr;
-						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-						proxy_set_header X-Forwarded-Proto $scheme;
-					'';
-				};
 				"/transmission" = {
-					proxyPass = (toUrl vcu 9091) + "/transmission/";
+					proxyPass = (toUrl vcu 9091);
 					proxyWebsockets = true;
 					extraConfig = ''
-						proxy_set_header Host $host;
-						proxy_set_header X-Real-IP $remote_addr;
-						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-						proxy_set_header X-Forwarded-Proto $scheme;
-
-						# --- Handle 409 Conflict for Transmission Session ID ---
-						# If Transmission returns a 409 error (missing session ID),
-						# Nginx will internally redirect to the @transmission_reload location.
-						error_page 409 = @transmission_reload;
-					'';
-				};
-				# --- Named location to handle the 409 Session ID reload ---
-				# This location is triggered internally by Nginx when a 409 error
-				# is received by the /transmission/ location.
-				"@transmission_reload" = {
-					extraConfig = ''
-						# Add the X-Transmission-Session-Id header received from the backend
-						# to the response sent back to the client.
-						add_header X-Transmission-Session-Id $upstream_http_x_transmission_session_id;
-						# Return a 302 redirect to the original requested URI.
-						# This tells the browser to resend the request, and the browser
-						# should now include the X-Transmission-Session-Id header it just received.
-						return 302 $request_uri;
+						proxy_pass_header  X-Transmission-Session-Id;
+						proxy_set_header   X-Forwarded-Host $host;
+						proxy_set_header   X-Forwarded-Server $host;
+						proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+						proxy_read_timeout 300;
 					'';
 				};
 			};
