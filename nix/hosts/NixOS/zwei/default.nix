@@ -134,7 +134,7 @@ in
 	};
 
 	services.unifi = {
-		enable = true;
+		enable = false;
 		maximumJavaHeapSize = 2048;
 		openFirewall = true;
 		unifiPackage = pkgs-unstable.unifi;
