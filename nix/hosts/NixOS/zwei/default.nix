@@ -233,12 +233,12 @@ in
 							proxy_redirect off;
 						'';
 					};
-					# "${apiPath}" = {
-					# 	proxyPass = "${toUrl vcu port}";
-					# 	extraConfig = ''
-					# 		auth_basic off;
-					# 	'';
-					# };
+					"${apiPath}" = {
+						proxyPass = "${toUrl vcu port}";
+						extraConfig = ''
+							auth_basic off;
+						'';
+					};
 				};
 				arrServices = {}
 					// (arrConfig "sonarr" 8989)
