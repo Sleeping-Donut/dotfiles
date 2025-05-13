@@ -258,7 +258,7 @@ in
 					'';
 				};
 				"/grafana" = {
-					proxyPass = toUrl zwei config.services.grafana.settings.server.http_port;
+					proxyPass = "${toUrl zwei config.services.grafana.settings.server.http_port}/grafana";
 					proxyWebsockets = true;
 					extraConfig = ''
 						proxy_set_header Host $host;
