@@ -65,5 +65,5 @@ if [ "$raw_output" = true ]; then
 fi
 
 # Output the battery level with or without the charging symbol
-echo "${charging_symbol}${battery_level}${power_saver_symbol}"
+echo "${charging_symbol}${battery_level} ${power_saver_symbol}"
 
