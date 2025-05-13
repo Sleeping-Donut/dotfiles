@@ -177,7 +177,7 @@ in
 				http_addr = "0.0.0.0";
 				http_port = 3000;
 				enforce_domain = false;
-				serve_from_sub_path = false;
+				serve_from_sub_path = true;
 				domain = "zwei.fglab";
 				root_url = "http://zwei.fglab/grafana/";
 			};
