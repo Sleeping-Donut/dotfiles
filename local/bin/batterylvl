@@ -28,7 +28,13 @@ is_darwin_charging() {
 
 # Check if the system has a low power mode enabled on macOS
 is_darwin_power_saver() {
-	pmset -g | grep 'lowpowermode' | awk '{print $NF}'
+	local power_state
+	power_state=$(pmset -g | grep 'lowpowermode' | awk '{print $NF}')
+	if [ "$power_state" = "1" ]; then
+		return 0
+	else
+		return 1
+	fi
 }
 
 # Determine the operating system
