@@ -10,14 +10,25 @@ is_linux_charging() {
 	grep -q "Charging" /sys/class/power_supply/BAT0/status
 }
 
+# Check if the system has a low power mode enabled on linux
+is_linux_power_saver() {
+	# look into the different ways this is stored
+	return 1
+}
+
 # Function to get the battery percentage on macOS
 get_darwin_battery() {
-	pmset -g batt | grep -o -e '\d\{1,3\}%'
+	pmset -g batt | grep -o -e '[0-9]\{1,3\}%'
 }
 
 # Function to check if the system is connected to power on macOS
 is_darwin_charging() {
 	pmset -g batt | grep -q 'AC Power'
+}
+
+# Check if the system has a low power mode enabled on macOS
+is_darwin_power_saver() {
+	pmset -g | grep 'lowpowermode' | awk '{print $NF}'
 }
 
 # Determine the operating system
@@ -35,10 +46,16 @@ if [ "$OS" = "Linux" ]; then
 	if is_linux_charging; then
 		charging_symbol="⌁"
 	fi
+	if is_linux_power_saver; then
+		power_saver_symbol="⏾"
+	fi
 elif [ "$OS" = "Darwin" ]; then
 	battery_level=$(get_darwin_battery)
 	if is_darwin_charging; then
 		charging_symbol="⌁"
+	fi
+	if is_darwin_power_saver; then
+		power_saver_symbol="⏾"
 	fi
 fi
 
@@ -48,5 +65,5 @@ if [ "$raw_output" = true ]; then
 fi
 
 # Output the battery level with or without the charging symbol
-echo "${charging_symbol}${battery_level}"
+echo "${charging_symbol}${battery_level}${power_saver_symbol}"
 
