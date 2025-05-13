@@ -257,14 +257,17 @@ in
 						add_header Content-Type text/plain;
 					'';
 				};
-				"/grafana/" = {
-					proxyPass = "${toUrl zwei config.services.grafana.settings.server.http_port}/";
+				"/grafana/" = let
+					grafanaUrl = toUrl zwei config.services.grafana.settings.server.http_port;
+				in {
+					proxyPass = "${grafanaUrl}/";
 					proxyWebsockets = true;
 					extraConfig = ''
 						proxy_set_header Host $host;
 						proxy_set_header X-Real-IP $remote_addr;
 						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 						proxy_set_header X-Forwarded-Proto $scheme;
+						proxy_redirect ${grafanaUrl}/ /grafana/;
 					'';
 				};
 				"/plex" = {
