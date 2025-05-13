@@ -178,6 +178,8 @@ in
 				http_port = 3000;
 				enforce_domain = false;
 				serve_from_sub_path = false;
+				domain = "zwei.fglab";
+				root_url = "http://zwei.fglab/grafana/";
 			};
 		};
 		provision.datasources.settings.datasources = [
