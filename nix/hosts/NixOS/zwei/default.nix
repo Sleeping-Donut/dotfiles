@@ -178,7 +178,7 @@ in
 				http_port = 3000;
 				enforce_domain = false;
 				serve_from_sub_path = true;
-				domain = "zwei.fglab";
+				# domain = "zwei.fglab";
 				root_url = "http://zwei.fglab/grafana/";
 			};
 		};
@@ -257,8 +257,8 @@ in
 						add_header Content-Type text/plain;
 					'';
 				};
-				"/grafana" = {
-					proxyPass = "${toUrl zwei config.services.grafana.settings.server.http_port}/grafana";
+				"/grafana/" = {
+					proxyPass = "${toUrl zwei config.services.grafana.settings.server.http_port}/";
 					proxyWebsockets = true;
 					extraConfig = ''
 						proxy_set_header Host $host;
