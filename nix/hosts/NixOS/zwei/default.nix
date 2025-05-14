@@ -162,7 +162,7 @@ in
 			{
 				job_name = "node_clients";
 				static_configs = [
-					{ targets = [ "localhost:9001" ]; }
+					{ targets = [ "zwei.fglab:9001" ]; }
 					{ targets = [ "vcu.fglab:9001" ]; }
 				];
 			}
