@@ -150,7 +150,7 @@ in
 			enable = true;
 			port = 9001;
 			openFirewall = true;
-			enabledCollectors = [ "systemd" ];
+			enabledCollectors = [ "systemd" "various_sensors" ];
 			extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
 		};
 
