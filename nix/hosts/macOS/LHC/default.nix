@@ -26,11 +26,7 @@ in
 #		noto-fonts-emoji
 	];
 
-	environment.systemPackages = let
-		stable = with pkgs; [];
-		unstable = with pkgs-unstable; [];
-	in
-		stable ++ unstable;
+	environment.systemPackages = with pkgs-unstable; [];
 
 	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
 	home-manager = {
