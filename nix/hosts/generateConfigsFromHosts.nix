@@ -38,16 +38,17 @@ let
 			specialArgs = {
 				inherit inputs repo-root own-pkgs overrides nix-modules nixos-modules home-modules;
 				inherit (hostDetails) system hostname;
-				inherit (sources) pkgs pkgs-unstable pkgs-nur nur flatpak;
+				inherit (sources) pkgs-unstable pkgs-nur nur flatpak;
 			};
 			modules = [
+				{ nixpkgs.pkgs = sources.pkgs; }
 				nix-modules.nix
 				hostDetails.configPath
 				homeManager.nixosModules.home-manager {
 					home-manager.extraSpecialArgs = {
 						inherit inputs repo-root own-pkgs overrides nix-modules home-modules;
 						inherit (hostDetails) system;
-						inherit (sources) pkgs pkgs-unstable pkgs-nur flatpak-home;
+						inherit (sources) pkgs-unstable pkgs-nur flatpak-home;
 						# inherit nixos-modules;
 					};
 				}
@@ -60,9 +61,10 @@ let
 			home-manager.extraSpecialArgs = {
 				inherit inputs repo-root own-pkgs overrides nix-modules home-modules;
 				inherit (hostDetails) system;
-				inherit (sources) pkgs pkgs-unstable pkgs-nur flatpak-home;
+				inherit (sources) pkgs-unstable pkgs-nur flatpak-home;
 			};
 			modules = [
+				{ nixpkgs.pkgs = sources.pkgs; }
 				nix-modules.nix
 				hostDetails.configPath
 			];
@@ -74,9 +76,10 @@ let
 			specialArgs = {
 				inherit inputs repo-root own-pkgs overrides nur nix-modules darwin-modules;
 				inherit (hostDetails) system hostname;
-				inherit (sources) pkgs pkgs-unstable pkgs-nur;
+				inherit (sources) pkgs-unstable pkgs-nur;
 			};
 			modules = [
+				{ nixpkgs.pkgs = sources.pkgs; }
 				hostDetails.configPath
 				darwin-modules.nix
 				homeManager.darwinModules.home-manager {
@@ -84,7 +87,7 @@ let
 						inherit inputs repo-root own-pkgs overrides nur nix-modules home-modules;
 						inherit darwin-modules darwin-home-modules;
 						inherit (hostDetails) system;
-						inherit (sources) pkgs pkgs-unstable pkgs-nur;
+						inherit (sources) pkgs-unstable pkgs-nur;
 					};
 				}
 			];
@@ -97,7 +100,7 @@ let
 			extraSpecialArgs = {
 				inherit inputs repo-root nur nix-modules home-modules;
 				inherit (hostDetails) hostname system;
-				inherit (sources) pkgs pkgs-unstable pkgs-droid-compat pkgs-nur;
+				inherit (sources) pkgs-unstable pkgs-droid-compat pkgs-nur;
 			};
 			modules = [
 				nix-modules.nix
