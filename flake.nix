@@ -1,11 +1,7 @@
 {
 	description = "Personal configs built with nix";
 
-	inputs = # let
-		# pkgs-ver = "25.05";
-		# droid-compat-ver = "24.05";
-	# in {
-	{
+	inputs = {
 		nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
 		unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
