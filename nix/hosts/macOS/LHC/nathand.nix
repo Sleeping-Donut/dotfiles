@@ -22,6 +22,9 @@
 	# NOTE: only copy if file does not exists
 
 	home.packages = with pkgs-unstable; [
+		# gobang
+		# termscp
+		# twitch-tui
 		age
 		ansible
 		bottom
@@ -39,18 +42,16 @@
 		lazygit
 		nix-output-monitor
 		ollama
-		pkgs.gallery-dl
+		gallery-dl
 		speedtest-go
 		speedtest-rs
 		starship
 		stow
-		# termscp
 		tokei
 		tz
 		utm
+		yq
 		yt-dlp
-#		gobang
-#		twitch-tui
 	];
 
 	nd0.home = {
