@@ -117,9 +117,10 @@ in
 			sleep-inactive-ac-type='nothing'
 		'';
 	};
-	services.gnome = {
-		gnome-remote-desktop.enable = true;
-	};
+
+	networking.firewall.allowedTCPPorts = [ 3389 ];
+	networking.firewall.allowedUDPPorts = [ 3389 ];
+	services.gnome.gnome-remote-desktop.enable = true;
 	environment.gnome.excludePackages = (with pkgs; [
 		gnome-photos
 		gnome-tour
