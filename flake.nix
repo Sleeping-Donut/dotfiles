@@ -1,17 +1,21 @@
 {
 	description = "Personal configs built with nix";
 
-	inputs = {
-		nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+	inputs = # let
+		# pkgs-ver = "25.05";
+		# droid-compat-ver = "24.05";
+	# in {
+	{
+		nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
 		unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
 		darwin = {
-			url = "github:lnl7/nix-darwin/nix-darwin-24.11";
+			url = "github:lnl7/nix-darwin/nix-darwin-25.05";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
 		homeManager = {
-			url = "github:nix-community/home-manager/release-24.11";
+			url = "github:nix-community/home-manager/release-25.05";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
@@ -27,7 +31,7 @@
 
 		nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
-		nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.4.1";
+		nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.6.0";
 
 		# Nixpkgs that has transmission 4.0.5 as seen on https://lazamar.co.uk/nix-versions/?package=transmission&version=4.0.5&fullName=transmission-4.0.5&keyName=transmission_4&revision=0c19708cf035f50d28eb4b2b8e7a79d4dc52f6bb&channel=nixpkgs-unstable#instructions
 		# pin because of bug (or you'll get banned)
