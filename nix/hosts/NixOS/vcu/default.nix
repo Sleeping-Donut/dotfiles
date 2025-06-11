@@ -128,8 +128,6 @@ in
 		cheese
 		gnome-music
 		epiphany
-	]) ++ (with pkgs.gnome; [
-#		etc.
 	]);
 	services.xserver.excludePackages = (with pkgs; [ xterm ]);
 
