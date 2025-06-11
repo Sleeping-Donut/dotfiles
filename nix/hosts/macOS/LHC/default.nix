@@ -52,6 +52,7 @@ in
 			"LocalSend"
 			"aegisub"
 			"alacritty"
+			"android-studio"
 			"balenaetcher"
 			"blackhole-2ch"
 			"blender"
@@ -90,6 +91,7 @@ in
 			MicrosoftRemoteDesktop
 			Twitter
 			WireGuard
+			XCode
 
 			# iOS apps don't work through mas at the moment
 #			Tachimanga
