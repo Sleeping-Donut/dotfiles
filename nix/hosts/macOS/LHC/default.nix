@@ -8,15 +8,21 @@ let
 	mas-apps = import darwin-modules.mas-apps {};
 in
 {
-	services.nix-daemon.enable = true;
 	nix = {
+		enable = true;
 		gc.automatic = true;
 		gc.interval = { Weekday = 5; Hour = 3; Minute = 0; };
 		gc.options = "--delete-older-than 30d";
 		optimise.automatic = true;
+		linux-builder.enable = true;
+		settings.trusted-users = [ "@admin" ];
 	};
 
-	security.pam.enableSudoTouchIdAuth = true;
+	# Needed because it complains
+	# find out how to have a not jank fix
+	ids.gids.nixbld = 350;
+
+	security.pam.services.sudo_local.touchIdAuth = true;
 
 	networking = { hostName = hostname; computerName = hostname; };
 	fonts.packages = with pkgs; [
@@ -28,6 +34,7 @@ in
 
 	environment.systemPackages = with pkgs-unstable; [];
 
+	system.primaryUser = "nathand";
 	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
 	home-manager = {
 		users.nathand = import ./nathand.nix;
@@ -102,10 +109,10 @@ in
 
 	system = {
 		stateVersion = 4;
-		activationScripts.postUserActivation.text = ''
-		# Following line should allow us to avoid a logout/login cycle
-		/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-		'';
+		# activationScripts.postUserActivation.text = ''
+		# # Following line should allow us to avoid a logout/login cycle
+		# /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+		# '';
 		defaults = {
 			dock = {
 				expose-group-apps = true;
