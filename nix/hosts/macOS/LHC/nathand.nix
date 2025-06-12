@@ -30,6 +30,7 @@
 		bottom
 		btop
 		chatgpt-cli
+		comma
 		ctop
 		dua
 		dust
@@ -41,6 +42,7 @@
 		jdk
 		lazygit
 		nix-output-monitor
+		nom
 		ollama
 		gallery-dl
 		speedtest-go
