@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+tmux_running=$(pgrep tmux)
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    exit 1
+fi
+
+selected_name=$(\
+	tmux list-sessions -F '#{session_name}' \
+	| fzf --header 'Jump to Session' \
+		--preview-window=up:nohidden:border-sharp:border-bottom:70% \
+		--preview 'tmux capture-pane -pet {}'
+)
+
+if [[ -z "$selected_name" ]]; then
+	exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected
+fi
+
+tmux switch-client -t $selected_name
