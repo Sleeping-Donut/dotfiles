@@ -1,0 +1,10 @@
+bindsym {
+	$mod+f1 exec playerctl previous
+	$mod+f2 exec playerctl next
+	$mod+f3 exec playerctl play-pause
+	$mod+f6 exec brightnessctl -q s 1%-
+	$mod+f7 exec brightnessctl -q s 1%+
+	$mod+f8 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+	$mod+f9 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+	$mod+f10 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+}
