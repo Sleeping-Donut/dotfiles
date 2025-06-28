@@ -1,5 +1,11 @@
 # TODO
 
+## Power state
+
+On linux use `upower`
+`-e` flag to list power sources
+`-i PATH_TO_SOURCE` to show info on power source
+
 ## Systemd logind behaviour
 
 Have systemd configs like logind behaviour somewhere
