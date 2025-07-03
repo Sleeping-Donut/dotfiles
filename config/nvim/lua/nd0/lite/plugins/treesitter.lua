@@ -3,17 +3,20 @@
 --
 return {
 	"nvim-treesitter/nvim-treesitter",
-	version = false,
+	branch = "main",
 	build = ":TSUpdate",
-	event = { "BufReadPost", "BufNewFile" },
-	dependencies = {
-		-- "nvim-treesitter/nvim-treesitter-textobjects",
-		"nvim-treesitter/nvim-treesitter-context",
-	},
-	cmd = { "TSUpdateSync" },
+	lazy = false,
+	-- event = { "BufReadPost", "BufNewFile" },
+	dependencies = {},
+	-- cmd = { "TSUpdateSync" },
 	config = function ()
-		local configs = require("nvim-treesitter.configs")
+		local treesitter = require("nvim-treesitter")
+
 		local sitters = {}
+
+		-- OLD
+		-- local configs = require("nvim-treesitter.configs")
+		-- local sitters = {}
 
 		for _, v in ipairs({
 			"lua", "vim", "vimdoc", "luadoc",
@@ -44,6 +47,8 @@ return {
 			"yaml", "toml",
 			"arduino",
 			"latex", "bibtex",
+				"swift",
+				"astro",
 		}) do
 			table.insert(sitters, v)
 		end
@@ -51,10 +56,8 @@ return {
 		-- These require tree-sitter cli to generate parsers
 		if vim.fn.executable("tree-sitter") == 1 then
 			local node_sitters = {
-				"swift"
 			}
 			local c_sitters = {
-				"astro"
 			}
 
 			if vim.fn.executable("node") == 1 then
@@ -71,17 +74,23 @@ return {
 
 		-- Register other filtypes to an existing parser
 		-- require("nvim-treesitter.parsers").filetype_to_parsername.zsh = "bash"
-		vim.treesitter.language.register("bash", "zsh")
+		-- vim.treesitter.language.register("bash", "zsh")
 
-		configs.setup({
-			-- parser_install_dir =	-- look at example on git readme
-			sync_install = false,
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false
-			},
-			indent = { enable = true },
-			ensure_installed = sitters,
-		})
+		-- configs.setup({
+		-- 	-- parser_install_dir =	-- look at example on git readme
+		-- 	sync_install = false,
+		-- 	highlight = {
+		-- 		enable = true,
+		-- 		additional_vim_regex_highlighting = false
+		-- 	},
+		-- 	indent = { enable = true },
+		-- 	ensure_installed = sitters,
+		-- })
+
+		treesitter.install(
+			sitters,
+			{ summary = false, },
+			{ max_jobs = 1 }
+		)
 	end
 }
