@@ -44,9 +44,9 @@ in
 	homebrew = {
 		enable = true;
 		onActivation = {
-			autoUpdate = false;
-			upgrade = false;
-			cleanup = "zap";
+			autoUpdate = true;
+			upgrade = true;
+			# cleanup = "zap";
 		};
 		global.brewfile = true;
 		caskArgs.language = "en-GB";
@@ -77,11 +77,13 @@ in
 			"mullvadvpn"
 			"ollama"
 			"ollamac"
+			"plexamp"
 			"pocket-casts"
 			"raycast"
 			"rectangle"
 			"tailscale"
 			"telegram"
+			"thunderbird"
 			"transmission"
 			"utm"
 			"vanilla"

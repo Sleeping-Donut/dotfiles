@@ -36,15 +36,16 @@
 		dust
 		fastfetch
 		fd
+		gallery-dl
 		gifski
 		glow
 		httpie
 		jdk
 		lazygit
+		magic-wormhole
 		nix-output-monitor
-		nom
 		ollama
-		gallery-dl
+		scrcpy
 		speedtest-go
 		speedtest-rs
 		starship
@@ -60,7 +61,7 @@
 		alacritty-conf.enable = true;
 		ata-conf.enable = true;
 		bins.enable = true;
-		firefox.enable = true;
+		# firefox.enable = true;
 		neovim = { enable = true; lsps = false; formatters = false; };
 		shell-profile = { enable = true; symlink.enable = true; };
 		tealdeer.enable = true;
