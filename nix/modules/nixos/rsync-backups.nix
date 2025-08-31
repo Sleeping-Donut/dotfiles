@@ -80,7 +80,7 @@ in
 				in {
 					Type = "oneshot";
 					ExecStart = ''
-						${lib.getExe targetCfg.pkg} -aHAXx ${rsyncDeleteFlag} --numeric-ids --partial '${targetCfg.sourceDir}/' '${targetCfg.destDir}/'
+						${lib.getExe targetCfg.package} -aHAXx ${rsyncDeleteFlag} --numeric-ids --partial '${targetCfg.sourceDir}/' '${targetCfg.destDir}/'
 					'';
 				} // optionalConfigs;
 			}
