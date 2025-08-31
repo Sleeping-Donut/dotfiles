@@ -2,6 +2,7 @@
 	config, lib, pkgs,
 	pkgs-unstable,
 	nix-modules, nixos-modules, overrides, own-pkgs,
+	repo-root,
 	hostname ? "zwei", system,
 	inputs,
 	...
@@ -13,6 +14,7 @@ in
 {
 	imports = [
 		./hardware-configuration.nix
+		(repo-root + "/nix/modules/nixos/rsync-backups.nix")
 	];
 
 #	This defines first version of nixos installed - used to maintain
@@ -81,6 +83,25 @@ in
 		keyMap = "uk";
 	};
 
+#	Groups
+	users.groups.labmembers.gid = 8596;
+
+	users.users.nathand = {
+		isNormalUser = true;
+		description = "Nathan";
+		extraGroups = [ "wheel" "networkmanager" "labmembers" ];
+		openssh.authorizedKeys.keys = [
+			keys.LHC
+			keys.s24u
+		];
+	};
+
+#	Home Configs
+	home-manager = {
+		users.nathand = import ./nathand.nix;
+	};
+
+
 #	System packages
 	environment.systemPackages = with pkgs-unstable; [
 		curl
@@ -106,6 +127,12 @@ in
 		package = pkgs-unstable.tailscale;
 	};
 
+	users.users.plex = {
+		uid = 193;
+		isSystemUser = true;
+		description = "Plex media server service account";
+		group = "labmembers";
+	};
 	services.plex = {
 		enable = true;
 		group = "labmembers";
@@ -119,7 +146,21 @@ in
 			hash = "sha256-fhm61vxJOWba2ngLzHCssqSCgO9JG7zurBJ90fSnAS4=";
 		};
 	};
+	nd0.rsync-backups.plex = {
+		enable = true;
+		sourceDir = "/opt/plex";
+		destDir = "/mnt/amadeus/fg8/Backup/plex";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = "Sun *-*-* 03:00:00"; # weekly at 0300 Sun
+	};
 
+	users.users.jellyfin = {
+		uid = 995;
+		isSystemUser = true;
+		description = "Jellyfin Server service account";
+		group = "labmembers";
+	};
 	services.jellyfin = let
 		jellyDir = "/opt/jellyfin";
 	in {
@@ -167,6 +208,12 @@ in
 				];
 			}
 		];
+	};
+
+	users.users.grafana = {
+		# just to keep uid between installs
+		uid = 196;
+		isSystemUser = true;
 	};
 	services.grafana = {
 		enable = true;
@@ -315,30 +362,5 @@ in
 			};
 		};
 	};
-
-#	Home Configs
-	home-manager = {
-		users.nathand = import ./nathand.nix;
-	};
-
-#	Users
-	users.users.nathand = {
-		isNormalUser = true;
-		description = "Nathan";
-		extraGroups = [ "wheel" "networkmanager" "labmembers" ];
-		openssh.authorizedKeys.keys = [
-			keys.LHC
-			keys.s24u
-		];
-	};
-
-	users.users.plex = {
-		isSystemUser = true;
-		description = "Plex media server service account";
-		group = "labmembers";
-	};
-
-#	Groups
-	users.groups.labmembers.gid = 8596;
 }
 
