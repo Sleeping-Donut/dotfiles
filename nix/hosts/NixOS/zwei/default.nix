@@ -348,6 +348,10 @@ in
 						proxy_set_header X-Plex-Token $http_x_plex_token;
 					'';
 				};
+				"/jellyfin" = {
+					proxyPass = toUrl zwei 8096;
+					proxyWebsockets = true;
+				};
 				"/transmission" = {
 					proxyPass = (toUrl vcu 9091);
 					proxyWebsockets = true;
