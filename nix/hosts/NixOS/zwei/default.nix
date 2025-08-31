@@ -353,7 +353,7 @@ in
 					proxyWebsockets = true;
 				};
 				"/transmission" = {
-					proxyPass = (toUrl vcu 9091);
+					proxyPass = toUrl vcu 9091;
 					proxyWebsockets = true;
 					extraConfig = ''
 						proxy_pass_header  X-Transmission-Session-Id;
