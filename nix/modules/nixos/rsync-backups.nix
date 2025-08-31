@@ -36,6 +36,7 @@ in
 
 				OnCalendar = lib.mkOption {
 					description = "systemd OnCalendar (string or list)";
+					type = lib.types.nonEmptyListOf lib.types.str;
 					example = [ "Sun *-*-* 03:00:00" ];
 					#TODO: add validation fn
 				};
