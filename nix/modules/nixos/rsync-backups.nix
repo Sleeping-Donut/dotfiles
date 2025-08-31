@@ -46,7 +46,11 @@ in
 					default = true;
 				};
 
-				package = lib.mkPackageOption pkgs "rsync";
+				package = lib.mkOption {
+					description = "Package providing rsync";
+					type = lib.types.package;
+					default = pkgs.rsync;
+				};
 			};
 		});
 	};
@@ -72,8 +76,8 @@ in
 				wantedBy = [ "multi-user.target" ];
 				serviceConfig = let
 					# Handle group and user like this because akward mkIf only outputs attrsets
-					userConfig = lib.mkIf (!isNullorBlank targetCfg.user) { User = targetCfg.user; };
-					groupConfig = lib.mkIf (!isNullorBlank targetCfg.group) { Group = targetCfg.group; };
+					userConfig = if (!isNullorBlank targetCfg.user) then { User = targetCfg.user; } else {};
+					groupConfig = if (!isNullorBlank targetCfg.group) then { Group = targetCfg.group; } else {};
 
 					optionalConfigs = userConfig // groupConfig;
 					rsyncDeleteFlag = if targetCfg.pruneRemote then "--delete" else "";
