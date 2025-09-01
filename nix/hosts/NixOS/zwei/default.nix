@@ -147,12 +147,17 @@ in
 		};
 	};
 	nd0.rsync-backups.plex = {
-		enable = true;
-		sourceDir = "/opt/plex";
-		destDir = "/mnt/amadeus/fg8/Backup/plex";
+		enable = false;
+		sourceDir = "/opt/plex/data/Plex Media Server";
+		destDir = "/mnt/amadeus/fg8/Backup/plex/Plex Media Server";
 		group = "labmembers";
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:00:00" ]; # weekly at 0300 Sun
+		whitelist = [
+			"Preferences.xml" "Metadata/**" ".LocalAdminToken"
+			"Plug-in Support/**" "Plug-ins/**" "Codecs/**" "Scanners/**"
+			"Cache/**" "Logs/**" "Crash Reports/**" "Diagnostics/**"
+		];
 	};
 
 	users.users.jellyfin = {

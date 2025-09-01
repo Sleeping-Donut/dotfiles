@@ -20,10 +20,16 @@ in
 					type = lib.types.str;
 				};
 
+				whitelist = lib.mkOption {
+					description = "Paths you explicitly want to copied, all others will get ignored";
+					type = lib.types.listOf lib.types.str;
+					default = [];
+				};
+
 				user = lib.mkOption {
 					description = "User account under which rsync runs";
 					default = null;
-					type = lib.types.nullOr lib.types.str;
+					type = lib.types.listOf lib.types.str;
 				};
 
 				group = lib.mkOption {
@@ -67,7 +73,7 @@ in
 			{}
 			(lib.attrsToList cfg)
 		);
-		isNullorBlank = v: v == null || ((lib.isString v) && v == "");
+		isNullorEmpty = v: v == null || ((lib.isString v) && v == "") || ((lib.isList v) && builtins.length v == 0);
 	in {
 		systemd.services = forAllTargets "rsync-backup" (target: targetCfg:
 			lib.mkIf targetCfg.enable {
@@ -77,15 +83,24 @@ in
 				wantedBy = [ "multi-user.target" ];
 				serviceConfig = let
 					# Handle group and user like this because akward mkIf only outputs attrsets
-					userConfig = if (!isNullorBlank targetCfg.user) then { User = targetCfg.user; } else {};
-					groupConfig = if (!isNullorBlank targetCfg.group) then { Group = targetCfg.group; } else {};
+					userConfig = if (isNullorEmpty targetCfg.user) then {} else { User = targetCfg.user; };
+					groupConfig = if (isNullorEmpty targetCfg.group) then {} else { Group = targetCfg.group; };
 
+					whitelist = if (isNullorEmpty targetCfg.whitelist) then "" else (
+						(lib.foldl'
+						(acc: path:
+							"--include='${path}' "
+						)
+						targetCfg.whitelist)
+						+ "--exclude='*'"
+					);
 					optionalConfigs = userConfig // groupConfig;
 					rsyncDeleteFlag = if targetCfg.pruneRemote then "--delete" else "";
 				in {
+					# --numeric-ids 
 					Type = "oneshot";
 					ExecStart = ''
-						${lib.getExe targetCfg.package} -rl --no-perms --chmod=Du+rwx,Dg+rwx,Fu+rw,Fg+rw,Dg+s --chown=:labmembers --omit-dir-times --partial ${rsyncDeleteFlag} '${targetCfg.sourceDir}/' '${targetCfg.destDir}/'
+						${lib.getExe targetCfg.package} -rl --no-perms --chmod=Du+rwx,Dg+rwx,Fu+rw,Fg+rw,Dg+s --chown=:labmembers --omit-dir-times --partial ${whitelist} ${rsyncDeleteFlag} '${targetCfg.sourceDir}/' '${targetCfg.destDir}/'
 					'';
 				} // optionalConfigs;
 			}
