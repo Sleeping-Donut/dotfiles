@@ -85,7 +85,7 @@ in
 				in {
 					Type = "oneshot";
 					ExecStart = ''
-						${lib.getExe targetCfg.package} -rl --no-perms --chmod=Du=rwx,Dg=rwx,Fu=rw,Fg=rw --chown=:labmembers --omit-dir-times --partial ${rsyncDeleteFlag} '${targetCfg.sourceDir}/' '${targetCfg.destDir}/'
+						${lib.getExe targetCfg.package} -rl --no-perms --chmod=Du+rwx,Dg+rwx,Fu+rw,Fg+rw,Dg+s --chown=:labmembers --omit-dir-times --partial ${rsyncDeleteFlag} '${targetCfg.sourceDir}/' '${targetCfg.destDir}/'
 					'';
 				} // optionalConfigs;
 			}
