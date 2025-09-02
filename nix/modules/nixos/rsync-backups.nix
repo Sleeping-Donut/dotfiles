@@ -26,6 +26,12 @@ in
 					default = [];
 				};
 
+				parellelism = lib.mkOption {
+					description = "";
+					type = lib.types.int;
+					default = 1;
+				};
+
 				user = lib.mkOption {
 					description = "User account under which rsync runs";
 					default = null;
@@ -63,6 +69,9 @@ in
 	};
 
 	config = let
+		isNullOrEmpty = v: v == null || ((lib.isString v) && v == "") || ((lib.isList v) && builtins.length v == 0);
+
+		# for each target make the service and timer containing the config passed in builder
 		forAllTargets = (namePrefix: builder: lib.foldl'
 			(acc: pair:
 				# either:
@@ -73,7 +82,6 @@ in
 			{}
 			(lib.attrsToList cfg)
 		);
-		isNullorEmpty = v: v == null || ((lib.isString v) && v == "") || ((lib.isList v) && builtins.length v == 0);
 	in {
 		systemd.services = forAllTargets "rsync-backup" (target: targetCfg:
 			lib.mkIf targetCfg.enable {
@@ -83,25 +91,49 @@ in
 				wantedBy = [ "multi-user.target" ];
 				serviceConfig = let
 					# Handle group and user like this because akward mkIf only outputs attrsets
-					userConfig = if (isNullorEmpty targetCfg.user) then {} else { User = targetCfg.user; };
-					groupConfig = if (isNullorEmpty targetCfg.group) then {} else { Group = targetCfg.group; };
+					userConfig = if (isNullOrEmpty targetCfg.user) then {} else { User = targetCfg.user; };
+					groupConfig = if (isNullOrEmpty targetCfg.group) then {} else { Group = targetCfg.group; };
 
-					whitelist = if (isNullorEmpty targetCfg.whitelist) then "" else (
-						(lib.foldl'
-						(acc: path:
-							"--include='${path}' "
-						)
-						targetCfg.whitelist)
-						+ "--exclude='*'"
-					);
 					optionalConfigs = userConfig // groupConfig;
-					rsyncDeleteFlag = if targetCfg.pruneRemote then "--delete" else "";
 				in {
 					# --numeric-ids 
 					Type = "oneshot";
-					ExecStart = ''
-						${lib.getExe targetCfg.package} -rl --no-perms --chmod=Du+rwx,Dg+rwx,Fu+rw,Fg+rw,Dg+s --chown=:labmembers --omit-dir-times --partial ${whitelist} ${rsyncDeleteFlag} '${targetCfg.sourceDir}/' '${targetCfg.destDir}/'
-					'';
+					ExecStart = let
+						# rsync and parallel command construction
+						rsyncDeleteFlag = if targetCfg.pruneRemote then "--delete" else "";
+
+						whitelistFile = builtins.toFile "rsync-includes" (builtins.concatStringsSep "\n" targetCfg.whitelist);
+						whitelist = if (isNullOrEmpty targetCfg.whitelist) then "" else "--include-from='${whitelistFile}' --exclude='*'";
+
+						rsyncCmd = src: extraOpts: ''
+							${lib.getExe targetCfg.package} \
+								-rlt \
+								${extraOpts} \
+								--no-perms \
+								--chmod=ugo=rwX \
+								--chown=:labmembers \
+								--omit-dir-times \
+								--partial \
+								${whitelist} \
+								${rsyncDeleteFlag} \
+								'${src}' \
+								'${targetCfg.destDir}/'
+						'';
+						singleCmd = rsyncCmd "${targetCfg.sourceDir}/" "";
+						parallelCmd = ''
+							${rsyncCmd targetCfg.sourceDir "--dry-run -v --info=name1"} \
+							| ${lib.getExe pkgs.gnuparallel} \
+								-j ${targetCfg.parallelism} \
+								--lb \
+								"${rsyncCmd (targetCfg.sourceDir + "/") "--files-from=-"}"
+						'';
+
+						fullCmd = if (targetCfg.parallelism < 2) then singleCmd else parallelCmd;
+					in [
+						# make dir then run the constructed rsync command
+						"mkdir -p '${targetCfg.destDir}/'"
+						fullCmd
+					];
 				} // optionalConfigs;
 			}
 		);
