@@ -153,7 +153,7 @@ in
 		group = "labmembers";
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:00:00" ]; # weekly at 0300 Sun
-		parellelism = 5;
+		parallelism = 5;
 		whitelist = [
 			"Preferences.xml" "Metadata/***" ".LocalAdminToken"
 			"Plug-in Support/***" "Plug-ins/***" "Codecs/***" "Scanners/***"

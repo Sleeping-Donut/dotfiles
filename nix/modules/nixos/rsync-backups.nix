@@ -26,7 +26,7 @@ in
 					default = [];
 				};
 
-				parellelism = lib.mkOption {
+				parallelism = lib.mkOption {
 					description = "";
 					type = lib.types.int;
 					default = 1;
@@ -35,7 +35,7 @@ in
 				user = lib.mkOption {
 					description = "User account under which rsync runs";
 					default = null;
-					type = lib.types.listOf lib.types.str;
+					type = lib.types.nullOr lib.types.str;
 				};
 
 				group = lib.mkOption {
@@ -122,8 +122,8 @@ in
 						singleCmd = rsyncCmd "${targetCfg.sourceDir}/" "";
 						parallelCmd = ''
 							${rsyncCmd targetCfg.sourceDir "--dry-run -v --info=name1"} \
-							| ${lib.getExe pkgs.gnuparallel} \
-								-j ${targetCfg.parallelism} \
+							| ${lib.getExe pkgs.parallel} \
+								-j ${builtins.toString targetCfg.parallelism} \
 								--lb \
 								"${rsyncCmd (targetCfg.sourceDir + "/") "--files-from=-"}"
 						'';
