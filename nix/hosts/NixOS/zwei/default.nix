@@ -147,6 +147,7 @@ in
 		};
 	};
 	nd0.rsync-backups.plex = {
+		enable = true;
 		sourceDir = "/opt/plex/data/Plex Media Server";
 		destDir = "/mnt/amadeus/fg8/Backup/plex/Plex Media Server";
 		group = "labmembers";
