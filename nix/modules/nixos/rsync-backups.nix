@@ -128,11 +128,11 @@ in
 								"${rsyncCmd (targetCfg.sourceDir + "/") "--files-from=-"}"
 						'';
 
-						fullCmd = if (targetCfg.parallelism < 2) then singleCmd else parallelCmd;
+						fullCmdScript = pkgs.writeShellScriptBin "rsync-script-${target}" (if (targetCfg.parallelism < 2) then singleCmd else parallelCmd);
 					in [
 						# make dir then run the constructed rsync command
 						"mkdir -p '${targetCfg.destDir}/'"
-						fullCmd
+						(toString fullCmdScript)
 					];
 				} // optionalConfigs;
 			}
