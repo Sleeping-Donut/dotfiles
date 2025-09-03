@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }:
 let
-	cfg = config.nd0.rsync-backups;
+	cfg = config.nd0.rclone-backups;
 in
 {
-	options.nd0.rsync-backups = lib.mkOption {
+	options.nd0.rclone-backups = lib.mkOption {
 		description = "Attribute set of backup targets";
 		default = {};
 		type = lib.types.attrsOf (lib.types.submodule {
@@ -26,25 +26,25 @@ in
 					default = [];
 				};
 
-				parallelism = lib.mkOption {
-					description = "";
+				transfers = lib.mkOption {
+					description = "The number of file transfers to run in parallel";
 					type = lib.types.int;
 					default = 1;
 				};
 
 				user = lib.mkOption {
-					description = "User account under which rsync runs";
+					description = "User account under which rclone runs";
 					default = null;
 					type = lib.types.nullOr lib.types.str;
 				};
 
 				group = lib.mkOption {
-					description = "Group account under which rsync runs";
+					description = "Group account under which rclone runs";
 					default = null;
 					type = lib.types.nullOr lib.types.str;
 				};
 
-				pruneRemote = lib.mkEnableOption "Include `--delete` flag when running rsync";
+				pruneRemote = lib.mkEnableOption "Include `--delete` flag when running rclone";
 
 				OnCalendar = lib.mkOption {
 					description = "systemd OnCalendar (string or list)";
@@ -60,9 +60,9 @@ in
 				};
 
 				package = lib.mkOption {
-					description = "Package providing rsync";
+					description = "Package providing rclone";
 					type = lib.types.package;
-					default = pkgs.rsync;
+					default = pkgs.rclone;
 				};
 			};
 		});
@@ -75,15 +75,15 @@ in
 		forAllTargets = (namePrefix: builder: lib.foldl'
 			(acc: pair:
 				# either:
-					# rsync-backup-TARGET = { service stuff here }
-					# rsync-backup-timer-TARGET = { timer stuff here }
+					# rclone-backup-TARGET = { service stuff here }
+					# rclone-backup-timer-TARGET = { timer stuff here }
 				acc // { "${namePrefix}-${pair.name}" = (builder pair.name pair.value); }
 			)
 			{}
 			(lib.attrsToList cfg)
 		);
 	in {
-		systemd.services = forAllTargets "rsync-backup" (target: targetCfg:
+		systemd.services = forAllTargets "rclone-backup" (target: targetCfg:
 			lib.mkIf targetCfg.enable {
 				description = "Rsync backup for ${target}";
 				wants = [ "remote-fs.target" ];
@@ -96,55 +96,44 @@ in
 
 					optionalConfigs = userConfig // groupConfig;
 				in {
-					# --numeric-ids 
 					Type = "oneshot";
 					ExecStart = let
-						# rsync and parallel command construction
-						rsyncDeleteFlag = if targetCfg.pruneRemote then "--delete" else "";
+						# rclone and parallel command construction
+						deleteFlag = if targetCfg.pruneRemote then "--delete-excluded" else "";
+						copySync = if targetCfg.pruneRemote then "sync" else "copy";
 
-						whitelistFile = builtins.toFile "rsync-includes" (builtins.concatStringsSep "\n" targetCfg.whitelist);
-						whitelist = if (isNullOrEmpty targetCfg.whitelist) then "" else "--include-from='${whitelistFile}' --exclude='*'";
+						transfers = if targetCfg.transfers == 4 then "" else "--transfers ${builtins.toString targetCfg.transfers}";
 
-						rsyncCmd = src: extraOpts: ''
-							${lib.getExe targetCfg.package} \
-								-rlt \
-								${extraOpts} \
-								--no-perms \
-								--chmod=ugo=rwX \
-								--chown=:labmembers \
-								--omit-dir-times \
-								--partial \
+						whitelistFile = builtins.toFile "rclone-whitelist" (let
+							includeRules = builtins.map (item: "+ ${item}") targetCfg.whitelist;
+							allRules = includeRules ++ [ "- **" ];
+						in
+							builtins.concatStringsSep "\n" allRules);
+						whitelist = if (isNullOrEmpty targetCfg.whitelist) then "" else "--filter-from='${whitelistFile}' --exclude='*'";
+
+						rcloneScript = pkgs.writeShellScriptBin "rclone-script-${target}" ''
+							${lib.getExe targetCfg.package} ${copySync} \
+								${targetCfg.sourceDir}/ \
+								${targetCfg.destDir}/ \
 								${whitelist} \
-								${rsyncDeleteFlag} \
-								'${src}' \
-								'${targetCfg.destDir}/' \
+								${deleteFlag} \
+								${transfers} \
+								--chmod=ugo=rwX \
 						'';
-						singleCmd = rsyncCmd "${targetCfg.sourceDir}/" "";
-						parallelCmd = ''
-							${rsyncCmd targetCfg.sourceDir "--dry-run -v --info=name1"} \
-							| ${lib.getExe pkgs.parallel} \
-								-j ${builtins.toString targetCfg.parallelism} \
-								--lb \
-								"${rsyncCmd (targetCfg.sourceDir + "/") "--files-from=-"}"
-						'';
-
-						fullCmdScript = pkgs.writeShellScriptBin "rsync-script-${target}" (if (targetCfg.parallelism < 2) then singleCmd else parallelCmd);
-					in [
-						# make dir then run the constructed rsync command
-						"mkdir -p '${targetCfg.destDir}/'"
-						(lib.getExe fullCmdScript)
-					];
+					in
+						"${lib.getExe rcloneScript}"
+					;
 				} // optionalConfigs;
 			}
 		);
 
-		systemd.timers = forAllTargets "rsync-backup-timer" (target: targetCfg:
+		systemd.timers = forAllTargets "rclone-backup-timer" (target: targetCfg:
 			lib.mkIf targetCfg.enable {
-				description = "Timer for rsync backup of ${target}";
+				description = "Timer for rclone backup of ${target}";
 				wantedBy = [ "timers.target" ];
 				timerConfig.OnCalendar = targetCfg.OnCalendar;
 				timerConfig.Persistent = targetCfg.Persistent;
-				wants = [ "rsync-backup-${target}.service" ];
+				wants = [ "rclone-backup-${target}.service" ];
 			}
 		);
 	};

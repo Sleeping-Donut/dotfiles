@@ -14,7 +14,7 @@ in
 {
 	imports = [
 		./hardware-configuration.nix
-		(repo-root + "/nix/modules/nixos/rsync-backups.nix")
+		(repo-root + "/nix/modules/nixos/rclone-backups.nix")
 	];
 
 #	This defines first version of nixos installed - used to maintain
@@ -146,14 +146,13 @@ in
 			hash = "sha256-fhm61vxJOWba2ngLzHCssqSCgO9JG7zurBJ90fSnAS4=";
 		};
 	};
-	nd0.rsync-backups.plex = {
+	nd0.rclone-backups.plex = {
 		enable = true;
 		sourceDir = "/opt/plex/data/Plex Media Server";
 		destDir = "/mnt/amadeus/fg8/Backup/plex/Plex Media Server";
 		group = "labmembers";
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:00:00" ]; # weekly at 0300 Sun
-		parallelism = 5;
 		whitelist = [
 			"Preferences.xml" "Metadata/***" ".LocalAdminToken"
 			"Plug-in Support/***" "Plug-ins/***" "Codecs/***" "Scanners/***"
