@@ -132,7 +132,7 @@ in
 					in [
 						# make dir then run the constructed rsync command
 						"mkdir -p '${targetCfg.destDir}/'"
-						(toString fullCmdScript)
+						(lib.getExe fullCmdScript)
 					];
 				} // optionalConfigs;
 			}
