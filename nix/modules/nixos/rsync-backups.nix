@@ -117,7 +117,7 @@ in
 								${whitelist} \
 								${rsyncDeleteFlag} \
 								'${src}' \
-								'${targetCfg.destDir}/'
+								'${targetCfg.destDir}/' \
 						'';
 						singleCmd = rsyncCmd "${targetCfg.sourceDir}/" "";
 						parallelCmd = ''
