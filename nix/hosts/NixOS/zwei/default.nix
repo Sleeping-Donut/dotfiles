@@ -154,9 +154,9 @@ in
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:00:00" ]; # weekly at 0300 Sun
 		whitelist = [
-			"Preferences.xml" "Metadata/***" ".LocalAdminToken"
-			"Plug-in Support/***" "Plug-ins/***" "Codecs/***" "Scanners/***"
-			"Cache/***" "Logs/***" "Crash Reports/***" "Diagnostics/***"
+			"Preferences.xml" "Metadata/**" ".LocalAdminToken"
+			"Plug-in Support/**" "Plug-ins/**" "Codecs/**" "Scanners/**"
+			"Cache/**" "Logs/**" "Crash Reports/**" "Diagnostics/**"
 		];
 	};
 
