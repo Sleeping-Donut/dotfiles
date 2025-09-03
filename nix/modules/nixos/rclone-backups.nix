@@ -113,8 +113,8 @@ in
 
 						rcloneScript = pkgs.writeShellScriptBin "rclone-script-${target}" ''
 							${lib.getExe targetCfg.package} ${copySync} \
-								${targetCfg.sourceDir}/ \
-								${targetCfg.destDir}/ \
+								'${targetCfg.sourceDir}/' \
+								'${targetCfg.destDir}/' \
 								${whitelist} \
 								${deleteFlag} \
 								${transfers} \
