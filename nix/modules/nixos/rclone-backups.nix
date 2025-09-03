@@ -29,7 +29,7 @@ in
 				transfers = lib.mkOption {
 					description = "The number of file transfers to run in parallel";
 					type = lib.types.int;
-					default = 1;
+					default = 4; # to match rclone default
 				};
 
 				user = lib.mkOption {
