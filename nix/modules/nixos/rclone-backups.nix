@@ -118,7 +118,6 @@ in
 								${whitelist} \
 								${deleteFlag} \
 								${transfers} \
-								--chmod=ugo=rwX \
 						'';
 					in
 						"${lib.getExe rcloneScript}"
