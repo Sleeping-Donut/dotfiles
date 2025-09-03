@@ -109,7 +109,7 @@ in
 							allRules = includeRules ++ [ "- **" ];
 						in
 							builtins.concatStringsSep "\n" allRules);
-						whitelist = if (isNullOrEmpty targetCfg.whitelist) then "" else "--filter-from='${whitelistFile}' --exclude='*'";
+						whitelist = if (isNullOrEmpty targetCfg.whitelist) then "" else "--filter-from='${whitelistFile}'";
 
 						rcloneScript = pkgs.writeShellScriptBin "rclone-script-${target}" ''
 							${lib.getExe targetCfg.package} ${copySync} \
