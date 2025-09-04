@@ -1,7 +1,7 @@
 {
 	config, lib, pkgs,
 	pkgs-unstable,
-	nix-modules, nixos-modules, overrides, own-pkgs,
+	nix-modules, nixos-modules, overrides, own-pkgs, repo-root,
 	hostname ? "vcu", system,
 	inputs,
 	...
@@ -21,6 +21,7 @@ in
 		nixos-modules.bazarr
 		nixos-modules.ombi
 		nixos-modules.prowlarr
+		(repo-root + "/nix/modules/nixos/rclone-backups.nix")
 	];
 
 #	This defines first version of nixos installed - used to maintain
@@ -156,6 +157,17 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.prowlarr;
 	};
+	nd0.rclone-backups.prowlarr = {
+		enable = true;
+		sourceDir = "/opt/prowlarr/data";
+		destDir = "/mnt/amadeus/fg8/Backup/prowlarr/data";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 03:15:00" ]; # weekly at 0315 Sun
+		blacklist = [
+			"*.pid" "Sentry/**" "asp/**"
+		];
+	};
 
 	services.sonarr = {
 		enable = true;
@@ -164,6 +176,18 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.sonarr;
 	};
+	nd0.rclone-backups.sonarr = {
+		enable = true;
+		sourceDir = "/opt/sonarr/data";
+		destDir = "/mnt/amadeus/fg8/Backup/sonarr/data";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 03:30:00" ]; # weekly at 0330 Sun
+		blacklist = [
+			"*.pid" "Sentry/**" "asp/**"
+		];
+	};
+
 	services.radarr = {
 		enable = true;
 		group = "labmembers";
@@ -171,6 +195,18 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.radarr;
 	};
+	nd0.rclone-backups.radarr = {
+		enable = true;
+		sourceDir = "/opt/radarr/data";
+		destDir = "/mnt/amadeus/fg8/Backup/radarr/data";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 0345 Sun
+		blacklist = [
+			"*.pid" "Sentry/**" "asp/**"
+		];
+	};
+
 	nd0.services.bazarr = {
 		enable = true;
 		group = "labmembers";
@@ -178,6 +214,15 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.bazarr;
 	};
+	nd0.rclone-backups.bazarr = {
+		enable = true;
+		sourceDir = "/opt/bazarr/data";
+		destDir = "/mnt/amadeus/fg8/Backup/bazarr/data";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 04:00:00" ]; # weekly at 0400 Sun
+	};
+
 	services.lidarr = {
 		enable = true;
 		group = "labmembers";
@@ -185,6 +230,18 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.lidarr;
 	};
+	nd0.rclone-backups.lidarr = {
+		enable = true;
+		sourceDir = "/opt/lidarr/data";
+		destDir = "/mnt/amadeus/fg8/Backup/lidarr/data";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 0345 Sun
+		blacklist = [
+			"*.pid" "Sentry/**" "asp/**"
+		];
+	};
+
 	services.readarr = {
 		enable = true;
 		group = "labmembers";
@@ -192,6 +249,18 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.readarr;
 	};
+	nd0.rclone-backups.readarr = {
+		enable = true;
+		sourceDir = "/opt/readarr/data";
+		destDir = "/mnt/amadeus/fg8/Backup/readarr/data";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 04:15:00" ]; # weekly at 0415 Sun
+		blacklist = [
+			"*.pid" "Sentry/**" "asp/**"
+		];
+	};
+
 	nd0.services.ombi = {
 		enable = true;
 		group = "labmembers";
@@ -199,6 +268,15 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.ombi;
 	};
+	nd0.rclone-backups.ombi = {
+		enable = true;
+		sourceDir = "/opt/ombi/data";
+		destDir = "/mnt/amadeus/fg8/Backup/ombi/data";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 04:30:00" ]; # weekly at 0430 Sun
+	};
+
 	services.tautulli = {
 		enable = true;
 		user = "tautulli";
@@ -251,6 +329,14 @@ in
 			seed-queue-size = 40;
 			umask = 7; # subtract from permissions so ___ - 007 = 770
 		};
+	};
+	nd0.rclone-backups.transmission = {
+		enable = true;
+		sourceDir = "/opt/transmission/home";
+		destDir = "/mnt/amadeus/fg8/Backup/transmission/home";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 04:45:00" ]; # weekly at 0445 Sun
 	};
 
 	services.prometheus = {
