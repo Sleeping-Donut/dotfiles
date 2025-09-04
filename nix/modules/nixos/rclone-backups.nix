@@ -20,6 +20,12 @@ in
 					type = lib.types.str;
 				};
 
+				blacklist = lib.mkOption {
+					description = "Paths you explicitly do not want copied (Takes precedent over whitelist)";
+					type = lib.types.listOf lib.types.str;
+					default = [];
+				};
+
 				whitelist = lib.mkOption {
 					description = "Paths you explicitly want to copied, all others will get ignored";
 					type = lib.types.listOf lib.types.str;
@@ -104,18 +110,19 @@ in
 
 						transfers = if targetCfg.transfers == 4 then "" else "--transfers ${builtins.toString targetCfg.transfers}";
 
-						whitelistFile = builtins.toFile "rclone-whitelist" (let
-							includeRules = builtins.map (item: "+ ${item}") targetCfg.whitelist;
-							allRules = includeRules ++ [ "- **" ];
+						filterRules = let
+							excludes = builtins.map (item: "- ${item}") targetCfg.blacklist;
+							includes = builtins.map (item: "+ ${item}") targetCfg.whitelist;
 						in
-							builtins.concatStringsSep "\n" allRules);
-						whitelist = if (isNullOrEmpty targetCfg.whitelist) then "" else "--filter-from='${whitelistFile}'";
+							excludes ++ includes ++ (if (isNullOrEmpty includes) then [] else [ "- **" ]);
+						filterFile = builtins.toFile "rclone-filter-${target}" (builtins.concatStringsSep "\n" filterRules);
+						filter = if (isNullOrEmpty filterRules) then "" else "--filter-from='${filterFile}'";
 
 						rcloneScript = pkgs.writeShellScriptBin "rclone-script-${target}" ''
 							${lib.getExe targetCfg.package} ${copySync} \
 								'${targetCfg.sourceDir}/' \
 								'${targetCfg.destDir}/' \
-								${whitelist} \
+								${filter} \
 								${deleteFlag} \
 								${transfers} \
 						'';
