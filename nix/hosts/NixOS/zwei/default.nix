@@ -147,7 +147,7 @@ in
 		};
 	};
 	nd0.rclone-backups.plex = {
-		enable = true;
+		enable = false;
 		sourceDir = "/opt/plex/data/Plex Media Server";
 		destDir = "/mnt/amadeus/fg8/Backup/plex/Plex Media Server";
 		group = "labmembers";
@@ -179,7 +179,7 @@ in
 		package = pkgs-unstable.jellyfin;
 	};
 	nd0.rclone-backups.jellyfin = {
-		enable = true;
+		enable = false;
 		sourceDir = "/opt/jellyfin";
 		destDir = "/mnt/amadeus/fg8/Backup/jellyfin";
 		group = "labmembers";
