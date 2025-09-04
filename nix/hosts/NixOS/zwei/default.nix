@@ -178,6 +178,14 @@ in
 		openFirewall = true;
 		package = pkgs-unstable.jellyfin;
 	};
+	nd0.rclone-backups.jellyfin = {
+		enable = true;
+		sourceDir = "/opt/jellyfin";
+		destDir = "/mnt/amadeus/fg8/Backup/jellyfin";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 03:15:00" ]; # weekly at 0300 Sun
+	};
 
 	services.unifi = {
 		enable = false;
