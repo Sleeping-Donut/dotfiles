@@ -252,6 +252,15 @@ in
 			}
 		];
 	};
+	nd0.rclone-backups.grafana = {
+		enable = false;
+		sourceDir = "/opt/grafana";
+		destDir = "/mnt/amadeus/fg8/Backup/grafana";
+		group = "labmembers";
+		pruneRemote = true;
+		OnCalendar = [ "Sun *-*-* 03:30:00" ]; # weekly at 0330 Sun
+		blacklist = [ "conf/**" "tools/**" ]; # they're symlinks into nix store
+	};
 
 	# To handle SSL
 	# security.acme = { acceptTerms = true; defaults.email = ""; };
