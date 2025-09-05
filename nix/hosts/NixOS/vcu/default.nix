@@ -165,7 +165,7 @@ in
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:15:00" ]; # weekly at 0315 Sun
 		blacklist = [
-			"*.pid" "Sentry/**" "asp/**"
+			"*.pid" "/Sentry/**" "/asp/**"
 		];
 	};
 
@@ -184,7 +184,7 @@ in
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:30:00" ]; # weekly at 0330 Sun
 		blacklist = [
-			"*.pid" "Sentry/**" "asp/**"
+			"*.pid" "/Sentry/**" "/asp/**"
 		];
 	};
 
@@ -203,7 +203,7 @@ in
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 0345 Sun
 		blacklist = [
-			"*.pid" "Sentry/**" "asp/**"
+			"*.pid" "/Sentry/**" "/asp/**"
 		];
 	};
 
@@ -238,7 +238,7 @@ in
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 0345 Sun
 		blacklist = [
-			"*.pid" "Sentry/**" "asp/**"
+			"*.pid" "/Sentry/**" "/asp/**"
 		];
 	};
 
@@ -257,7 +257,7 @@ in
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 04:15:00" ]; # weekly at 0415 Sun
 		blacklist = [
-			"*.pid" "Sentry/**" "asp/**"
+			"*.pid" "/Sentry/**" "/asp/**"
 		];
 	};
 

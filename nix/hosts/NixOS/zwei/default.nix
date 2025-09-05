@@ -154,9 +154,9 @@ in
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:00:00" ]; # weekly at 0300 Sun
 		whitelist = [
-			"Preferences.xml" "Metadata/**" ".LocalAdminToken"
-			"Plug-in Support/**" "Plug-ins/**" "Codecs/**" "Scanners/**"
-			"Cache/**" "Logs/**" "Crash Reports/**" "Diagnostics/**"
+			"/Preferences.xml" "/Metadata/**" "/.LocalAdminToken"
+			"/Plug-in Support/**" "/Plug-ins/**" "/Codecs/**" "/Scanners/**"
+			"/Cache/**" "/Logs/**" "/Crash Reports/**" "/Diagnostics/**"
 		];
 	};
 
@@ -259,7 +259,7 @@ in
 		group = "labmembers";
 		pruneRemote = true;
 		OnCalendar = [ "Sun *-*-* 03:30:00" ]; # weekly at 0330 Sun
-		blacklist = [ "conf/**" "tools/**" ]; # they're symlinks into nix store
+		blacklist = [ "/conf" "/tools" ]; # they're symlinks into nix store
 	};
 
 	# To handle SSL
