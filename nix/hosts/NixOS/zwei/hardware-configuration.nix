@@ -16,22 +16,22 @@
 	fileSystems."/" =
 		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
-			options = [ "subvol=@" ];
+			options = [ "subvol=@" "compress=zstd" "noatime" ];
 		};
 	fileSystems."/home" =
 		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
-			options = [ "subvol=@home" ];
+			options = [ "subvol=@home" "compress=zstd" "noatime" ];
 		};
 	fileSystems."/opt" =
 		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
-			options = [ "subvol=@opt" ];
+			options = [ "subvol=@opt" "compress=zstd" "noatime" ];
 		};
 	fileSystems."/var/lib" =
 		{ device = "/dev/disk/by-label/NIXROOT";
 			fsType = "btrfs";
-			options = [ "subvol=@var_lib" ];
+			options = [ "subvol=@var_lib" "compress=zstd" "noatime" ];
 		};
 
 	fileSystems."/boot" =
