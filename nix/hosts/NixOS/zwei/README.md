@@ -8,6 +8,16 @@
 >
 > Re-enable them after restoring the backup
 
+> [!TIP]
+> Once the install media has booted, change the password of the nixos user to allow SSH connections.
+> No more babysitting the computer itself. Yay
+> ```sh
+> sudo passwd nixos
+> ```
+>
+> Also use tmux with `nix shell` or `nix run`.
+> Having tmux windows to swap between and sessions that can be disconnected are useful sometimes when installing
+
 ### Partition
 
 > [!IMPORTANT]
