@@ -5,6 +5,7 @@
 > [!CAUTION]
 > Disable rclone backups in config before installing
 > If it boots on a fresh install and tries a backup it might overwrite the remote backup which is recoverable but annoying
+>
 > Re-enable them after restoring the backup
 
 ### Partition
@@ -70,7 +71,9 @@ sudo swapon /dev/sdb2
 > Can install straight from a remote repo like github or can clone first and source from the local copy.
 >
 > When running from a remote repo, I don't know how to force `nixos-install` to pull the latest commit down again
+>
 > Can do hacky things like adding `github:<USER>/<REPO>/<BRANCH>` or instead of branch the hash of the most recent commit, as these are different urls for the flake which is enough to cause a cache miss on fetching the flake.
+>
 > To make it easier to pull latest or grab any version of the repo as needed, just clone locally for normal git pulling.
 
 > [!IMPORTANT]
@@ -84,6 +87,7 @@ sudo nixos-install --root /mnt --flake 'github:Sleeping-Donut/dotfiles#zwei'
 
 > [!NOTE]
 > The user password is not set during the install as it is not in the nix config
+>
 > Use `nixos-enter` to chroot into the environment so the user password can be set
 >
 > ```sh
