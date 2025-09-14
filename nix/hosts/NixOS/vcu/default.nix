@@ -348,6 +348,10 @@ in
 			enabledCollectors = [ "systemd" "processes" ];
 			extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
 		};
+		exporters.smartctl = {
+			enable = true;
+			openFirewall = true;
+		};
 	};
 #	TODO: suwayomi
 
