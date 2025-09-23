@@ -25,8 +25,8 @@
 				exit 1
 			fi
 
-			# Use the provided argument as the flake path, or default to the current directory
-			flake_path="$${1:-.}"
+			# Use the provided argument as the flake path, or Error
+			flake_path="$${1:?Error: A flake path is required}"
 
 			echo "Starting a new 'nixos-rebuild' session..."
 			sudo $tmux_cmd new-session -d -s nixos-rebuild "$nom_cmd nixos-rebuild switch --flake $flake_path"
