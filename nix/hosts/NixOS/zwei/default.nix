@@ -111,6 +111,7 @@ in
 		fd
 		git
 		neovim
+		nix-output-monitor
 		wget
 	];
 	programs.tmux = {
