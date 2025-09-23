@@ -29,7 +29,7 @@
 			flake_path="$${1:?Error: A flake path is required}"
 
 			echo "Starting a new 'nixos-rebuild' session..."
-			sudo $tmux_cmd new-session -d -s nixos-rebuild "$nom_cmd nixos-rebuild switch --flake $flake_path"
+			sudo $tmux_cmd new-session -d -s nixos-rebuild "nixos-rebuild switch --flake $flake_path |& $nom_cmd"
 
 			# Watch the output with color and capture scrollback
 			$watch_cmd -c "$tmux_cmd capture-pane -t nixos-build -pS-"
