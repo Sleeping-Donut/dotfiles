@@ -43,6 +43,7 @@
 		jdk
 		lazygit
 		magic-wormhole
+		nh
 		nix-output-monitor
 		ollama
 		scrcpy
