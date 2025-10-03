@@ -111,6 +111,7 @@ in
 		fd
 		git
 		neovim
+		nh
 		nix-output-monitor
 		wget
 	];
