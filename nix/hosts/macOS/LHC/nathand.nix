@@ -53,7 +53,6 @@
 		stow
 		tokei
 		tz
-		utm
 		yq
 		yt-dlp
 	];
