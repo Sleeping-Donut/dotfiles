@@ -12,6 +12,17 @@ Influences:
 - NPC config (Linux)
 - zwei, vcu conifg (NixOS ?? Linux)
 
+## Check Why a package is installed
+
+Use `nix why-depends`
+
+It takes 2 args: dependent, depedency
+
+Each arg can be a drv or store path
+
+To find the store path for a specific generation example:
+`nix eval --raw PATH_TO_FLAKE#darwinConfigurations.HOSTNAME.system`
+
 ## NixOS
 
 TBA...
