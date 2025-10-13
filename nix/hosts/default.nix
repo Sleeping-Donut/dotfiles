@@ -21,6 +21,8 @@ in
 			unfreePkgs = [ "raycast" "vscode" ];
 		}
 		{ hostname = "NOP6"; type = "nixOnDroid"; system = "aarch46-linux"; configPath = ./android/NOP6.nix; }
+		{ hostname = "vm-x86"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/vm; }
+		{ hostname = "vm-arm"; type = "nixos"; system = "aarch64-linux"; configPath = ./NixOS/vm; }
 #{
 #	
 #
