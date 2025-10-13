@@ -1,4 +1,3 @@
-{ ... }:
 {
 #	All public keys (for now at least, could use sops/agenix for priv keys)
 	LHC = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2rAuYj5hGLj6eFScSjJoz5XXZzTiQVPWdL+fWUtp9q";

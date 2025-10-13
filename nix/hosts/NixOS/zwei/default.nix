@@ -9,7 +9,7 @@
 }:
 let
 	plex-versioned = import overrides.plex-versioned { inherit pkgs; };
-	keys = import nix-modules.keys {};
+	keys = import nix-modules.keys;
 in
 {
 	imports = [

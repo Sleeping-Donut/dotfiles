@@ -7,7 +7,7 @@
 	...
 }:
 let
-	keys = import nix-modules.keys {};
+	keys = import nix-modules.keys;
 	transmission_pinned = let
 		pkgsPinned = import inputs.nixpkgs-transmission-safe { inherit system; };
 		transmission_pinned = pkgsPinned.transmission_4;
