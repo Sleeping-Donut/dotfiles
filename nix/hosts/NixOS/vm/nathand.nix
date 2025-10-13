@@ -3,6 +3,7 @@
   pkgs,
   pkgs-unstable,
   inputs,
+  ...
 }:
 {
   home.stateVersion = "23.11";
