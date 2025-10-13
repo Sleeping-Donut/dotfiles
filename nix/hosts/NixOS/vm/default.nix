@@ -5,7 +5,7 @@
   nix-modules,
   hostname ? "vm",
   inputs,
-  ...,
+  ...
 }:
 let
   keys = import nix-modules.keys;
