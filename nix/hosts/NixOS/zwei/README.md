@@ -101,10 +101,7 @@ sudo nixos-install --root /mnt --flake 'github:Sleeping-Donut/dotfiles#zwei'
 > Use `nixos-enter` to chroot into the environment so the user password can be set
 >
 > ```sh
-> sudo nixos-enter
-> : Should be in the installed nixos environment now
-> passwd nathand
-> exit
+> sudo nixos-enter -c 'passwd nathand'
 > ```
 
 ## Reboot into install
