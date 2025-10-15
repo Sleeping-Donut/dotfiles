@@ -4,6 +4,7 @@
   pkgs-unstable,
   nix-modules,
   hostname ? "vm",
+  modulesPath,
   inputs,
   ...
 }:
@@ -12,7 +13,10 @@ let
 in
 {
   imports = [
-    ./hardware-configuration.nix
+    (modulesPath + "/profiles/qemu-guest.nix")
+    inputs.disko.nixosModules.disko
+    ./disko-configuration.nix
+    # ./hardware-configuration.nix
   ];
 
   system.stateVersion = "23.11"; # Did you read the comment?

@@ -29,21 +29,6 @@
     device = "/dev/disk/by-label/NIXROOT";
     fsType = "ext4";
   };
-  fileSystems."/home" = {
-    device = "/dev/disk/by-label/NIXROOT";
-    fsType = "btrfs";
-    options = [ "subvol=@home" ];
-  };
-  fileSystems."/opt" = {
-    device = "/dev/disk/by-label/NIXROOT";
-    fsType = "btrfs";
-    options = [ "subvol=@opt" ];
-  };
-  fileSystems."/var/lib" = {
-    device = "/dev/disk/by-label/NIXROOT";
-    fsType = "btrfs";
-    options = [ "subvol=@var_lib" ];
-  };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/NIXBOOT";
