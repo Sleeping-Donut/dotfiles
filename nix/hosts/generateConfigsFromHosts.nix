@@ -1,6 +1,6 @@
 { inputs }:
 let
-	inherit (inputs) nixpkgs unstable nixpkgs-droid-compat nur homeManager nix-homebrew darwin nixOnDroid nix-flatpak;
+	inherit (inputs) nixpkgs unstable nixpkgs-droid-compat nur homeManager nix-homebrew darwin nixOnDroid nix-flatpak disko;
 
 	own-pkgs = import ../pkgs;
 	overrides = import ../overrides;
@@ -36,7 +36,7 @@ let
 		nixpkgs.lib.nixosSystem {
 			inherit (hostDetails) system;
 			specialArgs = {
-				inherit inputs repo-root own-pkgs overrides nix-modules nixos-modules home-modules;
+				inherit inputs repo-root own-pkgs overrides nix-modules nixos-modules home-modules disko;
 				inherit (hostDetails) system hostname;
 				inherit (sources) pkgs-unstable pkgs-nur nur flatpak;
 			};

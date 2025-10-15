@@ -6,6 +6,7 @@
   hostname ? "vm",
   modulesPath,
   inputs,
+  disko,
   ...
 }:
 let
@@ -14,7 +15,7 @@ in
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
-    inputs.disko.nixosModules.disko
+    disko.nixosModules.disko
     ./disko-configuration.nix
     # ./hardware-configuration.nix
   ];
