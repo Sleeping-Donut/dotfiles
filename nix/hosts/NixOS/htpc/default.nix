@@ -133,6 +133,7 @@ in
 		duf
 		dust
 		fd
+    firefox
 		git
 		neovim
 		nh
