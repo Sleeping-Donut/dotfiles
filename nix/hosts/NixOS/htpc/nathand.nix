@@ -20,5 +20,6 @@
     speedtest-go
     systemctl-tui
     traceroute
+    mpv
   ];
 }
