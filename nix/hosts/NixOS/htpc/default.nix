@@ -135,6 +135,7 @@ in
 		fd
     firefox
 		git
+    pkgs.kdePackages.sddm-kcm
 		neovim
 		nh
 		nix-output-monitor
