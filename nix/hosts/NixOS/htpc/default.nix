@@ -138,7 +138,6 @@ in
 		neovim
 		nh
 		nix-output-monitor
-		plex-desktop
 		wget
 	];
 	programs.tmux = {
@@ -149,6 +148,14 @@ in
 	};
 
 #	System Services
+  services.flatpak = {
+    enable = true;
+    packages = [
+      "tv.plex.PlexDesktop"
+      "tv.plex.PlexHTPC"
+    ];
+  };
+
 	services.openssh.enable = true;
 	services.tailscale = {
 		enable = true;
