@@ -102,6 +102,11 @@ in
     };
   };
 
+  hardware.logitech.wireless = {
+    enable = true;
+    enableGraphical = true;
+  };
+
 #	Groups
 	users.groups.labmembers.gid = 8596;
 
