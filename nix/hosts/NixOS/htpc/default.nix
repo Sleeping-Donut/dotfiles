@@ -91,6 +91,17 @@ in
 	};
 	services.desktopManager.plasma6.enable = true;
 
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    wireplumber = {
+      enable = true;
+    };
+  };
+
 #	Groups
 	users.groups.labmembers.gid = 8596;
 
