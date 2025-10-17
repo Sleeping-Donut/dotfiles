@@ -154,6 +154,7 @@ in
   services.flatpak = {
     enable = true;
     packages = [
+      "com.github.tchx84.Flatseal"
       "tv.plex.PlexDesktop"
       "tv.plex.PlexHTPC"
     ];
