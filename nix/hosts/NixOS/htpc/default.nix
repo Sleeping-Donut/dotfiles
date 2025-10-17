@@ -2,6 +2,7 @@
 	config, lib, pkgs,
 	pkgs-unstable,
 	nix-modules, nixos-modules, overrides, own-pkgs,
+  flatpak,
 	repo-root,
 	hostname ? "htpc", system,
 	inputs,
@@ -12,6 +13,7 @@ let
 in
 {
 	imports = [
+    flatpak
 		./hardware-configuration.nix
 	];
 
