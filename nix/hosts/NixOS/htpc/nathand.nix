@@ -22,5 +22,6 @@
     traceroute
     mpv
     vlc
+    google-chrome
   ];
 }

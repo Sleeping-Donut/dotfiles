@@ -22,7 +22,7 @@ in
 		}
 		{
 			hostname = "HTPC"; type ="nixos"; system = "x86_64-linux"; configPath = ./NixOS/htpc;
-			unfreePkgs = [ "plex-desktop" ];
+			unfreePkgs = [ "plex-desktop" "google-chrome" ];
 		}
 		{ hostname = "NOP6"; type = "nixOnDroid"; system = "aarch46-linux"; configPath = ./android/NOP6.nix; }
 		{ hostname = "vm-x86"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/vm; }
