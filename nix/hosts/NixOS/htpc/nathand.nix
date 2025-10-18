@@ -21,5 +21,6 @@
     systemctl-tui
     traceroute
     mpv
+    vlc
   ];
 }
