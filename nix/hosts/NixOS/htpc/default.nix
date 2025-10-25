@@ -135,7 +135,7 @@ in
 		duf
 		dust
 		fd
-    firefox
+    pkgs.firefox
 		git
     pkgs.kdePackages.sddm-kcm
 		neovim
