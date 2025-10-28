@@ -2,7 +2,8 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable
+  pkgs-unstable,
+  ...
 }:
 {
   system.stateVersion = "24.05";
