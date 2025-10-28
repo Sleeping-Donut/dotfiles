@@ -77,6 +77,14 @@ nixdevh() {
 	nixdev "$@" --override-input nixpkgs ~/dotfiles
 }
 alias init-flake-template='nix flake init --template "https://flakehub.com/f/the-nix-way/dev-templates/*#${ENV}"'
+np() {
+	if [ -z "$1" ]; then
+		echo "Use in place of command: nix"
+		nix
+	else
+		nix "$@" |& nom
+	fi
+}
 
 alias shlvl='echo "$SHLVL"'
 
