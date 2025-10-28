@@ -8,6 +8,7 @@
 	Infuse = 1136220934;
 	Toggl = 1291898086;
 	Twitter = 1482454543;
+	UnifiProtect = 1392492235;
 	WireGuard = 1451685025;
 	XCode = 497799835;
 }
