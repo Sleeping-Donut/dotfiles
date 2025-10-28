@@ -96,7 +96,6 @@ let
 	genNixOnDroidConfig = (hostDetails: sources:
 		nixOnDroid.lib.nixOnDroidConfiguration {
 			pkgs = sources.pkgs-droid-compat;
-			inherit (hostDetails) system;
 			extraSpecialArgs = {
 				inherit inputs repo-root nur nix-modules home-modules;
 				inherit (hostDetails) hostname system;
