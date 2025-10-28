@@ -46,13 +46,15 @@ sudo mkfs.btrfs -L NIXROOT /dev/sdb3
 
 ## Btrfs Subvolumes
 
+Next time you install change `@` to be `@root`. Needs hardware-configuration.nix changed as well
+
 ```sh
 sudo mkdir /mnt/btrfs
 sudo mount /dev/sdb3 /mnt/btrfs
-sudo btrfs subvolume create /mnt/btfrs/@
-sudo btrfs subvolume create /mnt/btfrs/@home
-sudo btrfs subvolume create /mnt/btfrs/@opt
-sudo btrfs subvolume create /mnt/btfrs/@var_lib
+sudo btrfs subvolume create /mnt/btrfs/@
+sudo btrfs subvolume create /mnt/btrfs/@home
+sudo btrfs subvolume create /mnt/btrfs/@opt
+sudo btrfs subvolume create /mnt/btrfs/@var_lib
 sudo umount /mnt/btrfs
 sudo rmdir /mnt/btrfs
 ```
