@@ -24,8 +24,8 @@ in
 			hostname = "HTPC"; type ="nixos"; system = "x86_64-linux"; configPath = ./NixOS/htpc;
 			unfreePkgs = [ "plex-desktop" ];
 		}
-		{ hostname = "NOP6"; type = "nixOnDroid"; system = "aarch46-linux"; configPath = ./android/NOP6.nix; }
-		{ hostname = "s24u"; type = "nixOnDroid"; system = "aarch46-linux"; configPath = ./android/s24u.nix; }
+		{ hostname = "NOP6"; type = "nixOnDroid"; system = "aarch64-linux"; configPath = ./android/NOP6.nix; }
+		{ hostname = "s24u"; type = "nixOnDroid"; system = "aarch64-linux"; configPath = ./android/s24u.nix; }
 		{ hostname = "vm-x86"; type = "nixos"; system = "x86_64-linux"; configPath = ./NixOS/vm; }
 		{ hostname = "vm-arm"; type = "nixos"; system = "aarch64-linux"; configPath = ./NixOS/vm; }
 #{
