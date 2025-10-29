@@ -101,10 +101,8 @@ let
 				inherit (hostDetails) hostname system;
 				inherit (sources) pkgs-unstable pkgs-droid-compat pkgs-nur;
 			};
-			modules = let
-				nix-settings = import nix-modules.nix {};
-			in [
-				{ nix = nix-settings.settings; }
+			modules = [
+				{ nix.experimental-features = [ "nix-command" "flakes" ]; }
 				hostDetails.configPath
 			];
 		}
