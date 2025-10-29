@@ -102,7 +102,6 @@ let
 				inherit (sources) pkgs-unstable pkgs-droid-compat pkgs-nur;
 			};
 			modules = [
-				{ nix.experimental-features = [ "nix-command" "flakes" ]; }
 				hostDetails.configPath
 			];
 		}
