@@ -143,9 +143,9 @@ in
 		extraPlugins = [];
 		openFirewall = true;
 		package = plex-versioned {
-			version = "1.43.0.10162-b67a664b6";
+			version = "1.43.0.10389-8be686aa6";
 #			To get hash for new version use `sh nix/scripts/getPkgHash.sh 'plex' '<VERSION>'
-			hash = "sha256-0kpBxYrfvA5T9QHxOMRhqif6PHcUyuDYLOge787mth0=";
+			hash = "sha256-0HjB8Ggekwl5dKwM1Kh51Ic25t3V6veKbuzM7czrpeg=";
 		};
 	};
 	nd0.rclone-backups.plex = {
