@@ -138,6 +138,9 @@ in
     pkgs.firefox
 		git
     pkgs.kdePackages.sddm-kcm
+    pkgs.kdePackages.flatpak-kcm
+    pkgs.kdePackages.plymouth-kcm
+    pkgs.kdePackages.kde-gtk-config
 		neovim
 		nh
 		nix-output-monitor
