@@ -30,7 +30,7 @@
 		bottom
 		btop
 		chatgpt-cli
-		comma
+		comma # prefix comand with , to use nix run w/ an autosearch
 		ctop
 		dua
 		dust
@@ -52,9 +52,10 @@
 		speedtest-rs
 		starship
 		stow
+		tailscaled
 		tokei
-		tz
-		yq
+		tz # timezone tool
+		yq # jq for YAML
 		yt-dlp
 	];
 
@@ -71,7 +72,7 @@
 	};
 
 	programs = {
-		bat.enable = true; 
+		bat.enable = true;
 		direnv = {
 			enable = true;
 			enableZshIntegration = true;
