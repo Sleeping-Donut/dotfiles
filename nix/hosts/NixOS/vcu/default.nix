@@ -103,13 +103,12 @@ in
 	};
 
 #	GNOME stuff
-	services.xserver.enable = true;
-	services.xserver.displayManager.gdm = {
+	services.displayManager.gdm = {
 		enable = true;
 		wayland = true;
 		autoSuspend = false;
 	};
-	services.xserver.desktopManager.gnome = {
+	services.desktopManager.gnome = {
 		enable = true;
 
 		extraGSettingsOverridePackages = with pkgs; [gnome-settings-daemon];
@@ -123,16 +122,13 @@ in
 
 	networking.firewall.allowedTCPPorts = [ 3389 ];
 	networking.firewall.allowedUDPPorts = [ 3389 ];
-	services.gnome.gnome-remote-desktop.enable = true;
-	environment.gnome.excludePackages = (with pkgs; [
-		gnome-photos
-		gnome-tour
-		snapshot
-		cheese
-		gnome-music
-		epiphany
-	]);
-	services.xserver.excludePackages = (with pkgs; [ xterm ]);
+	services.gnome = {
+		gnome-remote-desktop.enable = true;
+		games.enable = false;
+		core-apps.enable = false;
+		core-developer-tools.enable = false;
+	};
+	environment.gnome.excludePackages = (with pkgs; []);
 
 #	System Services
 	services.openssh.enable = true;
