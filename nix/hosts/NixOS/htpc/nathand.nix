@@ -21,6 +21,7 @@
     systemctl-tui
     traceroute
     mpv
+    nix-search-cli
     vlc
   ];
 }

@@ -45,6 +45,7 @@
 		magic-wormhole
 		nh
 		nix-output-monitor
+		nix-search-cli
 		ollama
 		scrcpy
 		speedtest-go
