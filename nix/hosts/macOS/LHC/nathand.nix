@@ -54,6 +54,8 @@
 		stow
 		tailscaled
 		tokei
+		tinymist
+		typst
 		tz # timezone tool
 		yq # jq for YAML
 		yt-dlp
