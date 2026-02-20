@@ -8,11 +8,6 @@
 }:
 let
 	keys = import nix-modules.keys;
-	transmission_pinned = let
-		pkgsPinned = import inputs.nixpkgs-transmission-safe { inherit system; };
-		transmission_pinned = pkgsPinned.transmission_4;
-	in
-		transmission_pinned;
 in
 {
 	imports = [
@@ -297,7 +292,6 @@ in
 		openFirewall = false;
 		openRPCPort = true;
 		downloadDirPermissions = "770";
-		package = transmission_pinned;
 		settings = {
 			alt-speed-down = 500;
 			alt-speed-enabled = false;
