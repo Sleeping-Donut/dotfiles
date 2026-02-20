@@ -17,12 +17,9 @@
   boot.initrd.availableKernelModules = [
     "uhci_hcd"
     "ehci_pci"
-    "ata_piix"
-    "megaraid_sas"
     "usb_storage"
     "usbhid"
     "sd_mod"
-    "sr_mod"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
