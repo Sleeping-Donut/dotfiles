@@ -292,6 +292,7 @@ in
 		openFirewall = false;
 		openRPCPort = true;
 		downloadDirPermissions = "770";
+		package = pkgs.transmission_4;
 		settings = {
 			alt-speed-down = 500;
 			alt-speed-enabled = false;
