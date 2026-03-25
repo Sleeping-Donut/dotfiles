@@ -283,6 +283,8 @@ in
 	systemd.services.transmission.serviceConfig = {
 		# transmission service wants to set this to 0066 for some reason
 		UMask = lib.mkForce "0007";
+		TimeoutStartSec = "5min";
+		TimeoutStopSec = "2min";
 	};
 	services.transmission = {
 		enable = true;
