@@ -26,6 +26,7 @@
 		# termscp
 		# twitch-tui
 		age
+		aichat
 		ansible
 		bottom
 		btop
@@ -46,13 +47,13 @@
 		nh
 		nix-output-monitor
 		nix-search-cli
-		ollama
+		opencode
 		scrcpy
 		speedtest-go
 		speedtest-rs
 		starship
 		stow
-		tailscaled
+		tailscale
 		tokei
 		tinymist
 		typst

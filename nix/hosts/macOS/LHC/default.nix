@@ -53,6 +53,7 @@ in
 		caskArgs.language = "en-GB";
 		brews = [
 			"ata"
+      "ollama"
 		];
 		casks = [
 			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
@@ -84,6 +85,7 @@ in
 			"pocket-casts"
 			"raycast"
 			"rectangle"
+      "t3-code"
 			"tailscale-app"
 			"telegram"
 			"thunderbird"
