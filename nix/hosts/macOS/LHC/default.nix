@@ -37,6 +37,7 @@ in
 	system.primaryUser = "nathand";
 	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
 	home-manager = {
+		backupFileExtension = "hm-bak";
 		users.nathand = import ./nathand.nix;
 #		users.nathand.nixpkgs = pkgs;
 	};
