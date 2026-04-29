@@ -57,7 +57,6 @@
 		typst
 		tz # timezone tool
 		yq # jq for YAML
-		yt-dlp
 	];
 
 	nd0.home = {
