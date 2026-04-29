@@ -97,7 +97,7 @@
 		git.enable = true;
 		jq = { enable = true; package = pkgs-unstable.jq; };
 		ripgrep = { enable = true; package = pkgs-unstable.ripgrep; };
-		yt-dlp = { enable = true; package = pkgs.yt-dlp; };
+		yt-dlp = { enable = true; package = pkgs-unstable.yt-dlp; };
 		zellij = { enable = true; package = pkgs-unstable.zellij; };
 	};
 }
