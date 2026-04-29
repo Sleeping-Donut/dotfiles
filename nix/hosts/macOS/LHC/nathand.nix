@@ -75,6 +75,7 @@
 	programs = {
 		bat.enable = true;
 		direnv = {
+      package = pkgs-unstable.direnv;
 			enable = true;
 			enableZshIntegration = true;
 		};
