@@ -26,7 +26,6 @@
 		# termscp
 		# twitch-tui
 		age
-		aichat
 		ansible
 		bottom
 		btop
@@ -47,7 +46,6 @@
 		nh
 		nix-output-monitor
 		nix-search-cli
-		opencode
 		scrcpy
 		speedtest-go
 		speedtest-rs
