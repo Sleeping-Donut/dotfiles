@@ -52,15 +52,16 @@ in
 		global.brewfile = true;
 		caskArgs.language = "en-GB";
 		brews = [
+      "aichat"
 			"ata"
       "ollama"
+      "opencode"
 		];
 		casks = [
 			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
 			"1password" "1password-cli"
 			"LocalSend"
 			"aegisub"
-      "aichat"
 			"alacritty"
 			"android-studio"
 			"balenaetcher"
@@ -82,7 +83,6 @@ in
 			"mullvad-vpn"
 			"ollama-app"
 			"ollamac"
-      "opencode"
 			"plexamp"
 			"pocket-casts"
 			"raycast"
