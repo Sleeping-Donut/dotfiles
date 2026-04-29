@@ -40,6 +40,7 @@
 		gifski
 		glow
 		httpie
+    hydra-check
 		jdk
 		lazygit
 		magic-wormhole
