@@ -285,6 +285,7 @@ in
 		UMask = lib.mkForce "0007";
 		TimeoutStartSec = "5min";
 		TimeoutStopSec = "2min";
+		LimitNOFILE = 16384; # set connection limit high to prevent Too many open error
 	};
 	services.transmission = {
 		enable = true;
