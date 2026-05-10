@@ -94,7 +94,6 @@ in
 				description = "Rsync backup for ${target}";
 				wants = [ "remote-fs.target" ];
 				after = [ "remote-fs.target" ];
-				wantedBy = [ "multi-user.target" ];
 				serviceConfig = let
 					# Handle group and user like this because akward mkIf only outputs attrsets
 					userConfig = if (isNullOrEmpty targetCfg.user) then {} else { User = targetCfg.user; };
