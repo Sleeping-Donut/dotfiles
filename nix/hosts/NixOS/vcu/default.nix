@@ -280,6 +280,9 @@ in
 		package = pkgs-unstable.tautulli;
 	};
 
+	system.activationScripts.transmission = lib.mkForce ''
+		install -m 770 -o transmission -g labmembers -d /opt/transmission/home
+	'';
 	systemd.services.transmission.serviceConfig = {
 		# transmission service wants to set this to 0066 for some reason
 		UMask = lib.mkForce "0007";
