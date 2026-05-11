@@ -48,9 +48,6 @@ in
 	boot.loader.systemd-boot.configurationLimit = 8;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	systemd.tmpfiles.rules = [
-		"d /mnt/amadeus/fg8 0755 root root -"
-	];
 	fileSystems."/mnt/amadeus/fg8" = {
 		device = "whitefox.fglab:/mnt/amadeus/fg8";
 		fsType = "nfs";
