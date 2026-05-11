@@ -56,7 +56,8 @@ in
 			"noauto"
 			"x-systemd.automount" # noauto | automount
 			"x-systemd.idle-timeout=1200" # disconnects after 20 minutes (i.e. 1200 seconds)
-			"x-systemd.mount-timeout=30"
+			"x-systemd.makefs"
+			"soft"
 		];
 	};
 
