@@ -1,0 +1,117 @@
+{
+  "plugins": {
+    "fidget.nvim": {
+      "rev": "889e2e96edef4e144965571d46f7a77bcc4d0ddf",
+      "src": "https://github.com/j-hui/fidget.nvim"
+    },
+    "git.nvim": {
+      "rev": "7cfb3080c68125dbf6b7ee129f3108fdb275c4dd",
+      "src": "https://github.com/dinhhuy258/git.nvim"
+    },
+    "gruvbox.nvim": {
+      "rev": "154eb5ff5b96d0641307113fa385eaf0d36d9796",
+      "src": "https://github.com/ellisonleao/gruvbox.nvim"
+    },
+    "harpoon": {
+      "rev": "87b1a3506211538f460786c23f98ec63ad9af4e5",
+      "src": "https://github.com/ThePrimeagen/harpoon",
+      "version": "'harpoon2'"
+    },
+    "mini-git": {
+      "rev": "a007cc40a4585c4f54787ddcf07295c2689daeb4",
+      "src": "https://github.com/nvim-mini/mini-git"
+    },
+    "mini.ai": {
+      "rev": "7e10ce8468c0fce4f527ae2c0e5c484f7667f73d",
+      "src": "https://github.com/nvim-mini/mini.ai"
+    },
+    "mini.diff": {
+      "rev": "0ee0459152b141c0e1b0931eb6949105be4850a9",
+      "src": "https://github.com/nvim-mini/mini.diff"
+    },
+    "mini.extra": {
+      "rev": "bc4e872500fd6d2ce252604e0ffa100f64f02280",
+      "src": "https://github.com/nvim-mini/mini.extra"
+    },
+    "mini.fuzzy": {
+      "rev": "4c0a54f83a27e99b67d06e9a74b3483c8ffe264c",
+      "src": "https://github.com/nvim-mini/mini.fuzzy"
+    },
+    "mini.hipatterns": {
+      "rev": "9eff319bbe66adfaf781a0d0e174baa08ba94909",
+      "src": "https://github.com/nvim-mini/mini.hipatterns"
+    },
+    "mini.icons": {
+      "rev": "bac6317300e205335df425296570d84322730067",
+      "src": "https://github.com/nvim-mini/mini.icons"
+    },
+    "mini.pick": {
+      "rev": "437d44eb57312f23e6b931704694fc294922cd88",
+      "src": "https://github.com/nvim-mini/mini.pick"
+    },
+    "mini.statusline": {
+      "rev": "b456bfe845e475e9cec065b7a9a1ef657ad2f41b",
+      "src": "https://github.com/echasnovski/mini.statusline"
+    },
+    "mini.surround": {
+      "rev": "990ce30f724d08e79670107de6b915a3f1bb9a9b",
+      "src": "https://github.com/nvim-mini/mini.surround"
+    },
+    "mini.visits": {
+      "rev": "0e4b914220e816ffa926398817fb54b58c6a12eb",
+      "src": "https://github.com/nvim-mini/mini.visits"
+    },
+    "neovim": {
+      "rev": "6a961effd67f6130d36df6d1c05c48c739796dd2",
+      "src": "https://github.com/rose-pine/neovim"
+    },
+    "nvim": {
+      "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
+      "src": "https://github.com/catppuccin/nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "451d4ef9abd4f0f08e379ef0d55d1c391b6125a7",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-treesitter": {
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "nvim-treesitter-context": {
+      "rev": "b311b30818951d01f7b4bf650521b868b3fece16",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
+    },
+    "nvim-treesitter-textobjects": {
+      "rev": "851e865342e5a4cb1ae23d31caf6e991e1c99f1e",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
+    },
+    "oil.nvim": {
+      "rev": "b91ee5a77a6a9605d9c1aaf4fda74b66082c8297",
+      "src": "https://github.com/stevearc/oil.nvim.git"
+    },
+    "plenary.nvim": {
+      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "poimandres.nvim": {
+      "rev": "a488957d803943a4201ac3b774913fcafa9e6b3a",
+      "src": "https://github.com/olivercederborg/poimandres.nvim"
+    },
+    "tokyonight.nvim": {
+      "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "src": "https://github.com/folke/tokyonight.nvim"
+    },
+    "typescript-tools.nvim": {
+      "rev": "c2f5910074103705661e9651aa841e0d7eea9932",
+      "src": "https://github.com/pmizio/typescript-tools.nvim"
+    },
+    "undotree": {
+      "rev": "6fa6b57cda8459e1e4b2ca34df702f55242f4e4d",
+      "src": "https://github.com/mbbill/undotree"
+    },
+    "vscode.nvim": {
+      "rev": "aa1102a7e15195c9cca22730b09224a7f7745ba8",
+      "src": "https://github.com/Mofiqul/vscode.nvim"
+    }
+  }
+}
