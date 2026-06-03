@@ -1,21 +1,19 @@
 {
-	config, lib, pkgs,
-	pkgs-unstable,
-	nix-modules, nixos-modules, overrides, own-pkgs, repo-root,
-	hostname ? "vcu", system,
-	inputs,
+	config, pkgs, lib, system,
+	pkgs-unstable, hostname ? "vcu", repo-root,
+	inputs, sources, modules,
 	...
 }:
 let
-	keys = import nix-modules.keys;
+	keys = import modules.common.keys;
 in
 {
 	imports = [
 		./hardware-configuration.nix
 
-		nixos-modules.bazarr
-		nixos-modules.ombi
-		nixos-modules.prowlarr
+		modules.nixos.bazarr
+		modules.nixos.ombi
+		modules.nixos.prowlarr
 		(repo-root + "/nix/modules/nixos/rclone-backups.nix")
 	];
 

@@ -1,15 +1,12 @@
 {
-	config, lib, pkgs,
-	pkgs-unstable,
-	nix-modules, nixos-modules, overrides, own-pkgs,
-	repo-root,
-	hostname ? "zwei", system,
-	inputs,
+	config, pkgs, lib, system,
+	pkgs-unstable, hostname ? "zwei", repo-root,
+	inputs, sources, modules,
 	...
 }:
 let
-	plex-versioned = import overrides.plex-versioned { inherit pkgs; };
-	keys = import nix-modules.keys;
+	plex-versioned = import sources.overrides.plex-versioned { inherit pkgs; };
+	keys = import modules.common.keys;
 in
 {
 	imports = [

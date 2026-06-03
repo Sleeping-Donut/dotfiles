@@ -1,18 +1,23 @@
-{ pkgs, pkgs-unstable, inputs, home-modules, darwin-home-modules, ... }:
+{
+	config, pkgs, lib, system,
+	pkgs-unstable,
+	inputs, sources, modules,
+	...
+}:
 {
 	imports = [
 		inputs.nur.modules.homeManager.default
 
-		home-modules.firefox
-		home-modules.neovim
-		home-modules.zsh
-		home-modules.shell-profile
-		home-modules.tealdeer
-		home-modules.tmux
-		home-modules.ata-conf
-		home-modules.bins
+		modules.home.firefox
+		modules.home.neovim
+		modules.home.zsh
+		modules.home.shell-profile
+		modules.home.tealdeer
+		modules.home.tmux
+		modules.home.ata-conf
+		modules.home.bins
 
-		darwin-home-modules.alacritty-conf
+		modules.darwin-home.alacritty-conf
 	];
 
 	home.stateVersion = "23.11";
@@ -40,7 +45,7 @@
 		gifski
 		glow
 		httpie
-    hydra-check
+		hydra-check
 		jdk
 		lazygit
 		magic-wormhole
@@ -75,7 +80,7 @@
 	programs = {
 		bat.enable = true;
 		direnv = {
-      package = pkgs-unstable.direnv;
+			package = pkgs-unstable.direnv;
 			enable = true;
 			enableZshIntegration = true;
 		};

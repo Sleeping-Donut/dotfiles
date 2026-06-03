@@ -1,11 +1,11 @@
 {
-	config, pkgs, lib, system, pkgs-unstable,
-	inputs, darwin-modules, hostname,
-#	arch, hostname, pkgs, unstable, nur,
+	config, pkgs, lib, system,
+	pkgs-unstable, hostname ? "LHC", repo-root,
+	inputs, sources, modules,
 	...
 }:
 let
-	mas-apps = import darwin-modules.mas-apps {};
+	mas-apps = import modules.darwin.mas-apps {};
 in
 {
 	nix = {
@@ -52,10 +52,10 @@ in
 		global.brewfile = true;
 		caskArgs.language = "en-GB";
 		brews = [
-      "aichat"
+			"aichat"
 			"ata"
-      "ollama"
-      "opencode"
+			"ollama"
+			"opencode"
 		];
 		casks = [
 			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
@@ -86,7 +86,7 @@ in
 			"pocket-casts"
 			"raycast"
 			"rectangle"
-      "t3-code@nightly"
+			"t3-code@nightly"
 			"tailscale-app"
 			"telegram"
 			"thaw@beta"

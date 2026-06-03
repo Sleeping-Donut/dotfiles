@@ -1,19 +1,15 @@
 {
-	config, lib, pkgs,
-	pkgs-unstable,
-	nix-modules, nixos-modules, overrides, own-pkgs,
-  flatpak,
-	repo-root,
-	hostname ? "htpc", system,
-	inputs,
+	config, pkgs, lib, system,
+	pkgs-unstable, hostname ? "HTPC", repo-root,
+	inputs, sources, modules,
 	...
 }:
 let
-	keys = import nix-modules.keys;
+	keys = import modules.common.keys;
 in
 {
 	imports = [
-    flatpak
+		sources.flatpak
 		./hardware-configuration.nix
 	];
 
@@ -80,12 +76,12 @@ in
 
 	boot.plymouth = {
 		enable = true;
-    theme = "colorful_sliced";
-    themePackages = with pkgs; [
-      (adi1090x-plymouth-themes.override {
-        selected_themes = ["colorful_sliced"];
-      })
-    ];
+		theme = "colorful_sliced";
+		themePackages = with pkgs; [
+			(adi1090x-plymouth-themes.override {
+				selected_themes = ["colorful_sliced"];
+			})
+		];
 	};
 	boot.consoleLogLevel = 3; # 'Silent' boot
 	boot.initrd.verbose = false;
@@ -115,21 +111,21 @@ in
 	};
 	services.desktopManager.plasma6.enable = true;
 
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    wireplumber = {
-      enable = true;
-    };
-  };
+	security.rtkit.enable = true;
+	services.pipewire = {
+		enable = true;
+		alsa.enable = true;
+		alsa.support32Bit = true;
+		pulse.enable = true;
+		wireplumber = {
+			enable = true;
+		};
+	};
 
-  hardware.logitech.wireless = {
-    enable = true;
-    enableGraphical = true;
-  };
+	hardware.logitech.wireless = {
+		enable = true;
+		enableGraphical = true;
+	};
 
 #	Groups
 	users.groups.labmembers.gid = 8596;
@@ -157,12 +153,12 @@ in
 		duf
 		dust
 		fd
-    pkgs.firefox
+		pkgs.firefox
 		git
-    pkgs.kdePackages.sddm-kcm
-    pkgs.kdePackages.flatpak-kcm
-    pkgs.kdePackages.plymouth-kcm
-    pkgs.kdePackages.kde-gtk-config
+		pkgs.kdePackages.sddm-kcm
+		pkgs.kdePackages.flatpak-kcm
+		pkgs.kdePackages.plymouth-kcm
+		pkgs.kdePackages.kde-gtk-config
 		neovim
 		nh
 		nix-output-monitor
@@ -176,14 +172,14 @@ in
 	};
 
 #	System Services
-  services.flatpak = {
-    enable = true;
-    packages = [
-      "com.github.tchx84.Flatseal"
-      "tv.plex.PlexDesktop"
-      "tv.plex.PlexHTPC"
-    ];
-  };
+	services.flatpak = {
+		enable = true;
+		packages = [
+			"com.github.tchx84.Flatseal"
+			"tv.plex.PlexDesktop"
+			"tv.plex.PlexHTPC"
+		];
+	};
 
 	services.openssh.enable = true;
 	services.tailscale = {

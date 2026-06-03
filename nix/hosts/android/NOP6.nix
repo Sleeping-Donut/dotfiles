@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }:
+{ config, pkgs, lib, system, pkgs-unstable, hostname, inputs, sources, modules, ... }:
 {
 	system.stateVersion = "23.05";
 

@@ -1,7 +1,7 @@
 {
-	pkgs,
+	pkgs, system,
 	pkgs-unstable,
-	repo-root,
+	inputs, sources, modules,
 	...
 }:
 {
