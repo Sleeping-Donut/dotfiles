@@ -143,6 +143,7 @@
                 lua-language-server
                 nil
                 nixfmt-rfc-style
+                rumdl # markdown formatter
                 vscode-json-languageserver
               ]
               ++ (with pkgs.tree-sitter-grammars; [
