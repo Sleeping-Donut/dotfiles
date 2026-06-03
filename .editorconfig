@@ -5,7 +5,27 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+tab_width = 4
+indent_style = tab
+indent_size = 4
+
 [*.nix]
+# Nix can't handle tabs sometimes, so until that's fixed...
+indent_style = space
+indent_size = 2
+
+[*.{json,jsonc}]
+# Most tools output this so don't fight the current
+indent_style = space
+indent_size = 2
+
+[*.py]
+# Per PEP8 guide
+indent_style = space
+indent_size = 4
+
+[*.md]
+# Some parsers treat tabs and 4-space as special codeblock stuff
 indent_style = space
 indent_size = 2
 
