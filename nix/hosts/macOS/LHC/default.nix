@@ -1,173 +1,191 @@
 {
-	config, pkgs, lib, system,
-	pkgs-unstable, hostname ? "LHC", repo-root,
-	inputs, sources, modules,
-	...
+  config,
+  pkgs,
+  lib,
+  system,
+  pkgs-unstable,
+  hostname ? "LHC",
+  repo-root,
+  inputs,
+  sources,
+  modules,
+  ...
 }:
 let
-	mas-apps = import modules.darwin.mas-apps {};
+  mas-apps = import modules.darwin.mas-apps { };
 in
 {
-	nix = {
-		enable = true;
-		gc.automatic = true;
-		gc.interval = { Weekday = 5; Hour = 3; Minute = 0; };
-		gc.options = "--delete-older-than 30d";
-		optimise.automatic = true;
-		linux-builder.enable = true;
-		settings.trusted-users = [ "@admin" ];
-	};
+  nix = {
+    enable = true;
+    gc.automatic = true;
+    gc.interval = {
+      Weekday = 5;
+      Hour = 3;
+      Minute = 0;
+    };
+    gc.options = "--delete-older-than 30d";
+    optimise.automatic = true;
+    linux-builder.enable = true;
+    settings.trusted-users = [ "@admin" ];
+  };
 
-	# Needed because it complains
-	# find out how to have a not jank fix
-	ids.gids.nixbld = 350;
+  # Needed because it complains
+  # find out how to have a not jank fix
+  ids.gids.nixbld = 350;
 
-	security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
-	networking = { hostName = hostname; computerName = hostname; };
-	fonts.packages = with pkgs; [
-		noto-fonts
-#		noto-fonts-cjk
-#		noto-fonts-extra
-#		noto-fonts-emoji
-	];
+  networking = {
+    hostName = hostname;
+    computerName = hostname;
+  };
+  fonts.packages = with pkgs; [
+    noto-fonts
+    #		noto-fonts-cjk
+    #		noto-fonts-extra
+    #		noto-fonts-emoji
+  ];
 
-	environment.systemPackages = with pkgs-unstable; [];
+  environment.systemPackages = with pkgs-unstable; [ ];
 
-	system.primaryUser = "nathand";
-	users.users.nathand = { name = "nathand"; home = "/Users/nathand"; };
-	home-manager = {
-		backupFileExtension = "hm-bak";
-		users.nathand = import ./nathand.nix;
-#		users.nathand.nixpkgs = pkgs;
-	};
+  system.primaryUser = "nathand";
+  users.users.nathand = {
+    name = "nathand";
+    home = "/Users/nathand";
+  };
+  home-manager = {
+    backupFileExtension = "hm-bak";
+    users.nathand = import ./nathand.nix;
+    #		users.nathand.nixpkgs = pkgs;
+  };
 
-	homebrew = {
-		enable = true;
-		onActivation = {
-			autoUpdate = true;
-			upgrade = true;
-			# cleanup = "zap";
-		};
-		global.brewfile = true;
-		caskArgs.language = "en-GB";
-		brews = [
-			"aichat"
-			"ata"
-			"ollama"
-			"opencode"
-		];
-		casks = [
-			# Try move some of these to nixpkgs (need to have them show up in ~/Applications
-			"1password" "1password-cli"
-			"LocalSend"
-			"aegisub"
-			"alacritty"
-			"android-studio"
-			"balenaetcher"
-			"blackhole-2ch"
-			"blender"
-			"calibre"
-			"chatterino"
-			"chatgpt"
-			"discord"
-			"firefox"
-			"fork"
-			"gramps"
-			"helium-browser"
-			"iina"
-			"kitty"
-			"loop"
-			"mediamate"
-			"mullvad-vpn"
-			"ollama-app"
-			"ollamac"
-			"plexamp"
-			"pocket-casts"
-			"raycast"
-			"rectangle"
-			"t3-code@nightly"
-			"tailscale-app"
-			"telegram"
-			"thaw@beta"
-			"thunderbird"
-			"transmission"
-			"utm"
-			"vanilla"
-			"visual-studio-code"
-			"vlc"
-			"wireshark-app"
-			"zed"
-			"zen"
-		];
-		masApps = { inherit (mas-apps)
-			# Must first be logged in to App Store with account that has previously downloaded these applications
-			DaVinciResolve
-			Gifski
-			MicrosoftRemoteDesktop
-			Twitter
-			WireGuard
-			XCode
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
+      upgrade = true;
+      # cleanup = "zap";
+    };
+    global.brewfile = true;
+    caskArgs.language = "en-GB";
+    brews = [
+      "aichat"
+      "ata"
+      "ollama"
+      "opencode"
+    ];
+    casks = [
+      # Try move some of these to nixpkgs (need to have them show up in ~/Applications
+      "1password"
+      "1password-cli"
+      "LocalSend"
+      "aegisub"
+      "alacritty"
+      "android-studio"
+      "balenaetcher"
+      "blackhole-2ch"
+      "blender"
+      "calibre"
+      "chatterino"
+      "chatgpt"
+      "discord"
+      "firefox"
+      "fork"
+      "gramps"
+      "helium-browser"
+      "iina"
+      "kitty"
+      "loop"
+      "mediamate"
+      "mullvad-vpn"
+      "ollama-app"
+      "ollamac"
+      "plexamp"
+      "pocket-casts"
+      "raycast"
+      "rectangle"
+      "t3-code@nightly"
+      "tailscale-app"
+      "telegram"
+      "thaw@beta"
+      "thunderbird"
+      "transmission"
+      "utm"
+      "vanilla"
+      "visual-studio-code"
+      "vlc"
+      "wireshark-app"
+      "zed"
+      "zen"
+    ];
+    masApps = {
+      inherit (mas-apps)
+        # Must first be logged in to App Store with account that has previously downloaded these applications
+        DaVinciResolve
+        Gifski
+        MicrosoftRemoteDesktop
+        Twitter
+        WireGuard
+        XCode
 
-			# iOS apps don't work through mas at the moment
-#			Tachimanga
-#			Paperback
-			;
-		};
-	};
+        # iOS apps don't work through mas at the moment
+        #			Tachimanga
+        #			Paperback
+        ;
+    };
+  };
 
-	system = {
-		stateVersion = 4;
-		# activationScripts.postUserActivation.text = ''
-		# # Following line should allow us to avoid a logout/login cycle
-		# /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-		# '';
-		defaults = {
-			dock = {
-				expose-group-apps = true;
-				showhidden = true;
-				tilesize = 30;
-			};
-			finder = {
-				AppleShowAllExtensions = true;
-				AppleShowAllFiles = true;
-				ShowPathbar = true;
-				ShowStatusBar = true;
-			};
-			menuExtraClock.Show24Hour = true;
-			NSGlobalDomain = {
-				"com.apple.mouse.tapBehavior" = null;
-				"com.apple.swipescrolldirection" = true;
-				"com.apple.trackpad.enableSecondaryClick" = true;
-				AppleEnableMouseSwipeNavigateWithScrolls = true;
-				AppleEnableSwipeNavigateWithScrolls = true;
-				AppleInterfaceStyle = "Dark";
-				AppleInterfaceStyleSwitchesAutomatically = null; # bool
-				AppleMeasurementUnits = "Centimeters";
-				AppleMetricUnits = null; # 0, 1
-				AppleTemperatureUnit = "Celsius";
-				InitialKeyRepeat = null; # signed int
-				KeyRepeat = null; # signed int
-				NSAutomaticCapitalizationEnabled = false;
-				NSAutomaticDashSubstitutionEnabled = false;
-				NSAutomaticPeriodSubstitutionEnabled = false;
-				NSAutomaticQuoteSubstitutionEnabled = false;
-				NSAutomaticSpellingCorrectionEnabled = false;
-				NSDocumentSaveNewDocumentsToCloud = false;
-			};
-			screencapture.type = "png";
-			spaces.spans-displays = false;
-			trackpad = {
-				Dragging = false;
-				TrackpadRightClick = true;
-				TrackpadThreeFingerDrag = true;
-			};
-#			"com.apple.Safari" = {
-#				AutoFillFromiCloudKeychain = 0;
-#				AutoFillPasswords = 0; # I don't think I can link in with 1Password
-#				"com.apple.Safari.WebKitPreferences.developerExtrasEnabled" = 1;
-#			};
-		};
-	};
+  system = {
+    stateVersion = 4;
+    # activationScripts.postUserActivation.text = ''
+    # # Following line should allow us to avoid a logout/login cycle
+    # /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    # '';
+    defaults = {
+      dock = {
+        expose-group-apps = true;
+        showhidden = true;
+        tilesize = 30;
+      };
+      finder = {
+        AppleShowAllExtensions = true;
+        AppleShowAllFiles = true;
+        ShowPathbar = true;
+        ShowStatusBar = true;
+      };
+      menuExtraClock.Show24Hour = true;
+      NSGlobalDomain = {
+        "com.apple.mouse.tapBehavior" = null;
+        "com.apple.swipescrolldirection" = true;
+        "com.apple.trackpad.enableSecondaryClick" = true;
+        AppleEnableMouseSwipeNavigateWithScrolls = true;
+        AppleEnableSwipeNavigateWithScrolls = true;
+        AppleInterfaceStyle = "Dark";
+        AppleInterfaceStyleSwitchesAutomatically = null; # bool
+        AppleMeasurementUnits = "Centimeters";
+        AppleMetricUnits = null; # 0, 1
+        AppleTemperatureUnit = "Celsius";
+        InitialKeyRepeat = null; # signed int
+        KeyRepeat = null; # signed int
+        NSAutomaticCapitalizationEnabled = false;
+        NSAutomaticDashSubstitutionEnabled = false;
+        NSAutomaticPeriodSubstitutionEnabled = false;
+        NSAutomaticQuoteSubstitutionEnabled = false;
+        NSAutomaticSpellingCorrectionEnabled = false;
+        NSDocumentSaveNewDocumentsToCloud = false;
+      };
+      screencapture.type = "png";
+      spaces.spans-displays = false;
+      trackpad = {
+        Dragging = false;
+        TrackpadRightClick = true;
+        TrackpadThreeFingerDrag = true;
+      };
+      #			"com.apple.Safari" = {
+      #				AutoFillFromiCloudKeychain = 0;
+      #				AutoFillPasswords = 0; # I don't think I can link in with 1Password
+      #				"com.apple.Safari.WebKitPreferences.developerExtrasEnabled" = 1;
+      #			};
+    };
+  };
 }
-

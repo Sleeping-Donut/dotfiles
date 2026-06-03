@@ -1,18 +1,22 @@
 {
-	config, pkgs, system,
-	pkgs-unstable,
-	inputs, sources, modules,
-	...
+  config,
+  pkgs,
+  system,
+  pkgs-unstable,
+  inputs,
+  sources,
+  modules,
+  ...
 }:
 {
-	home.stateVersion = "23.11";
+  home.stateVersion = "23.11";
 
-	home.file.".profile".text = ''
-		export PATH="$PATH:$HOME/.local/bin"
-	'';
+  home.file.".profile".text = ''
+    		export PATH="$PATH:$HOME/.local/bin"
+    	'';
 
-	home.packages = with pkgs-unstable; [
-		bat
-		btop
-	];
+  home.packages = with pkgs-unstable; [
+    bat
+    btop
+  ];
 }

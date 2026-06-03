@@ -1,5 +1,4 @@
 {
-	nix = ./nix.nix;
-	keys = ./keys.nix;
+  nix = ./nix.nix;
+  keys = ./keys.nix;
 }
-

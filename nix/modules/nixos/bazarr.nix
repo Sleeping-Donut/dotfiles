@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.nd0.services.bazarr;
 in
@@ -47,10 +52,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-		systemd.tmpfiles.settings."10-bazarr".${cfg.dataDir}.d = {
-		inherit (cfg) user group;
-		mode = "0700";
-	};
+    systemd.tmpfiles.settings."10-bazarr".${cfg.dataDir}.d = {
+      inherit (cfg) user group;
+      mode = "0700";
+    };
 
     systemd.services.bazarr = {
       description = "bazarr";
@@ -87,8 +92,7 @@ in
     };
 
     users.groups = lib.mkIf (cfg.group == "bazarr") {
-      bazarr = {};
+      bazarr = { };
     };
   };
 }
-
