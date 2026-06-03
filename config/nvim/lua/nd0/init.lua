@@ -101,6 +101,13 @@ end, {desc = "Load current path as working directory"})
 
 --- Less vanilla
 
+local diffdirs = require("diffdirs")
+vim.keymap.set("n", "<leader>ll", diffdirs.pick, {desc="Diff file between 2 dirs"})
+vim.api.nvim_create_user_command("DiffDirs", function(args) diffdirs.command(args) end, {
+	nargs = "*",
+	complete = "dir",
+})
+
 require("nd0.lsp")
 require("nd0.plugins")
 
