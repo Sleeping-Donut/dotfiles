@@ -15,8 +15,6 @@
 
   time.timeZone = "Europe/London";
 
-  networking.hostName = hostname;
-
   environment.etcBackupExtension = ".bak";
   environment.packages = with pkgs-unstable; [
     curl
