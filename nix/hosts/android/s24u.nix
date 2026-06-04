@@ -4,7 +4,7 @@
   lib,
   system,
   pkgs-unstable,
-  repo-root
+  repo-root,
   inputs,
   sources,
   modules,
