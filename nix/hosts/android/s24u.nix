@@ -15,6 +15,15 @@
 
   time.timeZone = "Europe/London";
 
+  networking = {
+    hostName = hostname;
+    computerName = hostname;
+  };
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+  ];
+
   environment.etcBackupExtension = ".bak";
   environment.packages = with pkgs-unstable; [
     curl
