@@ -15,10 +15,7 @@
 
   time.timeZone = "Europe/London";
 
-  networking = {
-    hostName = hostname;
-    computerName = hostname;
-  };
+  networking.hostName = hostname;
 
   environment.etcBackupExtension = ".bak";
   environment.packages = with pkgs-unstable; [
