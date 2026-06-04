@@ -22,6 +22,7 @@
     git
     neovim
     noto-fonts
+    opencode
     ripgrep
     wget
   ];
