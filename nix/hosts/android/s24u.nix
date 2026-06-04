@@ -36,6 +36,8 @@
       modules.home.tmux
     ];
 
+    home.stateVersion = "24.05";
+
     nd0.home = {
       neovim = {
         enable = true;
