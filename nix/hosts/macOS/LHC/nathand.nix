@@ -9,6 +9,9 @@
   modules,
   ...
 }:
+let
+  neovim-nightly = import sources.overrides.neovim { inherit inputs system; };
+in
 {
   imports = [
     inputs.nur.modules.homeManager.default
@@ -115,6 +118,7 @@
       };
     };
     git.enable = true;
+    neovim.package = neovim-nightly;
     jq = {
       enable = true;
       package = pkgs-unstable.jq;
