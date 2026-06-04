@@ -4,14 +4,14 @@
   lib,
   system,
   pkgs-unstable,
+  repo-root
   inputs,
   sources,
   modules,
-  repo-root,
   ...
 }:
 let
-  shellAliases = (import "${repo-root}/modules/values.nix" { }).shellAliases;
+  shellAliases = (import (repo-root + "/modules/values.nix") { }).shellAliases;
 in
 {
   system.stateVersion = "24.05";
@@ -43,7 +43,7 @@ in
     programs.zsh = {
       enable = true;
       enableAutosuggestions = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting.enable = true;
       history.size = 10000;
 
       oh-my-zsh = {
