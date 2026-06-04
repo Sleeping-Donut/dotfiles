@@ -141,7 +141,7 @@
               with pkgs;
               [
                 lua-language-server
-                nil
+                nixd
                 nixfmt-rfc-style
                 rumdl # markdown formatter
                 vscode-json-languageserver
