@@ -11,7 +11,7 @@
   ...
 }:
 let
-  shellAliases = (import (repo-root + "/modules/values.nix") { }).shellAliases;
+  shellAliases = import modules.home.shell-aliases;
 in
 {
   system.stateVersion = "24.05";

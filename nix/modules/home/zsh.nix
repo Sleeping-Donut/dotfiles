@@ -2,11 +2,12 @@
   lib,
   pkgs,
   config,
+  modules,
   ...
 }:
 let
   cfg = config.nd0.home.zsh;
-  shellAliases = (import ../values.nix { }).shellAliases;
+  shellAliases = import modules.home.shell-aliases;
 in
 {
   options.nd0.home.zsh = {

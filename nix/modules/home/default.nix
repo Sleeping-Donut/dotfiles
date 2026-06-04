@@ -3,6 +3,7 @@
   ata-conf = ./ata-conf.nix;
   firefox = ./firefox.nix;
   neovim = ./neovim.nix;
+  shell-aliases = ./shell-aliases.nix;
   shell-profile = ./shell-profile.nix;
   tealdeer = ./tealdeer.nix;
   tmux = ./tmux.nix;
