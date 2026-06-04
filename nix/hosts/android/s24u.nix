@@ -72,8 +72,6 @@ in
     nd0.home = {
       neovim = {
         enable = true;
-        lsps = false;
-        formatters = false;
       };
       shell-profile = {
         enable = true;
