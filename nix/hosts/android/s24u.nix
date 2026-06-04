@@ -11,14 +11,6 @@
   ...
 }:
 {
-  imports = [
-    modules.home.neovim
-    modules.home.zsh
-    modules.home.shell-profile
-    modules.home.tealdeer
-    modules.home.tmux
-  ];
-
   system.stateVersion = "24.05";
 
   time.timeZone = "Europe/London";
@@ -39,18 +31,28 @@
     wget
   ];
 
-  nd0.home = {
-    neovim = {
-      enable = true;
-      lsps = false;
-      formatters = false;
+  home-manager.config = { pkgs, ... }: {
+    imports = [
+      modules.home.neovim
+      modules.home.zsh
+      modules.home.shell-profile
+      modules.home.tealdeer
+      modules.home.tmux
+    ];
+
+    nd0.home = {
+      neovim = {
+        enable = true;
+        lsps = false;
+        formatters = false;
+      };
+      shell-profile = {
+        enable = true;
+        symlink.enable = true;
+      };
+      tealdeer.enable = true;
+      tmux.enable = true;
+      zsh.enable = true;
     };
-    shell-profile = {
-      enable = true;
-      symlink.enable = true;
-    };
-    tealdeer.enable = true;
-    tmux.enable = true;
-    zsh.enable = true;
   };
 }
