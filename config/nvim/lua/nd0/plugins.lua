@@ -367,8 +367,6 @@ qpack:add(
 		vim.keymap.set("n", "<leader>tg", function() extra.pickers.git_files() end, { desc = "Git files" })
 		vim.keymap.set("n", "<leader>tvs", function() extra.pickers.git_status() end, { desc = "Git status" })
 
-		vim.keymap.set("n", "<leader>gtd", function() extra.pickers.lsp({ scope = "definition" }) end, { desc = "Pick LSP definition" })
-		vim.keymap.set("n", "<leader>vtrr", function() extra.pickers.lsp({ scope = "references" }) end, { desc = "Pick LSP reference" })
 		vim.keymap.set("n", "<leader>tld", function() extra.pickers.diagnostic({ scope = "current" }) end, { desc = "Pick LSP diagnostic" })
 
 		vim.keymap.set("n", "<leader>tvb", function() extra.pickers.git_branches() end,
