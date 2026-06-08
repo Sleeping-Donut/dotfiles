@@ -311,16 +311,19 @@ qpack:add(
 			local cwd = current_dir and vim.fn.expand("%:p:h") or vim.fn.getcwd()
 			-- if cwd == "" then cwd = vim.fn.getcwd() end
 			local has_fd = vim.fn.executable("fd") == 1
-			local args = {}
+			local cmd = {}
 			if has_fd then
-				args = hidden and { "--hidden", "--no-ignore" } or {}
+				cmd = { "fd", "--type=f" }
+				if hidden then
+					vim.list_extend(cmd, {"--hidden", "--no-ignore" })
+				end
 			else
-				args = { ".", "-type", "f" }
+				cmd = { "find", ".", "-type", "f" }
 			end
 
-			pick.builtin.files(
-				{ tool = has_fd and "fd" or "find" },
-				{ source = { cwd = cwd, args = args } }
+			pick.builtin.cli(
+				{ command = cmd },
+				{ source = { cwd = cwd } }
 			)
 		end
 
