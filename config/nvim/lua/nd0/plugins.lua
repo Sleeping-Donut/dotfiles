@@ -298,18 +298,7 @@ qpack:add(
 				-- prompt_caret = "│",
 				-- prompt_prefix = "",
 			},
-			mappings = {
-				-- scroll_view_up = {
-				-- 	char = "<C-u>",
-				-- 	func = function() pick.builtin.buffers end,
-				-- },
-				-- scroll_view_down = {
-				-- 	char = "<C-d>",
-				-- 	func = function() pick.actions.scroll_view("down") end,
-				-- },
-				-- toggle_preview = "",
-				-- toggle_info = "",
-			},
+			mappings = {},
 		})
 
 		local has_extra, extra = pcall(require, "mini.extra")
@@ -405,23 +394,6 @@ qpack:add(
 					end
 				end
 			end
-			-- local items = {}
-			-- local modes = { "n", "v", "i", "x", "s", "o" }
-			-- for _, mode in ipairs(modes) do
-			-- 	for _, km in ipairs(vim.api.nvim_get_keymap(mode)) do
-			-- 		local desc = km.desc or ""
-			-- 		local rhs = km.rhs or ""
-			-- 		if desc ~= "" and rhs ~= "<Nop>" then
-			-- 			table.insert(items, {
-			-- 				mode = mode,
-			-- 				lhs = km.lhs,
-			-- 				desc = desc,
-			-- 				buffer = km.buffer,
-			-- 				rhs = rhs,
-			-- 			})
-			-- 		end
-			-- 	end
-			-- end
 			local items = vim.tbl_values(raw)
 			table.sort(items, function(a,b) return a.lhs < b.lhs end)
 			local function display_lhs(lhs)
