@@ -48,6 +48,8 @@ vim.opt.listchars = {
 	eol = "↵",
 }
 
+vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy", "popup" }
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
