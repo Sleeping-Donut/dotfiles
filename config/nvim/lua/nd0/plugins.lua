@@ -410,13 +410,14 @@ qpack:add(
 					name = "Current Keymaps",
 					items = items,
 					show = function(buf_id, shown, _query)
-						for i, item in ipairs(shown) do
+						local lines = {}
+						for _, item in ipairs(shown) do
 							local modes = table.concat(item.modes, ",")
-							local line = modes
+							lines[#lines + 1] = modes
 								.."       "..display_lhs(item.lhs)
 								.."    "..item.desc
-							vim.api.nvim_buf_set_lines(buf_id, i - 1, i, false, { line })
 						end
+						vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
 					end,
 					preview = function(buf_id, item)
 						if not item then return end
@@ -440,17 +441,21 @@ qpack:add(
 			})
 		end
 		local function pick_keymaps_defaults()
-			local has_keymaps, default_keymaps = pcall(require, "nd0.new.default_keymaps")
-			if not has_keymaps then return end
+			local has_keymaps, default_keymaps = pcall(require, "nd0.default_keymaps")
+			if not has_keymaps then
+				vim.notify("Failed to find default keymaps file", vim.log.levels.ERROR)
+				return
+			end
 			pick.start({
 				source = {
 					name = "Default Keymaps",
 					items = default_keymaps,
 					show = function(buf_id, items, _query)
-						for i, item in ipairs(items) do
-							local line = item.lhs.." - "..item.desc
-							vim.api.nvim_buf_set_lines(buf_id, i - 1, i, false, { line })
+						local lines = {}
+						for _, item in ipairs(items) do
+							lines[#lines + 1] = item.lhs.." - "..item.desc
 						end
+						vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
 					end,
 					preview = function(buf_id, item)
 						if not item then return end
