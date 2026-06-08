@@ -7,27 +7,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local bufnr = ev.buf
 		local client_id = ev.data.client_id
 		local client = vim.lsp.get_client_by_id(client_id)
+		if not client then return end
 
-		vim.lsp.completion.enable(true, client_id, bufnr, { autotrigger = false })
-		vim.keymap.set("n", "K", function() vim.lsp.buf.hover({
-			border = "solid",
-		}) end, {
-			buffer = bufnr,
-			desc = "LSP hover"
-		})
-		if client and client.server_capabilities.inlayHintProvider then
+		if client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client_id, bufnr, { autotrigger = false })
+		end
+		if client:supports_method("textDocument/hover") then
+			vim.keymap.set("n", "K", function()
+				vim.lsp.buf.hover({
+					border = "solid",
+				})
+			end, {
+				buffer = bufnr,
+				desc = "LSP hover"
+			})
+		end
+		if client:supports_method("textDocument/inlayHint") then
 			local default_inlay = false
 			vim.lsp.inlay_hint.enable(default_inlay, { bufnr = bufnr })
 		end
-		if client and client.server_capabilities.documentFormattingProvider then
-			vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format({
-				bufnr = bufnr,
-				id = client_id,
-				timeout_ms = 1000 * 3
-			}) end, {
-				buffer = bufnr,
-				desc = "Format",
-			})
+		if client:supports_method("textDocument/formatting") then
+			-- default gq format might timeout? - check
+			vim.keymap.set("n", "<leader>f", function()
+				vim.lsp.buf.format({
+					bufnr = bufnr,
+					id = client_id,
+					timeout_ms = 1000 * 3
+				})
+			end, { buffer = bufnr, desc = "Format" })
 		end
 	end,
 })
