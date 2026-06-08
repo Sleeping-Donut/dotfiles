@@ -87,9 +87,11 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]], {desc = "Delete to black hole"}
 
 vim.keymap.set("i", "<C-c>", "<Esc>", {desc = "C-c escapes when insert mode"})
 
--- vim.keymap.set("n", "<leader><leader>", vim.cmd.source, {desc = "Source current buffer"})
 vim.keymap.set("n", "<leader><leader>", function() dofile(vim.fn.expand("%")) end, {desc = "Source current buffer"})
 vim.keymap.set("n", "<leader>sc", function()
+	for _,mod in ipairs({ "nd0", "nd0.lsp", "nd0.plugins", "qpack", "diffdirs"}) do
+		package.loaded[mod] = nil
+	end
 	vim.cmd.source(vim.env.MYVIMRC)
 	vim.print("Sourced config: "..vim.env.MYVIMRC)
 end, {desc = "Source init.lua"})

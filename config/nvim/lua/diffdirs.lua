@@ -3,6 +3,8 @@ local M = {
 	dir_b = nil,
 }
 
+local diffdirs_group = vim.api.nvim_create_augroup("DiffDirs", { clear = true })
+
 local function normalize(path)
 	if path == nil or path == "" then return nil end
 	return vim.fn.fnamemodify(path, ":p"):gsub("/+$", "")
@@ -40,11 +42,13 @@ local function open_diff(relpath, orig_win)
 		pcall(vim.api.nvim_win_close, win_b, true)
 	end
 	vim.api.nvim_create_autocmd("WinClosed", {
+		group = diffdirs_group,
 		pattern = tostring(win_a),
 		once = true,
 		callback = close_both,
 	})
 	vim.api.nvim_create_autocmd("WinClosed", {
+		group = diffdirs_group,
 		pattern = tostring(win_b),
 		once = true,
 		callback = close_both,

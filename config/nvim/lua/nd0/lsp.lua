@@ -1,5 +1,8 @@
+local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	desc = "LSP Actions",
+	group = lsp_group,
 	callback = function(ev)
 		local bufnr = ev.buf
 		local client_id = ev.data.client_id
@@ -400,6 +403,7 @@ if vim.fn.executable("rust-analyzer") == 1 then
 		function()
 			-- Any rustacean specific keymaps etc here
 			vim.api.nvim_create_autocmd("LspAttach", {
+				group = lsp_group,
 				desc = "LSP Actions",
 				callback = function(ev)
 					local bufnr = ev.buf
