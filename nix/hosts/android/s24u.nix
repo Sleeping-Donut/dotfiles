@@ -12,6 +12,10 @@
 }:
 let
   shellAliases = import modules.home.shell-aliases;
+  neovim-nightly = (import inputs.nixpkgs-droid-compat {
+    inherit system;
+    overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
+  }).neovim;
 in
 {
   system.stateVersion = "24.05";
@@ -23,7 +27,6 @@ in
     curl
     fd
     git
-    neovim
     noto-fonts
     opencode
     ripgrep
@@ -68,6 +71,8 @@ in
         fi
       '';
     };
+
+    programs.neovim.package = neovim-nightly;
 
     nd0.home = {
       neovim = {
