@@ -20,6 +20,11 @@ in
 {
   system.stateVersion = "24.05";
 
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   time.timeZone = "Europe/London";
 
   environment.etcBackupExtension = ".bak";
