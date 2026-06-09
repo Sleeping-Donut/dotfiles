@@ -23,12 +23,14 @@ in
   time.timeZone = "Europe/London";
 
   environment.etcBackupExtension = ".bak";
-  environment.packages = with pkgs-unstable; [
+  environment.packages = with pkgs; [
     curl
     fd
     git
+    nix-output-monitor
     noto-fonts
-    opencode
+    pkgs-unstable.opencode
+    pkgs-unstable.tealdeer
     ripgrep
     wget
   ];
