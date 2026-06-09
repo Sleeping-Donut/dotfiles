@@ -20,11 +20,6 @@ in
 {
   system.stateVersion = "24.05";
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
   time.timeZone = "Europe/London";
 
   environment.etcBackupExtension = ".bak";
@@ -78,6 +73,11 @@ in
         fi
       '';
     };
+
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     programs.neovim.package = neovim-nightly;
 
