@@ -166,30 +166,31 @@ qpack:add(
 			use_icons = has_icons,
 			content = {
 				active = function()
-					local mode, mode_hl = MiniStatusline.section_mode({
+					local mode, mode_hl = statusline.section_mode({
 						trunc_width = 99999, -- ensure mode gets truncated
 						format = function(mode_info)
 							return mode_info.short
 						end,
 					})
 					local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
-					local git = has_git and MiniStatusline.section_git({ trunc_width = 75 }) or ""
-					local diff = has_diff and MiniStatusline.section_diff({ trunc_width = 75 }) or ""
+					local git = has_git and statusline.section_git({ trunc_width = 75 }) or ""
+					local diff = has_diff and statusline.section_diff({ trunc_width = 75 }) or ""
 
-					local filename = MiniStatusline.section_filename({ trunc_width = 140 })
-					local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
-					local location = MiniStatusline.section_location({ trunc_width = 75 })
+					local filename = statusline.section_filename({ trunc_width = 140 })
+					filename = vim.fn.pathshorten(filename) -- FIXME: not correct way to shorten path
+					local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
+					local location = statusline.section_location({ trunc_width = 75 })
 
 					local lsp_status = get_lsp_status()
-					local lsp_details = MiniStatusline.section_lsp({ trunc_width = 75 })
+					local lsp_details = statusline.section_lsp({ trunc_width = 75 })
 
-					return MiniStatusline.combine_groups({
+					return statusline.combine_groups({
 						{ hl = mode_hl, strings = {mode} },
-						{ hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics } },
+						{ hl = "statuslineDevinfo", strings = { git, diff, diagnostics } },
 						"%<",
-						{ hl = "MiniStatuslineFilename", strings = { filename } },
+						{ hl = "statuslineFilename", strings = { filename } },
 						"%=",
-						{ hl = "MiniStatuslineFileinfo", strings = { lsp_status, fileinfo } },
+						{ hl = "statuslineFileinfo", strings = { lsp_status, fileinfo } },
 						{ hl = mode_hl, strings = { lsp_details, location } },
 					})
 				end,
@@ -307,6 +308,7 @@ qpack:add(
 
 		-- Helper for specialized file picking
 		---@param current_dir boolean? If true, sets cwd to current file's directory
+		---@param hidden boolean? If true show hidden files
 		local function pick_files(current_dir, hidden)
 			local cwd = current_dir and vim.fn.expand("%:p:h") or vim.fn.getcwd()
 			-- if cwd == "" then cwd = vim.fn.getcwd() end
@@ -325,6 +327,67 @@ qpack:add(
 				{ command = cmd },
 				{ source = { cwd = cwd } }
 			)
+		end
+
+		local function grep_hidden_files()
+			local has_rg = vim.fn.executable("rg") == 1
+			if not has_rg then
+				vim.notify("grep_hidden requires rg", vim.log.levels.ERROR)
+				return
+			end
+
+			local cwd = vim.fn.getcwd()
+			local set_items_opts = { do_match = false }
+			local spawn_opts = { cwd = cwd }
+			local sys = { kill = function() end }
+			local globs = {}
+			local name_suffix = ""
+
+			local function match(_, _, query)
+				sys:kill()
+				if #query == 0 then
+					sys = { kill = function() end }
+					return pick.set_picker_items({}, set_items_opts)
+				end
+
+				local cmd = {
+					"rg", "--column", "--line-number", "--no-heading",
+					"--field-match-separator", "\\x00", "--color=never",
+					"--hidden", "--no-ignore",
+				}
+				for _, g in ipairs(globs) do
+					table.insert(cmd, "--glob")
+					table.insert(cmd, g)
+				end
+				local case = vim.o.ignorecase
+					and (vim.o.smartcase and "--smart-case" or "--ignore-case")
+					or "--case-sensitive"
+				vim.list_extend(cmd, { case, "--", table.concat(query) })
+
+				sys = pick.set_picker_items_from_cli(cmd, {
+					set_items_opts = set_items_opts,
+					spawn_opts = spawn_opts,
+				})
+			end
+
+			local function add_glob()
+				local ok, glob = pcall(vim.fn.input, "Glob pattern: ")
+				if not ok or glob == "" then return end
+				table.insert(globs, glob)
+				name_suffix = #globs == 0 and "" or (" | "..table.concat(globs, ", "))
+				pick.set_picker_opts({ source = { name = "Grep (Hidden Files)"..name_suffix } })
+				pick.set_picker_query(pick.get_picker_query())
+			end
+			local mappings = { add_glob = { char = "<C-o>", func = add_glob } }
+
+			pick.start({
+				source = {
+					name = "Grep (Hidden Files)",
+					items = {},
+					match = match,
+				},
+				mappings = mappings,
+			})
 		end
 
 		--- Helper for picking colorschemes with live preview and abort-revert
@@ -346,15 +409,13 @@ qpack:add(
 			if not chosen_theme then apply_theme(og_theme) end
 		end
 
-		vim.keymap.set("n", "<leader>tf", function() pick_files() end, { desc = "Pick files" })
+		vim.keymap.set("n", "<leader>tf", function() pick.builtin.files() end, { desc = "Pick files" })
 		vim.keymap.set("n", "<leader>tF", function() pick_files(false, true) end, { desc = "Pick files (hidden)" })
 		vim.keymap.set("n", "<leader>t.", function() pick_files(true) end, { desc = "Pick files from current file location (hidden)" })
 		vim.keymap.set("n", "<leader>t,", function() pick_files(true, true) end, { desc = "Pick files from current file location (hidden)" })
 
 		vim.keymap.set("n", "<leader>tr", function() pick.builtin.grep_live() end, { desc = "Pick grep" })
-		vim.keymap.set("n", "<leader>tR", function() pick.builtin.grep_live({
-			tool = { args = { "--hidden", "--no-ignore", "--smart-case" } }
-		}) end, { desc = "Pick grep hidden" })
+		vim.keymap.set("n", "<leader>tR", function() grep_hidden_files() end, { desc = "Pick grep hidden" })
 
 		vim.keymap.set("n", "<leader>tg", function() extra.pickers.git_files() end, { desc = "Git files" })
 		vim.keymap.set("n", "<leader>tvs", function() extra.pickers.git_status() end, { desc = "Git status" })
