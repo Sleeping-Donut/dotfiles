@@ -16,6 +16,7 @@ in
   config = lib.mkIf cfg.enable {
     programs.neovim = {
       enable = true;
+      sideloadInitLua = true;
     };
     home.file.".config/nvim/".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/nvim/";
