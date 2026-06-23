@@ -142,7 +142,7 @@
               [
                 lua-language-server
                 nixd
-                nixfmt-rfc-style
+                nixfmt
                 rumdl # markdown formatter
                 vscode-json-languageserver
               ]
