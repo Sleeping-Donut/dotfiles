@@ -368,8 +368,8 @@ qpack:add(
 		lsp_enable("ruby_lsp", "ruby-lsp")
 		-- lsp_enable("rust_analyzer") -- rustacean handles this now
 		lsp_enable("scheme_langserver", "scheme-langserver")
-		lsp_enable("texlab", "texlab")
-		lsp_enable("tinymist", "tinymist")
+		lsp_enable("texlab")
+		lsp_enable("tinymist")
 		lsp_enable("zls")
 
 		-- Config languages
