@@ -129,7 +129,11 @@ qpack:add(
 
 -- status
 qpack:add(
-	"https://github.com/echasnovski/mini.statusline",
+	{
+		"https://github.com/echasnovski/mini.statusline",
+		"https://github.com/nvim-mini/mini-git",
+		"https://github.com/nvim-mini/mini.diff",
+	},
 	function()
 		local has_status, statusline = pcall(require, "mini.statusline")
 		if not has_status then
@@ -172,9 +176,9 @@ qpack:add(
 							return mode_info.short
 						end,
 					})
-					local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
-					local git = has_git and statusline.section_git({ trunc_width = 75 }) or ""
-					local diff = has_diff and statusline.section_diff({ trunc_width = 75 }) or ""
+					local diagnostics = statusline.section_diagnostics({ trunc_width = 75, icon = "" })
+					local git = has_git and statusline.section_git({ trunc_width = 75, icon = "" }) or ""
+					local diff = has_diff and statusline.section_diff({ trunc_width = 75, icon = "" }) or ""
 
 					local filename = statusline.section_filename({ trunc_width = 140 })
 					filename = vim.fn.pathshorten(filename) -- FIXME: not correct way to shorten path
@@ -190,7 +194,7 @@ qpack:add(
 						"%<",
 						{ hl = "statuslineFilename", strings = { filename } },
 						"%=",
-						{ hl = "statuslineFileinfo", strings = { lsp_status, fileinfo } },
+						{ hl = "statuslineFileinfo", strings = { fileinfo } },
 						{ hl = mode_hl, strings = { lsp_details, location } },
 					})
 				end,
@@ -342,6 +346,7 @@ qpack:add(
 			local sys = { kill = function() end }
 			local globs = {}
 			local name_suffix = ""
+			local use_gitignore = false
 
 			local function match(_, _, query)
 				sys:kill()
@@ -353,11 +358,17 @@ qpack:add(
 				local cmd = {
 					"rg", "--column", "--line-number", "--no-heading",
 					"--field-match-separator", "\\x00", "--color=never",
-					"--hidden", "--no-ignore",
+					"--hidden",
 				}
 				for _, g in ipairs(globs) do
 					table.insert(cmd, "--glob")
 					table.insert(cmd, g)
+				end
+				if use_gitignore then
+					table.insert(cmd, "--no-ignore")
+				else
+					table.insert(cmd, "--glob")
+					table.insert(cmd, "!.git/**")
 				end
 				local case = vim.o.ignorecase
 					and (vim.o.smartcase and "--smart-case" or "--ignore-case")
@@ -378,7 +389,16 @@ qpack:add(
 				pick.set_picker_opts({ source = { name = "Grep (Hidden Files)"..name_suffix } })
 				pick.set_picker_query(pick.get_picker_query())
 			end
-			local mappings = { add_glob = { char = "<C-o>", func = add_glob } }
+			local function toggle_gitignore()
+				use_gitignore = not use_gitignore
+				local prompt = "> "
+				if not use_gitignore then prompt = "!> " end
+				pick.set_picker_opts({ window = { prompt_prefix = prompt } })
+			end
+			local mappings = {
+				add_glob = { char = "<C-o>", func = add_glob },
+				toggle_gitignore = { char = "<C-e>", func = toggle_gitignore },
+			}
 
 			pick.start({
 				source = {
