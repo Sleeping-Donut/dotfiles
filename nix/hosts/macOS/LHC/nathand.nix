@@ -28,7 +28,7 @@ in
     modules.darwin-home.alacritty-conf
   ];
 
-  home.stateVersion = "23.11";
+  home.stateVersion = "26.05";
   home.file.".hushlogin".text = "";
 
   # TODO: Need to copy .profile-prefs to $HOME

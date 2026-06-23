@@ -1,7 +1,8 @@
 --- @alias DepSpec string | vim.pack.Spec
 --- @alias PackSpec string
 
---- QPack module
+--- QPack - The packadd batcher
+--- Queue packadd list and setup functions
 --- @class QPackBatcher
 --- @field _deps DepSpec[]	List of pack Specs to install
 --- @field _loadpack PackSpec[] List of packs to load
