@@ -271,6 +271,7 @@ in
         # domain = "zwei.fglab";
         root_url = "http://zwei.fglab/grafana/";
       };
+      security.secret_key = "SW2YcwTIb9zpOOhoPsMm"; # Shhh its very secret
     };
     provision.datasources.settings.datasources = [
       {
