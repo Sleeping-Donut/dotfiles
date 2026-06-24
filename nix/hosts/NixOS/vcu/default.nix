@@ -108,7 +108,6 @@ in
   #	GNOME stuff
   services.displayManager.gdm = {
     enable = true;
-    wayland = true;
     autoSuspend = false;
   };
   services.desktopManager.gnome = {
