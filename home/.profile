@@ -10,6 +10,18 @@ if [ -e "$HOME/.profile-prefs" ]; then
 	source "$HOME/.profile-prefs"
 fi
 
+HISTSIZE=10000
+if [ -n "$ZSH_VERSION" ]; then
+	setopt HIST_IGNORE_DUPS
+	setopt HIST_IGNORE_SPACE
+	setopt HIST_VERIFY
+	setopt HIST_REDUCE_BLANKS
+elif [ -n "$B" ]; then
+	HISTCONTROL=ignoreboth
+	shopt histverify
+fi
+
+
 export PATH="$PATH:$HOME/.local/bin:$HOME/.turso"
 export DOT="$HOME/dotfiles"
 
@@ -68,6 +80,30 @@ rgpa() {
 	rg --hidden --color=always "$@" | bat -p
 }
 
+normalize_path() {
+  local path="$1" result="" segment
+  [ "${path:0:1}" = "/" ] || path="$PWD/$path"
+
+  while [ -n "$path" ]; do
+    path="${path#/}"
+    segment="${path%%/*}"
+
+    if [ "$segment" = "$path" ]; then
+      path=""
+    else
+      path="${path#$segment/}"
+    fi
+
+    case "$segment" in
+      ""|".") ;;
+      "..")    result="${result%/*}" ;;
+      *)       result="$result/$segment" ;;
+    esac
+  done
+
+  echo "${result:-/}"
+}
+
 nixdev() {
 	pid="$$"
 	shell_context=$(ps -p "$pid" -o comm= | sed 's/^-//')
@@ -121,4 +157,23 @@ short_pwd() {
 
 	echo -n $shortened_pwd
 }
+
+tracelink() {
+  local target="${1}"
+  [ "${target:0:1}" = "/" ] || target="$PWD/$target"
+
+  echo "-> $target"
+  while [ -L "$target" ]; do
+    local link=$(readlink "$target")
+    case "$link" in
+      /*) target="$link" ;;
+      *)  target=$(normalize_path "$(dirname "$target")/$link") ;;
+    esac
+    echo "-> $target"
+  done
+}
+
+if [ -n "$ZSH_VERSION" ] && [ -f "$HOME/.local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+	source "$HOME/.local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
 
