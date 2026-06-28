@@ -1,28 +1,48 @@
 { config, pkgs, lib, ... }:
 
-with lib;
-
 let
   cfg = config.quadlets;
+
+  collectDeps = qCfg:
+    qCfg.dependsOn
+    ++ lib.optional (qCfg.shareNetworkWith or null != null) qCfg.shareNetworkWith;
+
+  appendToList = existing: newItems:
+    let
+      parts = lib.filter (s: s != "") [ (lib.toString existing) (lib.concatStringsSep " " newItems) ];
+    in lib.concatStringsSep " " parts;
 in {
-  options.quadlets = mkOption {
+  options.quadlets = lib.mkOption {
     description = "Use quadlets with nix-built OCI images";
     default = {};
-    type = types.attrsOf (types.submodule ({ name, ... }: {
-      # This allows any arbitrary [Section] and Key = Value pairs
-      freeformType = with types; attrsOf (attrsOf anything);
+    type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
+      options = {
+        dependsOn = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [];
+          description = "Other quadlet containers this one depends on. Injects Requires= and After= into the [Unit] section.";
+          example = [ "service-a" "service-b" ];
+        };
+        shareNetworkWith = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          description = "Share the network namespace of another quadlet container. Injects Network= into [Container] and an implicit service dependency.";
+          example = "mullvad";
+        };
+      };
+      freeformType = with lib.types; attrsOf (attrsOf lib.types.anything);
     }));
   };
 
-  config = mkIf (cfg != {}) {
-    # 1. Dynamically generate the .container files
-    xdg.configFile = concatMapAttrs (name: qCfg:
+  config = lib.mkIf (cfg != {}) {
+    xdg.configFile = lib.concatMapAttrs (name: qCfg:
       let
-        # Isolate the Container block (default to empty if they omitted it)
-        rawContainer = qCfg.Container or {};
+        deps = collectDeps qCfg;
 
-        # Check if they supplied a Nix derivation package as the image
-        hasDrvImage = rawContainer ? Image && isDerivation rawContainer.Image;
+        rawContainer = qCfg.Container or {};
+        rawUnit = qCfg.Unit or {};
+
+        hasDrvImage = rawContainer ? Image && lib.isDerivation rawContainer.Image;
 
         processedImage = if hasDrvImage then
           let
@@ -32,24 +52,32 @@ in {
         else
           rawContainer.Image or null;
 
-        # Inject ContainerName automatically, but let them override it if they want.
-        # If the image was a derivation, swap it out for its evaluated string name.
         fixedContainer = { ContainerName = name; }
           // rawContainer
-          // (optionalAttrs hasDrvImage { Image = processedImage; });
+          // (lib.optionalAttrs hasDrvImage { Image = processedImage; })
+          // (lib.optionalAttrs (qCfg.shareNetworkWith or null != null) {
+              Network = "${qCfg.shareNetworkWith}.container";
+            });
 
-        # Merge the modified Container block back into the freeform configuration
-        finalIniStructure = qCfg // { Container = fixedContainer; };
+        fixedUnit = if deps == [] then rawUnit
+          else rawUnit // {
+            Requires = appendToList (rawUnit.Requires or null) (map (d: "${d}.service") deps);
+            After = appendToList (rawUnit.After or null) (map (d: "${d}.service") deps);
+          };
+
+        cleaned = lib.removeAttrs qCfg [ "dependsOn" "shareNetworkWith" ];
+        finalIniStructure = cleaned
+          // { Unit = fixedUnit; }
+          // { Container = fixedContainer; };
       in {
-        "containers/systemd/${name}.container".text = generators.toINI {} finalIniStructure;
+        "containers/systemd/${name}.container".text = lib.generators.toINI {} finalIniStructure;
       }
     ) cfg;
 
-    # 2. Automatically generate the image loading services for Nix derivations
-    systemd.user.services = concatMapAttrs (name: qCfg:
+    systemd.user.services = lib.concatMapAttrs (name: qCfg:
       let
         rawContainer = qCfg.Container or {};
-        hasDrvImage = rawContainer ? Image && isDerivation rawContainer.Image;
+        hasDrvImage = rawContainer ? Image && lib.isDerivation rawContainer.Image;
       in
       if hasDrvImage then {
         "load-${name}-image" = {
@@ -59,7 +87,7 @@ in {
           };
           Service = {
             Type = "oneshot";
-            ExecStart = "${getExe pkgs.podman}/bin/podman load -i ${rawContainer.Image}";
+            ExecStart = "${lib.getExe pkgs.podman}/bin/podman load -i ${rawContainer.Image}";
             RemainAfterExit = true;
           };
           Install = { WantedBy = [ "default.target" ]; };
