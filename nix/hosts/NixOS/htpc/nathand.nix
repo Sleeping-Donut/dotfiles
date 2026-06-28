@@ -89,7 +89,7 @@
           };
         };
         EnvironmentFile = "%h/.config/mullvad/mullvad.env";
-        AddCapability = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
+        AddCapability = "CAP_NET_ADMIN CAP_NET_RAW";
         AddDevice = "/dev/net/tun";
       };
       Service = {
