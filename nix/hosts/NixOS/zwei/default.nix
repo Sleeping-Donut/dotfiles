@@ -372,7 +372,7 @@ in
                 proxyPass = toUrl vcu port;
                 proxyWebsockets = true;
               };
-              "${if service == "prowlarr" then "/prowlarr(/[0-9]+)?/api" else "/${service}/api"}" = {
+              "${if service == "prowlarr" then "~ ^/prowlarr(/[0-9]+)?/api" else "/${service}/api"}" = {
                 proxyPass = toUrl vcu port;
                 extraConfig = "auth_basic off;";
               };
