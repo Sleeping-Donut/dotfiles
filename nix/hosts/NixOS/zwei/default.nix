@@ -353,6 +353,7 @@ in
 
       virtualHosts."_" = {
         default = true;
+        rejectSSL = true;
         locations."/".return = "444"; # silently reject
       };
 
