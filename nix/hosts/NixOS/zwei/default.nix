@@ -319,7 +319,10 @@ in
   };
 
   # To handle SSL
-  # security.acme = { acceptTerms = true; defaults.email = ""; };
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "natha"+"nda"+"vis"+"199"+"9"+"@g"+"mail"+".com";
+  };
   services.nginx =
     let
       localDomain = "fglab";
