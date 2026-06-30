@@ -462,8 +462,19 @@ in
               '';
             };
             "/kavita" = {
+              return = "301 $scheme://$host/kavita/";
+            };
+            "/kavita/" = {
               proxyPass = toUrl zwei 8082;
               proxyWebsockets = true;
+              extraConfig = ''
+                # Stop Kavita from compressing HTML so Nginx can read it
+                proxy_set_header Accept-Encoding "";
+
+                # Force rewrite the base href that is stuck in the Nix store
+                sub_filter '<base href="/">' '<base href="/kavita/">';
+                sub_filter_once on;
+              '';
             };
           };
       };
