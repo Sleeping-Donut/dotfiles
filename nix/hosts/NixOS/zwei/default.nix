@@ -351,8 +351,20 @@ in
       serverNamesHashBucketSize = 1024;
       serverNamesHashMaxSize = 128;
 
+      virtualHosts."_" = {
+        default = true;
+        locations."/".return = "444"; # silently reject
+      };
+
       virtualHosts."${zwei}" = {
         serverAliases = [ zweiTail ];
+        extraConfig = ''
+          allow 192.168.10.0/24; # lan
+          allow 100.64.0.0/10; # tailnet
+          allow fd7a:115c:a1e0::/48; # tailnet v6
+          allow 127.0.0.1; # loopback
+          deny all;
+        '';
         locations =
           let
             arrConfig = service: port: {
