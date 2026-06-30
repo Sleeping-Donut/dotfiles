@@ -206,6 +206,28 @@ in
     OnCalendar = [ "Sun *-*-* 03:15:00" ]; # weekly at 0300 Sun
   };
 
+  users.users.kavita.extraGroups = [ "labmembers" ];
+  services.kavita = {
+    enable = true;
+    dataDir = "/opt/kavita/data";
+    tokenKeyFile = "/opt/kavita/kavita-token-key";
+    settings.Port = 8082;
+  };
+  nd0.rclone-backups.kavita = {
+    enable = false;
+    sourceDir = "/opt/kavita/data";
+    destDir = "/mnt/amadeus/fg8/Backup/kavita";
+    group = "labmembers";
+    pruneRemote = true;
+    OnCalendar = [ "Sun *-*-* 03:30:00" ]; # Weekly at 03:30 Sun
+    whitelist = [
+      "/kavita.db"
+      "/appsettings.json"
+      "/covers/**"
+      "/kavita-token-key"
+    ];
+  };
+
   services.unifi = {
     enable = false;
     maximumJavaHeapSize = 2048;
@@ -414,6 +436,32 @@ in
               '';
             };
           };
+      };
+
+      virtualHosts."kavita.${zwei}" = {
+        serverAliases = [ "kavita.${zweiTail}" ];
+        # enableACME = true; # Uncomment if using Tailscale certs or local ACME
+        # forceSSL = true;
+        locations."/" = {
+          proxyPass = toUrl zwei 8082;
+          proxyWebsockets = true;
+        };
+      };
+
+      virtualHosts."kavita.${zwei}" = {
+        enableACME = true;
+        forceSSL = true;
+
+        locations."/" = {
+          return = "403";
+        };
+        locations."/api/opds" = { # KOReader sync
+          proxyPass = toUrl zwei 8082;
+          proxyWebsockets = true;
+        };
+        locations."/api/images" = { # chapter images etc
+          proxyPass = toUrl zwei 8082;
+        };
       };
     };
 }
