@@ -132,6 +132,8 @@ in
 
   #	System Services
   services.openssh.enable = true;
+
+  networking.firewall.checkReversePath = "loose"; # trouble with tailscale otherwise
   services.tailscale = {
     enable = true;
     package = pkgs-unstable.tailscale;
