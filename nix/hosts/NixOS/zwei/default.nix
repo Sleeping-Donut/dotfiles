@@ -479,6 +479,9 @@ in
         locations."/kavita/api/images" = { # chapter images etc
           proxyPass = toUrl zwei 8082;
         };
+        locations."/kavita/api/books" = { # book downloads (maybe check if needed)
+          proxyPass = toUrl zwei 8082;
+        };
       };
     };
 }
