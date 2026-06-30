@@ -327,6 +327,12 @@ in
       vcu = "vcu.${localDomain}";
       zwei = "zwei.${localDomain}";
       zweiTail = "zwei.${tailnet}";
+      publicDomain =
+        "media"
+        + "centre"
+        + "hub"
+        + "."
+        + "com";
       toUrl = domain: port: "http://${domain}:${toString port}";
     in
     {
@@ -448,7 +454,7 @@ in
         };
       };
 
-      virtualHosts."kavita.${zwei}" = {
+      virtualHosts."kavita.${publicDomain}" = {
         enableACME = true;
         forceSSL = true;
 
