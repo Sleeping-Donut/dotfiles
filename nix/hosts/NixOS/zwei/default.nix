@@ -43,6 +43,7 @@ in
       allowedTCPPorts = [
         80 # nginx
         8443 # Unifi remote login
+        8082 # kavita
       ];
       # allowedUDPPorts = [];
     };
