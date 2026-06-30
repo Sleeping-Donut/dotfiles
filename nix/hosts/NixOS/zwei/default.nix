@@ -310,10 +310,10 @@ in
     {
       enable = true;
 
-      # recommendedGzipSettings = true;
-      # recommendedOptimisation = true;
-      # recommendedProxySettings = true;
-      # recommendedTlsSettings = true;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
 
       # Increased to avoid warnings
       serverNamesHashBucketSize = 1024;
@@ -323,31 +323,16 @@ in
         serverAliases = [ zweiTail ];
         locations =
           let
-            arrConfig =
-              service: port:
-              let
-                servicePath = "/${service}";
-                apiPath = if service == "prowlarr" then "/prowlarr(/[0-9]+)?/api" else "/${service}/api";
-              in
-              {
-                "${servicePath}" = {
-                  proxyPass = toUrl vcu port;
-                  proxyWebsockets = true;
-                  extraConfig = ''
-                    							proxy_set_header Host $host;
-                    							proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    							proxy_set_header X-Forwarded-Host $host;
-                    							proxy_set_header X-Forwarded-Proto $scheme;
-                    							proxy_redirect off;
-                    						'';
-                };
-                "${apiPath}" = {
-                  proxyPass = "${toUrl vcu port}";
-                  extraConfig = ''
-                    							auth_basic off;
-                    						'';
-                };
+            arrConfig = service: port: {
+              "/${service}" = {
+                proxyPass = toUrl vcu port;
+                proxyWebsockets = true;
               };
+              "${if service == "prowlarr" then "/prowlarr(/[0-9]+)?/api" else "/${service}/api"}" = {
+                proxyPass = toUrl vcu port;
+                extraConfig = "auth_basic off;";
+              };
+            };
             arrServices =
               { }
               // (arrConfig "sonarr" 8989)
@@ -362,8 +347,8 @@ in
               # proxyPass = toUrl vcu "5000";
               return = "200 \"At least this is running\"";
               extraConfig = ''
-                						add_header Content-Type text/plain;
-                					'';
+                add_header Content-Type text/plain;
+              '';
             };
             "/grafana/" =
               let
@@ -373,12 +358,12 @@ in
                 proxyPass = "${grafanaUrl}";
                 proxyWebsockets = true;
                 extraConfig = ''
-                  						proxy_set_header Host $host;
-                  					#	proxy_set_header X-Real-IP $remote_addr;
-                  					#	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                  					#	proxy_set_header X-Forwarded-Proto $scheme;
-                  					#	proxy_redirect ${grafanaUrl}/ /grafana/;
-                  					'';
+                  proxy_set_header Host $host;
+                  #	proxy_set_header X-Real-IP $remote_addr;
+                  #	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  #	proxy_set_header X-Forwarded-Proto $scheme;
+                  #	proxy_redirect ${grafanaUrl}/ /grafana/;
+                '';
               };
             "/grafana/api/live/" =
               let
@@ -388,30 +373,30 @@ in
                 proxyPass = "${grafanaUrl}";
                 proxyWebsockets = true;
                 extraConfig = ''
-                  						proxy_set_header Host $host;
-                  					'';
+                  proxy_set_header Host $host;
+                '';
 
               };
             "/plex" = {
               proxyPass = toUrl vcu 32400;
               proxyWebsockets = true;
               extraConfig = ''
-                						proxy_set_header Host $host;
-                						proxy_set_header X-Real-IP $remote_addr;
-                						proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                						proxy_set_header X-Forwarded-Proto $scheme;
-                						# Additional headers often recommended for Plex
-                						proxy_set_header X-Plex-Client-Identifier $http_x_plex_client_identifier;
-                						proxy_set_header X-Plex-Device $http_x_plex_device;
-                						proxy_set_header X-Plex-Device-Name $http_x_plex_device_name;
-                						proxy_set_header X-Plex-Platform $http_x_plex_platform;
-                						proxy_set_header X-Plex-Platform-Version $http_x_plex_platform_version;
-                						proxy_set_header X-Plex-Provides $http_x_plex_provides;
-                						proxy_set_header X-Plex-Product $http_x_plex_product;
-                						proxy_set_header X-Plex-Version $http_x_plex_version;
-                						proxy_set_header X-Plex-Device-Screen-Resolution $http_x_plex_device_screen_resolution;
-                						proxy_set_header X-Plex-Token $http_x_plex_token;
-                					'';
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                # Additional headers often recommended for Plex
+                proxy_set_header X-Plex-Client-Identifier $http_x_plex_client_identifier;
+                proxy_set_header X-Plex-Device $http_x_plex_device;
+                proxy_set_header X-Plex-Device-Name $http_x_plex_device_name;
+                proxy_set_header X-Plex-Platform $http_x_plex_platform;
+                proxy_set_header X-Plex-Platform-Version $http_x_plex_platform_version;
+                proxy_set_header X-Plex-Provides $http_x_plex_provides;
+                proxy_set_header X-Plex-Product $http_x_plex_product;
+                proxy_set_header X-Plex-Version $http_x_plex_version;
+                proxy_set_header X-Plex-Device-Screen-Resolution $http_x_plex_device_screen_resolution;
+                proxy_set_header X-Plex-Token $http_x_plex_token;
+              '';
             };
             "/jellyfin" = {
               proxyPass = toUrl zwei 8096;
@@ -421,12 +406,12 @@ in
               proxyPass = toUrl vcu 9091;
               proxyWebsockets = true;
               extraConfig = ''
-                						proxy_pass_header  X-Transmission-Session-Id;
-                						proxy_set_header   X-Forwarded-Host $host;
-                						proxy_set_header   X-Forwarded-Server $host;
-                						proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-                						proxy_read_timeout 300;
-                					'';
+                proxy_pass_header  X-Transmission-Session-Id;
+                proxy_set_header   X-Forwarded-Host $host;
+                proxy_set_header   X-Forwarded-Server $host;
+                proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_read_timeout 300;
+              '';
             };
           };
       };
