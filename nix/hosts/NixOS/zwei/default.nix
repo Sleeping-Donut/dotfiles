@@ -212,7 +212,10 @@ in
     enable = true;
     dataDir = "/opt/kavita/data";
     tokenKeyFile = "/opt/kavita/kavita-token-key";
-    settings.Port = 8082;
+    settings = {
+      Port = 8082;
+      BaseUrl = "/kavita/";
+    };
   };
   nd0.rclone-backups.kavita = {
     enable = false;
