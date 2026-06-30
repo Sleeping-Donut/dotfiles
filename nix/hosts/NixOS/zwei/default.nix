@@ -358,7 +358,7 @@ in
       };
 
       virtualHosts."${zwei}" = {
-        serverAliases = [ zweiTail ];
+        serverAliases = [ zweiTail "127.0.0.1" "localhost" ];
         extraConfig = ''
           allow 192.168.10.0/24; # lan
           allow 100.64.0.0/10; # tailnet
