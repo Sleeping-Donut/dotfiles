@@ -394,7 +394,7 @@ in
                 add_header Content-Type text/plain;
               '';
             };
-            "/grafana/" =
+            "/grafana" =
               let
                 grafanaUrl = toUrl zwei config.services.grafana.settings.server.http_port;
               in
