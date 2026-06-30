@@ -409,7 +409,7 @@ in
                   #	proxy_redirect ${grafanaUrl}/ /grafana/;
                 '';
               };
-            "/grafana/api/live/" =
+            "/grafana/api/live" =
               let
                 grafanaUrl = toUrl zwei config.services.grafana.settings.server.http_port;
               in
