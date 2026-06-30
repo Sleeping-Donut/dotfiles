@@ -444,17 +444,11 @@ in
                 proxy_read_timeout 300;
               '';
             };
+            locations."/kavita" = {
+              proxyPass = toUrl zwei 8082;
+              proxyWebsockets = true;
+            };
           };
-      };
-
-      virtualHosts."kavita.${zwei}" = {
-        serverAliases = [ "kavita.${zweiTail}" ];
-        # enableACME = true; # Uncomment if using Tailscale certs or local ACME
-        # forceSSL = true;
-        locations."/" = {
-          proxyPass = toUrl zwei 8082;
-          proxyWebsockets = true;
-        };
       };
 
       virtualHosts."kavita.${publicDomain}" = {
@@ -464,11 +458,11 @@ in
         locations."/" = {
           return = "403";
         };
-        locations."/api/opds" = { # KOReader sync
+        locations."/kavita/api/opds" = { # KOReader sync
           proxyPass = toUrl zwei 8082;
           proxyWebsockets = true;
         };
-        locations."/api/images" = { # chapter images etc
+        locations."/kavita/api/images" = { # chapter images etc
           proxyPass = toUrl zwei 8082;
         };
       };
