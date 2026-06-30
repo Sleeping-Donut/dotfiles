@@ -444,7 +444,7 @@ in
                 proxy_read_timeout 300;
               '';
             };
-            locations."/kavita" = {
+            "/kavita" = {
               proxyPass = toUrl zwei 8082;
               proxyWebsockets = true;
             };
