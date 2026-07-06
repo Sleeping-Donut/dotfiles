@@ -232,6 +232,28 @@ in
     ];
   };
 
+  users.users.audiobookshelf.extraGroups = [ "labmembers" ];
+  systemd.services.audiobookshelf.serviceConfig = {
+    # override the hardcoded dirs
+    StateDirectory = lib.mkForce "/opt/audiobookshelf";
+    WorkingDirectory = lib.mkForce "/opt/audiobookshelf";
+  };
+  services.audiobookshelf = {
+    enable = true;
+    package = pkgs-unstable.audiobookshelf;
+    dataDir = "/opt/audiobookshelf/data"; # ignored atm because I need to override above
+    port = 13378;
+    openFirewall = true;
+  };
+  nd0.rclone-backups.audiobookshelf = {
+    enable = false;
+    sourceDir = "/opt/audiobookshelf";
+    destDir = "/mnt/amadeus/fg8/Backup/audiobookshelf";
+    group = "labmembers";
+    pruneRemote = true;
+    OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 03:45 Sun
+  };
+
   services.unifi = {
     enable = false;
     maximumJavaHeapSize = 2048;
@@ -475,6 +497,10 @@ in
                 sub_filter 'href="/"' 'href="/kavita/"';
                 sub_filter_once on;
               '';
+            };
+            "/audiobookshelf" = {
+              proxyPass = toUrl zwei config.services.audiobookshelf.port;
+              proxyWebsockets = true;
             };
           };
       };
