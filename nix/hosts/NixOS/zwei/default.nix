@@ -484,7 +484,7 @@ in
         forceSSL = true;
 
         locations."/" = {
-          return = "403";
+          return = 403;
         };
         locations."/kavita/api/opds" = { # KOReader sync
           proxyPass = toUrl zwei 8082;
