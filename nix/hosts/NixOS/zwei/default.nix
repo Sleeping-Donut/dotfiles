@@ -221,16 +221,19 @@ in
   };
   nd0.rclone-backups.kavita = {
     enable = false;
-    sourceDir = "/opt/kavita/data";
+    sourceDir = "/opt/kavita";
     destDir = "/mnt/amadeus/fg8/Backup/kavita";
     group = "labmembers";
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:30:00" ]; # Weekly at 03:30 Sun
     whitelist = [
-      "/kavita.db"
-      "/appsettings.json"
-      "/covers/**"
       "/kavita-token-key"
+      "/data/config/kavita.db"
+      "/data/config/appsettings.json"
+      "/data/config/covers/**"
+      "/data/config/bookmarks/**"
+      "/data/config/themes/**"
+      "/data/config/favicons/**"
     ];
   };
 
@@ -489,7 +492,7 @@ in
               return = "301 $scheme://$host/kavita/";
             };
             "/kavita/" = {
-              proxyPass = toUrl zwei 8082;
+              proxyPass = toUrl zwei config.services.kavita.settings.Port;
               proxyWebsockets = true;
               extraConfig = ''
                 # Stop Kavita from compressing HTML so Nginx can read it
@@ -507,7 +510,14 @@ in
           };
       };
 
-      virtualHosts."kavita.${publicDomain}" = {
+        locations."/" = {
+          proxyPass = toUrl "zwei.${localDomain}" config.services.immich.port;
+          proxyWebsockets = true;
+        };
+      };
+      virtualHosts."kavita.${publicDomain}" = let
+        kavitaPort = config.services.kavita.settings.Port;
+      in {
         enableACME = true;
         forceSSL = true;
 
@@ -515,14 +525,14 @@ in
           return = 403;
         };
         locations."/kavita/api/opds" = { # KOReader sync
-          proxyPass = toUrl zwei 8082;
+          proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
           proxyWebsockets = true;
         };
         locations."/kavita/api/images" = { # chapter images etc
-          proxyPass = toUrl zwei 8082;
+          proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
         };
         locations."/kavita/api/books" = { # book downloads (maybe check if needed)
-          proxyPass = toUrl zwei 8082;
+          proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
         };
       };
     };
