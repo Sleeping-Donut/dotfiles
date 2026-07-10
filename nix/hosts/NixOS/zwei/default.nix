@@ -48,9 +48,11 @@ in
       # allowedUDPPorts = [];
     };
     extraHosts = ''
-      127.0.0.1		zwei.fglab
-      192.168.10.124	whitefox.fglab
-      192.168.10.117	vcu.fglab
+      127.0.0.1         zwei.fglab
+      192.168.10.124    whitefox.fglab
+      192.168.10.117    vcu.fglab
+      127.0.0.1         immich.zwei.fglab
+      127.0.0.1         kavita.zwei.fglab
     '';
   };
 
