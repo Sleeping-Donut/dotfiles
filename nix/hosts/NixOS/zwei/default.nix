@@ -386,7 +386,7 @@ in
   # To handle SSL
   security.acme = {
     acceptTerms = true;
-    defaults.email = "natha"+"nda"+"vis"+"199"+"9"+"@g"+"mail"+".com";
+    defaults.email = "natha"+"nda"+"vis"+"199"+"9"+"@g"+"mail"+".com"; # maybe avoid some automated spam
   };
   services.nginx =
     let
@@ -421,7 +421,7 @@ in
         locations."/".return = "444"; # silently reject
       };
 
-      virtualHosts."${zwei}" = {
+      virtualHosts."zwei.${localDomain}" = {
         serverAliases = [ zweiTail "127.0.0.1" "localhost" ];
         extraConfig = ''
           allow 192.168.10.0/24; # lan
@@ -466,13 +466,6 @@ in
               {
                 proxyPass = "${grafanaUrl}";
                 proxyWebsockets = true;
-                extraConfig = ''
-                  proxy_set_header Host $host;
-                  #	proxy_set_header X-Real-IP $remote_addr;
-                  #	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                  #	proxy_set_header X-Forwarded-Proto $scheme;
-                  #	proxy_redirect ${grafanaUrl}/ /grafana/;
-                '';
               };
             "/grafana/api/live" =
               let
@@ -481,20 +474,12 @@ in
               {
                 proxyPass = "${grafanaUrl}";
                 proxyWebsockets = true;
-                extraConfig = ''
-                  proxy_set_header Host $host;
-                '';
 
               };
             "/plex" = {
               proxyPass = toUrl vcu 32400;
               proxyWebsockets = true;
               extraConfig = ''
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-                # Additional headers often recommended for Plex
                 proxy_set_header X-Plex-Client-Identifier $http_x_plex_client_identifier;
                 proxy_set_header X-Plex-Device $http_x_plex_device;
                 proxy_set_header X-Plex-Device-Name $http_x_plex_device_name;
@@ -516,9 +501,6 @@ in
               proxyWebsockets = true;
               extraConfig = ''
                 proxy_pass_header  X-Transmission-Session-Id;
-                proxy_set_header   X-Forwarded-Host $host;
-                proxy_set_header   X-Forwarded-Server $host;
-                proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_read_timeout 300;
               '';
             };
