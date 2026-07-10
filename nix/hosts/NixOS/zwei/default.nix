@@ -237,11 +237,14 @@ in
     ];
   };
 
-  users.users.audiobookshelf.extraGroups = [ "labmembers" ];
+  users.users.audiobookshelf = {
+    extraGroups = [ "labmembers" ];
+    home = lib.mkForce "/opt/kavita/home"; # the module has a path for this so just in case, override
+  };
   systemd.services.audiobookshelf.serviceConfig = {
     # override the hardcoded dirs
-    StateDirectory = lib.mkForce "/opt/audiobookshelf";
-    WorkingDirectory = lib.mkForce "/opt/audiobookshelf";
+    StateDirectory = lib.mkForce "/opt/audiobookshelf/data";
+    WorkingDirectory = lib.mkForce "/opt/audiobookshelf/data";
   };
   services.audiobookshelf = {
     enable = true;
@@ -252,11 +255,17 @@ in
   };
   nd0.rclone-backups.audiobookshelf = {
     enable = false;
-    sourceDir = "/opt/audiobookshelf";
+    sourceDir = config.services.audiobookshelf.dataDir;
     destDir = "/mnt/amadeus/fg8/Backup/audiobookshelf";
     group = "labmembers";
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 03:45 Sun
+    whitelist = [
+      "/config/**"
+      "/metadata/items/**"
+      "/metadata/authors/**"
+      "/metadata/backups/**"
+    ];
   };
 
   services.unifi = {
