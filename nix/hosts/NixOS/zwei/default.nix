@@ -584,5 +584,19 @@ in
           proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
         };
       };
+      virtualHosts."audiobookshelf.${publicDomain}" = {
+        enableACME = true;
+        forceSSL = true;
+        extraConfig = ''
+          client_max_body_size 10240M;
+          proxy_read_timeout 600s;
+          proxy_send_timeout 600s;
+          send_timeout 600s;
+        '';
+        locations."/" = {
+          proxyPass = toUrl zwei config.services.audiobookshelf.port;
+          proxyWebsockets = true;
+        };
+      };
     };
 }
