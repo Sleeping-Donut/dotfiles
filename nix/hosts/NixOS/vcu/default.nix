@@ -242,7 +242,7 @@ in
     destDir = "/mnt/amadeus/fg8/Backup/lidarr/data";
     group = "labmembers";
     pruneRemote = true;
-    OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 0345 Sun
+    OnCalendar = [ "Sun *-*-* 03:00:00" ]; # weekly at 0300 Sun
     blacklist = [
       "*.pid"
       "/Sentry/**"
