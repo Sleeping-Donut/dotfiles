@@ -372,11 +372,11 @@ in
   };
   nd0.rclone-backups.grafana = {
     enable = false;
-    sourceDir = "/opt/grafana";
+    sourceDir = config.services.grafana.dataDir;
     destDir = "/mnt/amadeus/fg8/Backup/grafana";
     group = "labmembers";
     pruneRemote = true;
-    OnCalendar = [ "Sun *-*-* 03:30:00" ]; # weekly at 0330 Sun
+    OnCalendar = [ "Sun *-*-* 04:30:00" ]; # weekly at 0330 Sun
     blacklist = [
       "/conf"
       "/tools"
