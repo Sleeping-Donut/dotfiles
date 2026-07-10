@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  repo-root,
   ...
 }:
 let
@@ -18,5 +19,6 @@ in
     };
     home.file.".config/tmux".source = ../../../config/tmux;
     home.file.".local/bin/tmux-sessionizer".source = ../../../local/bin/tmux-sessionizer;
+    home.file.".local/bin/tmux-fsession".source = repo-root + "/local/bin/tmux-fsession";
   };
 }
