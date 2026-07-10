@@ -122,6 +122,53 @@ np() {
 	fi
 }
 
+feval() {
+	local type="$1"
+	shift
+	local attr
+
+	case "$type" in
+		nixos)
+			local host="$1"; shift
+			if [ $# -eq 0 ]; then
+				nix eval --refresh ".#nixosConfigurations.${host}.config"
+			else
+				attr=$(IFS=.; echo "$*")
+				nix eval --refresh ".#nixosConfigurations.${host}.config.${attr}"
+			fi ;;
+		darwin)
+			local host="$1"; shift
+			if [ $# -eq 0 ]; then
+				nix eval --refresh ".#darwinConfigurations.${host}.config"
+			else
+				attr=$(IFS=.; echo "$*")
+				nix eval --refresh ".#darwinConfigurations.${host}.config.${attr}"
+			fi ;;
+		home)
+			local name="$1"; shift
+			if [ $# -eq 0 ]; then
+				nix eval --refresh ".#homeConfigurations.${name}.activationPackage"
+			else
+				attr=$(IFS=.; echo "$*")
+				nix eval --refresh ".#homeConfigurations.${name}.config.${attr}"
+			fi ;;
+		dev)
+			local sys="$1"; shift
+			attr=$(IFS=.; echo "${*:-default}")
+			nix eval --refresh ".#devShells.${sys}.${attr}" ;;
+		packages)
+			local sys="$1" name="$2"; shift 2
+			nix eval --refresh ".#packages.${sys}.${name}" ;;
+		checks)
+			local sys="$1"; shift
+			attr=$(IFS=.; echo "${*}")
+			nix eval --refresh ".#checks.${sys}.${attr}" ;;
+		*)
+			echo "Usage: feval {nixos|darwin|home|dev|packages|checks} ..." >&2
+			return 1 ;;
+	esac
+}
+
 alias shlvl='echo "$SHLVL"'
 
 short_pwd() {
