@@ -69,6 +69,8 @@ in
     tokei
     tinymist
     typst
+    typstyle
+    typst-live
     tz # timezone tool
     yq # jq for YAML
   ];
