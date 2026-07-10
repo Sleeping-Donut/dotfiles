@@ -268,6 +268,31 @@ in
     ];
   };
 
+  users.users.immich.extraGroups = [ "labmembers" ];
+  systemd.services.immich-server.serviceConfig = {
+    # override hardcoded state dir
+    StateDirectory = lib.mkForce "/opt/immich";
+    PrivateMounts = lib.mkForce false;   # needed for NFS automount propagation
+    PrivateUsers = lib.mkForce false;    # needed for NFS UID mapping
+  };
+  systemd.tmpfiles.settings.immich = lib.mkForce {}; # Prevent messy media dir meddling
+  services.immich = {
+    enable = true;
+    package = pkgs-unstable.immich;
+    mediaLocation = "/mnt/amadeus/fg8/Media/Photos";
+    # port = 2283; # default
+    openFirewall = true;
+    machine-learning.enable = false; # no hw ;(
+  };
+  nd0.rclone-backups.immich = {
+    enable = false;
+    sourceDir = "/opt/immich";
+    destDir = "/mnt/amadeus/fg8/Backup/immich";
+    group = "labmembers";
+    pruneRemote = true;
+    OnCalendar = [ "Sun *-*-* 03:50:00" ]; # weekly at 03:50 Sun
+  };
+
   services.unifi = {
     enable = false;
     maximumJavaHeapSize = 2048;
@@ -518,6 +543,39 @@ in
             };
           };
       };
+      virtualHosts."immich.zwei.${localDomain}" = {
+        serverAliases = [ "immich.zwei.${tailnet}" ];
+        extraConfig = ''
+          allow 192.168.10.0/24; # lan
+          allow 100.64.0.0/10; # tailnet
+          allow fd7a:115c:a1e0::/48; # tailnet v6
+          allow 127.0.0.1; # loopback
+          deny all;
+
+          client_max_body_size 50000M;
+          proxy_request_buffering off;
+          client_body_buffer_size 1024k;
+          proxy_read_timeout 600s;
+          proxy_send_timeout 600s;
+          send_timeout 600s;
+        '';
+        locations."/" = {
+          proxyPass = toUrl "zwei.${localDomain}" config.services.immich.port;
+          proxyWebsockets = true;
+        };
+      };
+
+      virtualHosts."immich.${publicDomain}" = {
+        enableACME = true;
+        forceSSL = true;
+        extraConfig = ''
+          client_max_body_size 50000M;
+          proxy_request_buffering off;
+          client_body_buffer_size 1024k;
+          proxy_read_timeout 600s;
+          proxy_send_timeout 600s;
+          send_timeout 600s;
+        '';
 
         locations."/" = {
           proxyPass = toUrl "zwei.${localDomain}" config.services.immich.port;
