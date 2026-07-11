@@ -47,7 +47,8 @@ in
     firewall = {
       enable = true;
       allowedTCPPorts = [
-        80 # nginx
+        80 # nginx HTTP
+        443 # nginx HTTPS
         8443 # Unifi remote login
         8082 # kavita
       ];
