@@ -293,6 +293,7 @@ in
   services.immich = {
     enable = true;
     package = pkgs-unstable.immich;
+    host = "127.0.0.1";
     mediaLocation = "/mnt/amadeus/fg8/Media/Photos";
     # port = 2283; # default
     openFirewall = true;
