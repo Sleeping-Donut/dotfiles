@@ -14,6 +14,12 @@
 let
   plex-versioned = import sources.overrides.plex-versioned { inherit pkgs; };
   keys = import modules.common.keys;
+  publicDomain =
+    "media"
+    + "centre"
+    + "hub"
+    + "."
+    + "com";
 in
 {
   imports = [
@@ -410,12 +416,6 @@ in
       vcu = "vcu.${localDomain}";
       zwei = "zwei.${localDomain}";
       zweiTail = "zwei.${tailnet}";
-      publicDomain =
-        "media"
-        + "centre"
-        + "hub"
-        + "."
-        + "com";
       toUrl = domain: port: "http://${domain}:${toString port}";
     in
     {
