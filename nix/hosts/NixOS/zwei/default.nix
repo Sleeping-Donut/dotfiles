@@ -239,24 +239,31 @@ in
 
   users.users.audiobookshelf = {
     extraGroups = [ "labmembers" ];
-    home = lib.mkForce "/opt/kavita/home"; # the module has a path for this so just in case, override
+    home = lib.mkForce "/opt/audiobookshelf/data"; # the module has a path for this so just in case, override
+  };
+  systemd.tmpfiles.settings.audiobookshelf-data = {
+    "/opt/audiobookshelf/data" = {
+      d = {
+        user = "audiobookshelf";
+        group = "audiobookshelf";
+        mode = "0750";
+      };
+    };
   };
   systemd.services.audiobookshelf.serviceConfig = {
-    # override the hardcoded dirs
-    StateDirectory = lib.mkForce "/opt/audiobookshelf/data";
     WorkingDirectory = lib.mkForce "/opt/audiobookshelf/data";
   };
   services.audiobookshelf = {
     enable = true;
     package = pkgs-unstable.audiobookshelf;
-    dataDir = "/opt/audiobookshelf/data"; # ignored atm because I need to override above
+    dataDir = "/opt/audiobookshelf/data";
     port = 13378;
     openFirewall = true;
   };
   nd0.rclone-backups.audiobookshelf = {
     enable = false;
     sourceDir = config.services.audiobookshelf.dataDir;
-    destDir = "/mnt/amadeus/fg8/Backup/audiobookshelf";
+    destDir = "/mnt/amadeus/fg8/Backup/audiobookshelf/data";
     group = "labmembers";
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 03:45 Sun
