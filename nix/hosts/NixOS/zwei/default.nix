@@ -276,13 +276,20 @@ in
   };
 
   users.users.immich.extraGroups = [ "labmembers" ];
+  systemd.tmpfiles.settings.immich-state = {
+    "/opt/immich" = {
+      d = {
+        user = "immich";
+        group = "immich";
+        mode = "0700";
+      };
+    };
+  };
+  systemd.tmpfiles.settings.immich-media = lib.mkForce {}; # mediaLocation on NFS, no tmpfiles meddling
   systemd.services.immich-server.serviceConfig = {
-    # override hardcoded state dir
-    StateDirectory = lib.mkForce "/opt/immich";
     PrivateMounts = lib.mkForce false;   # needed for NFS automount propagation
     PrivateUsers = lib.mkForce false;    # needed for NFS UID mapping
   };
-  systemd.tmpfiles.settings.immich = lib.mkForce {}; # Prevent messy media dir meddling
   services.immich = {
     enable = true;
     package = pkgs-unstable.immich;
