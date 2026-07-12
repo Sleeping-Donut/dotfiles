@@ -153,5 +153,26 @@ h2 { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:#
     </div>
   </div>
 </div>
+<script>
+async function check() {
+  const r = await fetch('/health').catch(() => null);
+  if (!r) return;
+  const data = await r.json();
+  const map = {
+    Audiobookshelf:'audiobookshelf', Jellyfin:'jellyfin', Immich:'immich',
+    Kavita:'kavita', Grafana:'grafana', 'Pocket ID':'pocket-id',
+    Sonarr:'sonarr', Radarr:'radarr', Lidarr:'lidarr', Readarr:'readarr',
+    Prowlarr:'prowlarr', Plex:'plex', Transmission:'transmission'
+  };
+  document.querySelectorAll('.card').forEach(c => {
+    const svc = map[c.querySelector('h3').textContent];
+    if (!svc || !data.services[svc]) return;
+    const s = data.services[svc];
+    c.querySelectorAll('a.lan').forEach(a => a.style.color = s.lan ? '#4ade80' : '#ef4444');
+    c.querySelectorAll('a.wan').forEach(a => a.style.color = s.wan != null ? (s.wan ? '#4ade80' : '#ef4444') : '');
+  });
+}
+setInterval(check, 10000); check();
+</script>
 </body>
 </html>

@@ -348,6 +348,17 @@ in
     };
   };
 
+  systemd.services.healthcheck = {
+    description = "Health check HTTP server";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${lib.getExe pkgs.python3} ${./healthcheck.py} 8083";
+      Restart = "always";
+      DynamicUser = true;
+    };
+  };
+
   services.prometheus = {
     package = pkgs-unstable.prometheus;
 
