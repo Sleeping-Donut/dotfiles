@@ -492,6 +492,10 @@ in
           in
           arrServices
           // {
+            "/heartbeat" = {
+              return = "200 \"ok\"";
+              extraConfig = "add_header Content-Type text/plain;";
+            };
             "/" = {
               # proxyPass = toUrl vcu "5000";
               return = "200 \"At least this is running\"";
