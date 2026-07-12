@@ -510,6 +510,9 @@ in
             "/" = {
               root = pkgs.writeTextDir "index.html" (builtins.readFile ./dashboard.html);
             };
+            "/health" = {
+              proxyPass = "http://127.0.0.1:8083";
+            };
             "/grafana" =
               let
                 grafanaUrl = toUrl zwei config.services.grafana.settings.server.http_port;
