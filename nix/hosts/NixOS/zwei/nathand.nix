@@ -14,6 +14,8 @@
 
   home.file.".profile".text = ''
     		export PATH="$PATH:$HOME/.local/bin"
+            alias dotpull='cd ~/dotfiles && git pull && cd -'
+            alias nixup='nh os switch -H zwei ~/dotfiles'
     	'';
 
   home.packages = with pkgs-unstable; [
