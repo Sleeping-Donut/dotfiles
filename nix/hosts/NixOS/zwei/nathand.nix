@@ -14,7 +14,9 @@
 
   home.file.".profile".text = ''
     		export PATH="$PATH:$HOME/.local/bin"
-            alias dotpull='cd ~/dotfiles && git pull && cd -'
+            alias dotpull='cd ~/dotfiles \
+              && echo "Pulling ~/dotfiles" && git pull \
+              && cd - > /dev/null'
             alias nixup='nh os switch -H zwei ~/dotfiles'
     	'';
 
