@@ -497,11 +497,7 @@ in
               extraConfig = "add_header Content-Type text/plain;";
             };
             "/" = {
-              # proxyPass = toUrl vcu "5000";
-              return = "200 \"At least this is running\"";
-              extraConfig = ''
-                add_header Content-Type text/plain;
-              '';
+              root = pkgs.writeTextDir "index.html" (builtins.readFile ./dashboard.html);
             };
             "/grafana" =
               let
