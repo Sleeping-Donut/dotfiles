@@ -512,6 +512,10 @@ in
             };
             "/health" = {
               proxyPass = "http://127.0.0.1:8083";
+              extraConfig = ''
+                proxy_buffering off;
+                proxy_cache off;
+              '';
             };
             "/grafana" =
               let
