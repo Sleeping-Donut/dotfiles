@@ -29,27 +29,31 @@ def check(url, timeout=3):
     except Exception:
         return False
 
+def check_service(lan_url, wan_url):
+    lan = check(lan_url)
+    wan = check(wan_url) if wan_url else None
+    return lan, wan
+
 class Handler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
-        results = {}
-        with ThreadPoolExecutor(max_workers=8) as ex:
-            futs = {}
-            for name, lan, wan in SERVICES:
-                futs[ex.submit(check, lan)] = (name, "lan")
-                if wan:
-                    futs[ex.submit(check, wan)] = (name, "wan")
-            for fut in as_completed(futs):
-                name, kind = futs[fut]
-                results.setdefault(name, {})[kind] = fut.result()
-        body = json.dumps({"services": results}).encode()
         self.send_response(200)
-        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Type", "application/x-ndjson")
+        self.send_header("Cache-Control", "no-cache")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
-        self.wfile.write(body)
+
+        with ThreadPoolExecutor(max_workers=8) as ex:
+            futs = {ex.submit(check_service, lan, wan): name for name, lan, wan in SERVICES}
+            for fut in as_completed(futs):
+                name = futs[fut]
+                lan, wan = fut.result()
+                o = {"name": name, "lan": lan}
+                if wan is not None:
+                    o["wan"] = wan
+                self.wfile.write((json.dumps(o) + "\n").encode())
+                self.wfile.flush()
     def log_message(self, *a): pass
 
 if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8083
     http.server.HTTPServer(("127.0.0.1", port), Handler).serve_forever()
-

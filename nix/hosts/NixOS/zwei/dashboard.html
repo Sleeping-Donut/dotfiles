@@ -156,26 +156,43 @@ h2 { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:#
   </div>
 </div>
 <script>
+const NAME_MAP = {
+  audiobookshelf:'Audiobookshelf', jellyfin:'Jellyfin', immich:'Immich',
+  kavita:'Kavita', grafana:'Grafana', 'pocket-id':'Pocket ID',
+  sonarr:'Sonarr', radarr:'Radarr', lidarr:'Lidarr', readarr:'Readarr',
+  prowlarr:'Prowlarr', plex:'Plex', transmission:'Transmission'
+};
 async function check() {
   const r = await fetch('/health').catch(() => null);
   if (!r) return;
-  const data = await r.json();
-  const map = {
-    Audiobookshelf:'audiobookshelf', Jellyfin:'jellyfin', Immich:'immich',
-    Kavita:'kavita', Grafana:'grafana', 'Pocket ID':'pocket-id',
-    Sonarr:'sonarr', Radarr:'radarr', Lidarr:'lidarr', Readarr:'readarr',
-    Prowlarr:'prowlarr', Plex:'plex', Transmission:'transmission'
-  };
-  document.querySelectorAll('.card').forEach(c => {
-    const svc = map[c.querySelector('h3').textContent];
-    if (!svc || !data.services[svc]) return;
-    const s = data.services[svc];
-    c.querySelectorAll('a.lan').forEach(a => a.dataset.status = s.lan ? 'online' : 'offline');
-    c.querySelectorAll('a.wan').forEach(a => {
-      if (s.wan != null) a.dataset.status = s.wan ? 'online' : 'offline';
-      else delete a.dataset.status;
-    });
-  });
+  const reader = r.body.getReader();
+  const dec = new TextDecoder();
+    let buf = '';
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, {stream: true});
+      let nlIdx;
+      while ((nlIdx = buf.indexOf('\n')) >= 0) {
+        const line = buf.slice(0, nlIdx);
+        buf = buf.slice(nlIdx + 1);
+        if (!line) continue;
+        try {
+          const svc = JSON.parse(line);
+          const title = NAME_MAP[svc.name];
+          if (!title) continue;
+          const card = [...document.querySelectorAll('.card')].find(
+            c => c.querySelector('h3').textContent === title
+          );
+          if (!card) continue;
+          card.querySelectorAll('a.lan').forEach(a => a.dataset.status = svc.lan ? 'online' : 'offline');
+          card.querySelectorAll('a.wan').forEach(a => {
+            if (svc.wan != null) a.dataset.status = svc.wan ? 'online' : 'offline';
+            else delete a.dataset.status;
+          });
+      } catch {}
+    }
+  }
 }
 setInterval(check, 10000); check();
 </script>
