@@ -6,14 +6,14 @@ SERVICES = [
     ("immich",         "http://immich.zwei.fglab",         "https://immich.mediacentrehub.com"),
     ("kavita",         "http://zwei.fglab/kavita",         "https://kavita.mediacentrehub.com/api/opds"),
     ("grafana",        "http://zwei.fglab/grafana",        None),
-    ("pocket-id",      "http://zwei.fglab:1411",            None),
-    ("sonarr",         "http://zwei.fglab/sonarr",        None),
-    ("radarr",         "http://zwei.fglab/radarr",        None),
-    ("lidarr",         "http://zwei.fglab/lidarr",        None),
-    ("readarr",        "http://zwei.fglab/readarr",       None),
-    ("prowlarr",       "http://zwei.fglab/prowlarr",      None),
-    ("plex",           "http://zwei.fglab/plex",          None),
-    ("transmission",   "http://zwei.fglab/transmission",  None),
+    ("pocket-id",      "http://zwei.fglab:1411",           None),
+    ("sonarr",         "http://zwei.fglab/sonarr",         None),
+    ("radarr",         "http://zwei.fglab/radarr",         None),
+    ("lidarr",         "http://zwei.fglab/lidarr",         None),
+    ("readarr",        "http://zwei.fglab/readarr",        None),
+    ("prowlarr",       "http://zwei.fglab/prowlarr",       None),
+    ("plex",           "http://zwei.fglab/plex",           None),
+    ("transmission",   "http://zwei.fglab/transmission",   None),
 ]
 
 def check(url, timeout=3):
