@@ -1,4 +1,5 @@
 import http.server, json, urllib.request, sys
+from urllib.error import HTTPError
 
 SERVICES = [
     ("audiobookshelf", "http://zwei.fglab/audiobookshelf", "https://audiobookshelf.mediacentrehub.com"),
@@ -20,8 +21,10 @@ def check(url, timeout=3):
     if url is None:
         return None
     try:
-        r = urllib.request.urlopen(url, timeout=timeout)
-        return r.status < 500
+        urllib.request.urlopen(url, timeout=timeout)
+        return True
+    except HTTPError as e:
+        return e.code < 500
     except Exception:
         return False
 
