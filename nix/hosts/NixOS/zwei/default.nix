@@ -535,7 +535,7 @@ in
 
               };
             "/plex" = {
-              proxyPass = toUrl vcu 32400;
+              proxyPass = toUrl zwei 32400;
               proxyWebsockets = true;
               extraConfig = ''
                 proxy_set_header X-Plex-Client-Identifier $http_x_plex_client_identifier;
