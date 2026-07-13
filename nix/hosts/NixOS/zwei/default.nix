@@ -219,6 +219,7 @@ in
   users.users.kavita.extraGroups = [ "labmembers" ];
   services.kavita = {
     enable = true;
+    package = pkgs-unstable.kavita;
     dataDir = "/opt/kavita/data";
     tokenKeyFile = "/opt/kavita/kavita-token-key";
     settings = {
