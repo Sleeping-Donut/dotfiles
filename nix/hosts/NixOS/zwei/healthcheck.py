@@ -14,7 +14,7 @@ SERVICES = [
     ("lidarr",         "http://zwei.fglab/lidarr",         None),
     ("readarr",        "http://zwei.fglab/readarr",        None),
     ("prowlarr",       "http://zwei.fglab/prowlarr",       None),
-    ("plex",           "http://zwei.fglab/plex",           None),
+    ("plex",           "http://zwei.fglab/plex",           "https://mediacentrehub.com:15860"),
     ("transmission",   "http://zwei.fglab/transmission",   None),
 ]
 
