@@ -16,8 +16,10 @@ h2 { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:#
 .links { display:flex; flex-wrap:wrap; gap:0.4rem; }
 .links a { font-size:0.75rem; padding:0.15rem 0.5rem; border-radius:4px; text-decoration:none; border:1px solid #333; color:#aaa; transition:.15s; }
 .links a:hover { color:#fff; background:#333; border-color:#555; }
-.links a.wan { border-color:#1a3a2a; color:#4ade80; }
-.links a.wan:hover { background:#1a3a2a; border-color:#4ade80; }
+.links a[data-status="online"]  { border-color:#4ade80; color:#4ade80; }
+.links a[data-status="online"]:hover  { background:rgba(74,222,128,0.1); border-color:#4ade80; }
+.links a[data-status="offline"] { border-color:#ef4444; color:#ef4444; }
+.links a[data-status="offline"]:hover { background:rgba(239,68,68,0.1); border-color:#ef4444; }
 </style>
 </head>
 <body>
@@ -168,8 +170,11 @@ async function check() {
     const svc = map[c.querySelector('h3').textContent];
     if (!svc || !data.services[svc]) return;
     const s = data.services[svc];
-    c.querySelectorAll('a.lan').forEach(a => a.style.color = s.lan ? '#4ade80' : '#ef4444');
-    c.querySelectorAll('a.wan').forEach(a => a.style.color = s.wan != null ? (s.wan ? '#4ade80' : '#ef4444') : '');
+    c.querySelectorAll('a.lan').forEach(a => a.dataset.status = s.lan ? 'online' : 'offline');
+    c.querySelectorAll('a.wan').forEach(a => {
+      if (s.wan != null) a.dataset.status = s.wan ? 'online' : 'offline';
+      else delete a.dataset.status;
+    });
   });
 }
 setInterval(check, 10000); check();
