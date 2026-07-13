@@ -1,4 +1,5 @@
 import http.server, json, urllib.request, sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.error import HTTPError
 
 SERVICES = [
@@ -31,13 +32,15 @@ def check(url, timeout=3):
 class Handler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         results = {}
-        for name, lan_url, wan_url in SERVICES:
-            lan = check(lan_url)
-            wan = check(wan_url)
-            r = {"lan": lan}
-            if wan is not None:
-                r["wan"] = wan
-            results[name] = r
+        with ThreadPoolExecutor(max_workers=8) as ex:
+            futs = {}
+            for name, lan, wan in SERVICES:
+                futs[ex.submit(check, lan)] = (name, "lan")
+                if wan:
+                    futs[ex.submit(check, wan)] = (name, "wan")
+            for fut in as_completed(futs):
+                name, kind = futs[fut]
+                results.setdefault(name, {})[kind] = fut.result()
         body = json.dumps({"services": results}).encode()
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
