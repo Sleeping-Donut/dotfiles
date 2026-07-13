@@ -4,7 +4,7 @@ SERVICES = [
     ("audiobookshelf", "http://zwei.fglab/audiobookshelf", "https://audiobookshelf.mediacentrehub.com"),
     ("jellyfin",       "http://zwei.fglab/jellyfin",       None),
     ("immich",         "http://immich.zwei.fglab",         "https://immich.mediacentrehub.com"),
-    ("kavita",         "http://zwei.fglab/kavita",         "https://kavita.mediacentrehub.com"),
+    ("kavita",         "http://zwei.fglab/kavita",         "https://kavita.mediacentrehub.com/api/opds"),
     ("grafana",        "http://zwei.fglab/grafana",        None),
     ("pocket-id",      "http://zwei.fglab:1411",            None),
     ("sonarr",         "http://zwei.fglab/sonarr",        None),
