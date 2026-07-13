@@ -8,7 +8,7 @@ SERVICES = [
     ("immich",         "http://immich.zwei.fglab",         "https://immich.mediacentrehub.com"),
     ("kavita",         "http://zwei.fglab/kavita",         "https://kavita.mediacentrehub.com/api/opds"),
     ("grafana",        "http://zwei.fglab/grafana",        None),
-    ("pocket-id",      "http://zwei.fglab:1411",           None),
+    ("pocket-id",      "http://zwei.fglab:1411",           "https://id.mediacentrehub.com"),
     ("sonarr",         "http://zwei.fglab/sonarr",         None),
     ("radarr",         "http://zwei.fglab/radarr",         None),
     ("lidarr",         "http://zwei.fglab/lidarr",         None),
