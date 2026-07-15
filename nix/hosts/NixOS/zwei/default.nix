@@ -224,7 +224,6 @@ in
     tokenKeyFile = "/opt/kavita/kavita-token-key";
     settings = {
       Port = 8082;
-      BaseUrl = "/kavita/";
     };
   };
   systemd.services.kavita.preStart = lib.mkForce (let
@@ -470,6 +469,13 @@ in
       vcu = "vcu.${localDomain}";
       zwei = "zwei.${localDomain}";
       zweiTail = "zwei.${tailnet}";
+      localACLs = ''
+        allow 192.168.10.0/24; # lan
+        allow 100.64.0.0/10; # tailnet
+        allow fd7a:115c:a1e0::/48; # tailnet v6
+        allow 127.0.0.1; # loopback
+        deny all;
+      '';
       toUrl = domain: port: "http://${domain}:${toString port}";
     in
     {
@@ -492,13 +498,7 @@ in
 
       virtualHosts."zwei.${localDomain}" = {
         serverAliases = [ zweiTail "127.0.0.1" "localhost" ];
-        extraConfig = ''
-          allow 192.168.10.0/24; # lan
-          allow 100.64.0.0/10; # tailnet
-          allow fd7a:115c:a1e0::/48; # tailnet v6
-          allow 127.0.0.1; # loopback
-          deny all;
-        '';
+        extraConfig = localACLs;
         locations =
           let
             arrConfig = service: port: {
@@ -580,28 +580,6 @@ in
                 proxy_read_timeout 300;
               '';
             };
-            "/kavita" = {
-              return = "301 $scheme://$host/kavita/";
-            };
-            "/kavita/" = {
-              proxyPass = toUrl zwei config.services.kavita.settings.Port;
-              proxyWebsockets = true;
-              recommendedProxySettings = false;
-              extraConfig = ''
-                # handle headers manually so we can force http scheme for OIDC
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto "http";
-                proxy_set_header X-Forwarded-Host $host;
-                proxy_set_header X-Forwarded-Server $host;
-                # Stop Kavita from compressing HTML so Nginx can read it
-                proxy_set_header Accept-Encoding "";
-                # Force rewrite the base href that is stuck in the Nix store
-                sub_filter 'href="/"' 'href="/kavita/"';
-                sub_filter_once on;
-              '';
-            };
             "/audiobookshelf" = {
               proxyPass = toUrl zwei config.services.audiobookshelf.port;
               proxyWebsockets = true;
@@ -610,13 +588,7 @@ in
       };
       virtualHosts."immich.zwei.${localDomain}" = {
         serverAliases = [ "immich.zwei.${tailnet}" ];
-        extraConfig = ''
-          allow 192.168.10.0/24; # lan
-          allow 100.64.0.0/10; # tailnet
-          allow fd7a:115c:a1e0::/48; # tailnet v6
-          allow 127.0.0.1; # loopback
-          deny all;
-
+        extraConfig = localACLs ++ ''
           client_max_body_size 50000M;
           proxy_request_buffering off;
           client_body_buffer_size 1024k;
@@ -626,6 +598,15 @@ in
         '';
         locations."/" = {
           proxyPass = toUrl "zwei.${localDomain}" config.services.immich.port;
+          proxyWebsockets = true;
+        };
+      };
+      virtualHosts."kavita.zwei.${localDomain}" = let
+        kavitaPort = config.services.kavita.settings.Port;
+      in {
+        extraConfig = localACLs;
+        locations."/" = {
+          proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
           proxyWebsockets = true;
         };
       };
@@ -660,19 +641,13 @@ in
       in {
         enableACME = true;
         forceSSL = true;
-
         locations."/" = {
-          return = 403;
-        };
-        locations."/kavita/api/opds" = { # KOReader sync
           proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
           proxyWebsockets = true;
         };
-        locations."/kavita/api/images" = { # chapter images etc
+        locations."/opds" = { # KOReader sync (now at root domain)
           proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
-        };
-        locations."/kavita/api/books" = { # book downloads (maybe check if needed)
-          proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
+          proxyWebsockets = true;
         };
       };
       virtualHosts."audiobookshelf.${publicDomain}" = {
