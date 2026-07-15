@@ -227,6 +227,23 @@ in
       BaseUrl = "/kavita/";
     };
   };
+  systemd.services.kavita.preStart = lib.mkForce (let
+    settingsFormat = pkgs.formats.json { };
+    appsettings = settingsFormat.generate "appsettings.json"
+      ({ TokenKey = "@TOKEN@"; } // config.services.kavita.settings);
+    dataDir = config.services.kavita.dataDir;
+    existing = "${dataDir}/config/appsettings.json";
+  in ''
+    if [ -f '${existing}' ]; then
+      ${lib.getExe pkgs.jq} -s '.[0] * .[1]' \
+        '${existing}' ${appsettings} \
+        > '${existing}.tmp' && mv '${existing}.tmp' '${existing}'
+    else
+      install -m600 ${appsettings} '${existing}'
+    fi
+    ${pkgs.replace-secret}/bin/replace-secret '@TOKEN@' \
+      ''${CREDENTIALS_DIRECTORY}/token '${existing}'
+  '');
   nd0.rclone-backups.kavita = {
     enable = false;
     sourceDir = "/opt/kavita";
@@ -660,7 +677,7 @@ in
           proxy_send_timeout 600s;
           send_timeout 600s;
         '';
-        locations."/" = {
+        locations."/audiobookshelf" = {
           proxyPass = toUrl zwei config.services.audiobookshelf.port;
           proxyWebsockets = true;
         };
