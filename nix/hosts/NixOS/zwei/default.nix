@@ -588,7 +588,7 @@ in
       };
       virtualHosts."immich.zwei.${localDomain}" = {
         serverAliases = [ "immich.zwei.${tailnet}" ];
-        extraConfig = localACLs ++ ''
+        extraConfig = localACLs + ''
           client_max_body_size 50000M;
           proxy_request_buffering off;
           client_body_buffer_size 1024k;
