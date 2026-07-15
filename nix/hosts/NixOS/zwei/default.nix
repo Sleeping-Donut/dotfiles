@@ -586,10 +586,17 @@ in
             "/kavita/" = {
               proxyPass = toUrl zwei config.services.kavita.settings.Port;
               proxyWebsockets = true;
+              recommendedProxySettings = false;
               extraConfig = ''
+                # handle headers manually so we can force http scheme for OIDC
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto "http";
+                proxy_set_header X-Forwarded-Host $host;
+                proxy_set_header X-Forwarded-Server $host;
                 # Stop Kavita from compressing HTML so Nginx can read it
                 proxy_set_header Accept-Encoding "";
-
                 # Force rewrite the base href that is stuck in the Nix store
                 sub_filter 'href="/"' 'href="/kavita/"';
                 sub_filter_once on;
