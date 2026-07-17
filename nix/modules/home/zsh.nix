@@ -24,7 +24,7 @@ in
 
       shellAliases = shellAliases;
 
-      initExtra = ''
+      initContent = ''
         source "${themeFile}"
 
         source "$HOME/.profile"
