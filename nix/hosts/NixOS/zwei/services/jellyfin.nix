@@ -9,6 +9,7 @@ in
     description = "Jellyfin Server service account";
     group = "labmembers";
   };
+  systemd.services.jellyfin.unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
   services.jellyfin =
     let
       jellyDir = "/opt/jellyfin";
@@ -28,6 +29,7 @@ in
     sourceDir = "/opt/jellyfin";
     destDir = "/mnt/amadeus/fg8/Backup/jellyfin";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:15:00" ]; # weekly at 0300 Sun
   };

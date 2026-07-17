@@ -14,6 +14,7 @@ in
   };
 
   systemd.services.kavita = {
+    unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
     serviceConfig = {
       PrivateTmp = true;
       RemoveIPC = true;
@@ -76,6 +77,7 @@ in
     sourceDir = "/opt/kavita";
     destDir = "/mnt/amadeus/fg8/Backup/kavita";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:30:00" ]; # Weekly at 03:30 Sun
     whitelist = [

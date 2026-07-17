@@ -162,6 +162,7 @@ in
     sourceDir = "/opt/prowlarr/data";
     destDir = "/mnt/amadeus/fg8/Backup/prowlarr/data";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:15:00" ]; # weekly at 0315 Sun
     blacklist = [
@@ -178,11 +179,13 @@ in
     openFirewall = true;
     package = pkgs-unstable.sonarr;
   };
+  systemd.services.sonarr.unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
   nd0.rclone-backups.sonarr = {
     enable = true;
     sourceDir = "/opt/sonarr/data";
     destDir = "/mnt/amadeus/fg8/Backup/sonarr/data";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:30:00" ]; # weekly at 0330 Sun
     blacklist = [
@@ -199,11 +202,13 @@ in
     openFirewall = true;
     package = pkgs-unstable.radarr;
   };
+  systemd.services.radarr.unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
   nd0.rclone-backups.radarr = {
     enable = true;
     sourceDir = "/opt/radarr/data";
     destDir = "/mnt/amadeus/fg8/Backup/radarr/data";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 0345 Sun
     blacklist = [
@@ -225,6 +230,7 @@ in
     sourceDir = "/opt/bazarr/data";
     destDir = "/mnt/amadeus/fg8/Backup/bazarr/data";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 04:00:00" ]; # weekly at 0400 Sun
   };
@@ -236,11 +242,13 @@ in
     openFirewall = true;
     package = pkgs-unstable.lidarr;
   };
+  systemd.services.lidarr.unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
   nd0.rclone-backups.lidarr = {
     enable = true;
     sourceDir = "/opt/lidarr/data";
     destDir = "/mnt/amadeus/fg8/Backup/lidarr/data";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:00:00" ]; # weekly at 0300 Sun
     blacklist = [
@@ -257,11 +265,13 @@ in
     openFirewall = true;
     package = pkgs-unstable.readarr;
   };
+  systemd.services.readarr.unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
   nd0.rclone-backups.readarr = {
     enable = true;
     sourceDir = "/opt/readarr/data";
     destDir = "/mnt/amadeus/fg8/Backup/readarr/data";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 04:15:00" ]; # weekly at 0415 Sun
     blacklist = [
@@ -283,6 +293,7 @@ in
     sourceDir = "/opt/ombi/data";
     destDir = "/mnt/amadeus/fg8/Backup/ombi/data";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 04:30:00" ]; # weekly at 0430 Sun
   };
@@ -297,12 +308,15 @@ in
     package = pkgs-unstable.tautulli;
   };
 
-  systemd.services.transmission.serviceConfig = {
-    # transmission service wants to set this to 0066 for some reason
-    UMask = lib.mkForce "0007";
-    TimeoutStartSec = "5min";
-    TimeoutStopSec = "2min";
-    LimitNOFILE = 16384; # set connection limit high to prevent Too many open error
+  systemd.services.transmission = {
+    unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
+    serviceConfig = {
+      # transmission service wants to set this to 0066 for some reason
+      UMask = lib.mkForce "0007";
+      TimeoutStartSec = "5min";
+      TimeoutStopSec = "2min";
+      LimitNOFILE = 16384; # set connection limit high to prevent Too many open error
+    };
   };
   services.transmission = {
     enable = true;
@@ -348,6 +362,7 @@ in
     sourceDir = "/opt/transmission/home";
     destDir = "/mnt/amadeus/fg8/Backup/transmission/home";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 04:45:00" ]; # weekly at 0445 Sun
   };

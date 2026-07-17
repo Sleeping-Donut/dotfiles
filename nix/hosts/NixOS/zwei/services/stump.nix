@@ -3,6 +3,7 @@ let
   inherit (import ../net-helpers.nix) publicDomain localDomain localACLs toUrl;
 in
 {
+  systemd.services.stump.unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
   nd0.services.stump = {
     enable = true;
     group = "labmembers";
@@ -23,6 +24,7 @@ in
     sourceDir = "/opt/stump";
     destDir = "/mnt/amadeus/fg8/Backup/stump";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     whitelist = [
       "/data/config/**"

@@ -14,9 +14,12 @@ in
     };
   };
   systemd.tmpfiles.settings.immich-media = lib.mkForce {}; # mediaLocation on NFS, no tmpfiles meddling
-  systemd.services.immich-server.serviceConfig = {
-    PrivateMounts = lib.mkForce false;   # needed for NFS automount propagation
-    PrivateUsers = lib.mkForce false;    # needed for NFS UID mapping
+  systemd.services.immich-server = {
+    unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
+    serviceConfig = {
+      PrivateMounts = lib.mkForce false;   # needed for NFS automount propagation
+      PrivateUsers = lib.mkForce false;    # needed for NFS UID mapping
+    };
   };
   services.immich = {
     enable = true;
@@ -32,6 +35,7 @@ in
     sourceDir = "/opt/immich";
     destDir = "/mnt/amadeus/fg8/Backup/immich";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:50:00" ]; # weekly at 03:50 Sun
   };

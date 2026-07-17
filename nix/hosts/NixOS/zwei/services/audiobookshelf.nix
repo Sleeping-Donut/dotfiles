@@ -16,8 +16,11 @@ in
       };
     };
   };
-  systemd.services.audiobookshelf.serviceConfig = {
-    WorkingDirectory = lib.mkForce "/opt/audiobookshelf/data";
+  systemd.services.audiobookshelf = {
+    unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
+    serviceConfig = {
+      WorkingDirectory = lib.mkForce "/opt/audiobookshelf/data";
+    };
   };
   services.audiobookshelf = {
     enable = true;
@@ -31,6 +34,7 @@ in
     sourceDir = config.services.audiobookshelf.dataDir;
     destDir = "/mnt/amadeus/fg8/Backup/audiobookshelf/data";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 03:45 Sun
     whitelist = [

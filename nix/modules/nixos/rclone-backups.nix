@@ -76,6 +76,13 @@ in
             type = lib.types.package;
             default = pkgs.rclone;
           };
+
+          requiresMountsFor = lib.mkOption {
+            description = "Mount paths to wait for before running this backup";
+            type = lib.types.listOf lib.types.str;
+            default = [ ];
+            example = [ "/mnt/amadeus/fg8" ];
+          };
         };
       }
     );
@@ -105,6 +112,7 @@ in
           description = "Rsync backup for ${target}";
           wants = [ "remote-fs.target" ];
           after = [ "remote-fs.target" ];
+          unitConfig.RequiresMountsFor = targetCfg.requiresMountsFor;
           serviceConfig =
             let
               # Handle group and user like this because akward mkIf only outputs attrsets

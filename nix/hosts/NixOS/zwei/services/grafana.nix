@@ -38,6 +38,7 @@ in
     sourceDir = config.services.grafana.dataDir;
     destDir = "/mnt/amadeus/fg8/Backup/grafana";
     group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
     pruneRemote = true;
     OnCalendar = [ "Sun *-*-* 04:30:00" ]; # weekly at 0330 Sun
     blacklist = [
