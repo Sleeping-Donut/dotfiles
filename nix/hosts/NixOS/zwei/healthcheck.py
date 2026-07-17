@@ -7,6 +7,7 @@ SERVICES = [
     ("jellyfin",       "http://zwei.fglab/jellyfin",       None),
     ("immich",         "http://immich.zwei.fglab",         "https://immich.mediacentrehub.com"),
     ("kavita",         "http://zwei.fglab:8082",         "https://kavita.mediacentrehub.com"),
+    ("stump",          "http://stump.zwei.fglab",          "https://stump.mediacentrehub.com"),
     ("grafana",        "http://zwei.fglab/grafana",        None),
     ("pocket-id",      "http://zwei.fglab:1411",           "https://id.mediacentrehub.com"),
     ("sonarr",         "http://zwei.fglab/sonarr",         None),

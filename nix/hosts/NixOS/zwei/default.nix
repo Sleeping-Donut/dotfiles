@@ -25,6 +25,7 @@ in
   imports = [
     ./hardware-configuration.nix
     (repo-root + "/nix/modules/nixos/rclone-backups.nix")
+    (repo-root + "/nix/modules/nixos/stump.nix")
   ];
 
   #	This defines first version of nixos installed - used to maintain
@@ -258,6 +259,33 @@ in
       "/data/config/bookmarks/**"
       "/data/config/themes/**"
       "/data/config/favicons/**"
+    ];
+  };
+
+  nd0.services.stump = {
+    enable = true;
+    group = "labmembers";
+    dataDir = "/opt/stump/data";
+    environment = {
+      STUMP_OIDC_ENABLED = "true";
+      STUMP_OIDC_ISSUER_URL = "https://id.${publicDomain}";
+      STUMP_OIDC_CLIENT_ID = "stump";
+      STUMP_OIDC_ALLOW_REGISTRATION = "true";
+      STUMP_OIDC_DISABLE_LOCAL_AUTH = "true";
+    };
+    secretFiles = {
+      STUMP_OIDC_CLIENT_SECRET = "/opt/stump/oidc-client-secret";
+    };
+  };
+  nd0.rclone-backups.stump = {
+    enable = false;
+    sourceDir = "/opt/stump";
+    destDir = "/mnt/amadeus/fg8/Backup/stump";
+    group = "labmembers";
+    pruneRemote = true;
+    whitelist = [
+      "/data/config/**"
+      "/data/stump.db"
     ];
   };
 
@@ -610,6 +638,15 @@ in
           proxyWebsockets = true;
         };
       };
+      virtualHosts."stump.zwei.${localDomain}" = let
+        stumpPort = config.nd0.services.stump.port;
+      in {
+        extraConfig = localACLs;
+        locations."/" = {
+          proxyPass = toUrl "zwei.${localDomain}" stumpPort;
+          proxyWebsockets = true;
+        };
+      };
 
       virtualHosts."id.${publicDomain}" = {
         enableACME = true;
@@ -661,6 +698,16 @@ in
         '';
         locations."/audiobookshelf" = {
           proxyPass = toUrl zwei config.services.audiobookshelf.port;
+          proxyWebsockets = true;
+        };
+      };
+      virtualHosts."stump.${publicDomain}" = let
+        stumpPort = config.nd0.services.stump.port;
+      in {
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = toUrl "zwei.${localDomain}" stumpPort;
           proxyWebsockets = true;
         };
       };
