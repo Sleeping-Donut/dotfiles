@@ -42,7 +42,6 @@ in
     ansible
     bottom
     btop
-    chatgpt-cli
     comma # prefix comand with , to use nix run w/ an autosearch
     ctop
     dua
