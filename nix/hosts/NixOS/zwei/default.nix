@@ -80,6 +80,14 @@ in
     ];
   };
 
+  systemd.tmpfiles.settings."10-fg8-local" = let
+    lockedDown = { mode = "0700"; user = "root"; group = "root"; };
+  in {
+    "/mnt/amadeus/fg8/Backup".d = lockedDown;
+    "/mnt/amadeus/fg8/Media".d = lockedDown;
+    "/mnt/amadeus/fg8/Pending".d = lockedDown;
+  };
+
   time.timeZone = "GB";
 
   i18n.defaultLocale = "en_GB.UTF-8";
