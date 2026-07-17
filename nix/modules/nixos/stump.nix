@@ -114,7 +114,7 @@ in
         ${lib.concatStringsSep "\n" (lib.mapAttrsToList (name: _:
           "export ${name}=$(cat \"$CREDENTIALS_DIRECTORY/${name}\")"
         ) cfg.secretFiles)}
-        exec ${cfg.package}/bin/stump_server
+        exec ${lib.getExe cfg.package}
       '';
     };
 

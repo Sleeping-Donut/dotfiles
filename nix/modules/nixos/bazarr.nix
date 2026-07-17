@@ -70,7 +70,7 @@ in
         ReadWritePaths = lib.mkIf (cfg.dataDir != "/var/lib/bazarr") cfg.dataDir;
         SyslogIdentifier = "bazarr";
         ExecStart = pkgs.writeShellScript "start-bazarr" ''
-          ${cfg.package}/bin/bazarr \
+          ${lib.getExe cfg.package} \
             --config "${cfg.dataDir}" \
             --port ${toString cfg.listenPort} \
             --no-update True

@@ -12,20 +12,21 @@
   ...
 }:
 let
-  plex-versioned = import sources.overrides.plex-versioned { inherit pkgs; };
   keys = import modules.common.keys;
-  publicDomain =
-    "media"
-    + "centre"
-    + "hub"
-    + "."
-    + "com";
 in
 {
   imports = [
     ./hardware-configuration.nix
     (repo-root + "/nix/modules/nixos/rclone-backups.nix")
     (repo-root + "/nix/modules/nixos/stump.nix")
+    ./services/kavita.nix
+    ./services/stump.nix
+    ./services/plex.nix
+    ./services/jellyfin.nix
+    ./services/immich.nix
+    ./services/audiobookshelf.nix
+    ./services/pocket-id.nix
+    ./services/grafana.nix
   ];
 
   #	This defines first version of nixos installed - used to maintain
@@ -147,219 +148,6 @@ in
     package = pkgs-unstable.tailscale;
   };
 
-  users.users.plex = {
-    uid = 193;
-    isSystemUser = true;
-    description = "Plex media server service account";
-    group = "labmembers";
-  };
-  services.plex = {
-    enable = true;
-    group = "labmembers";
-    dataDir = "/opt/plex/data";
-    extraScanners = [ ];
-    extraPlugins = [ ];
-    openFirewall = true;
-    package = plex-versioned {
-      version = "1.43.2.10687-563d026ea";
-      #			To get hash for new version use `sh nix/scripts/getPkgHash.sh 'plex' '<VERSION>'
-      hash = "sha256-dgkj0Uny/d0DnExgYWjxfl2cFsiattlGzb7Guzmtro4=";
-    };
-  };
-  nd0.rclone-backups.plex = {
-    enable = false;
-    sourceDir = "/opt/plex/data/Plex Media Server";
-    destDir = "/mnt/amadeus/fg8/Backup/plex/Plex Media Server";
-    group = "labmembers";
-    pruneRemote = true;
-    OnCalendar = [ "Sun *-*-* 03:00:00" ]; # weekly at 0300 Sun
-    whitelist = [
-      "/Preferences.xml"
-      "/Metadata/**"
-      "/.LocalAdminToken"
-      "/Plug-in Support/**"
-      "/Plug-ins/**"
-      "/Codecs/**"
-      "/Scanners/**"
-      "/Cache/**"
-      "/Logs/**"
-      "/Crash Reports/**"
-      "/Diagnostics/**"
-    ];
-  };
-
-  users.users.jellyfin = {
-    uid = 995;
-    isSystemUser = true;
-    description = "Jellyfin Server service account";
-    group = "labmembers";
-  };
-  services.jellyfin =
-    let
-      jellyDir = "/opt/jellyfin";
-    in
-    {
-      enable = true;
-      group = "labmembers";
-      dataDir = "${jellyDir}/data";
-      logDir = "${jellyDir}/logs";
-      configDir = "${jellyDir}/config";
-      cacheDir = "${jellyDir}/cache";
-      openFirewall = true;
-      package = pkgs-unstable.jellyfin;
-    };
-  nd0.rclone-backups.jellyfin = {
-    enable = false;
-    sourceDir = "/opt/jellyfin";
-    destDir = "/mnt/amadeus/fg8/Backup/jellyfin";
-    group = "labmembers";
-    pruneRemote = true;
-    OnCalendar = [ "Sun *-*-* 03:15:00" ]; # weekly at 0300 Sun
-  };
-
-  users.users.kavita.extraGroups = [ "labmembers" ];
-  services.kavita = {
-    enable = true;
-    package = pkgs-unstable.kavita;
-    dataDir = "/opt/kavita/data";
-    tokenKeyFile = "/opt/kavita/kavita-token-key";
-    settings = {
-      Port = 8082;
-    };
-  };
-  systemd.services.kavita.preStart = lib.mkForce (let
-    settingsFormat = pkgs.formats.json { };
-    appsettings = settingsFormat.generate "appsettings.json"
-      ({ TokenKey = "@TOKEN@"; } // config.services.kavita.settings);
-    dataDir = config.services.kavita.dataDir;
-    existing = "${dataDir}/config/appsettings.json";
-  in ''
-    if [ -f '${existing}' ]; then
-      ${lib.getExe pkgs.jq} -s '.[0] * .[1]' \
-        '${existing}' ${appsettings} \
-        > '${existing}.tmp' && mv '${existing}.tmp' '${existing}'
-    else
-      install -m600 ${appsettings} '${existing}'
-    fi
-    ${pkgs.replace-secret}/bin/replace-secret '@TOKEN@' \
-      ''${CREDENTIALS_DIRECTORY}/token '${existing}'
-  '');
-  nd0.rclone-backups.kavita = {
-    enable = false;
-    sourceDir = "/opt/kavita";
-    destDir = "/mnt/amadeus/fg8/Backup/kavita";
-    group = "labmembers";
-    pruneRemote = true;
-    OnCalendar = [ "Sun *-*-* 03:30:00" ]; # Weekly at 03:30 Sun
-    whitelist = [
-      "/kavita-token-key"
-      "/data/config/kavita.db"
-      "/data/config/appsettings.json"
-      "/data/config/covers/**"
-      "/data/config/bookmarks/**"
-      "/data/config/themes/**"
-      "/data/config/favicons/**"
-    ];
-  };
-
-  nd0.services.stump = {
-    enable = true;
-    group = "labmembers";
-    dataDir = "/opt/stump/data";
-    environment = {
-      STUMP_OIDC_ENABLED = "true";
-      STUMP_OIDC_ISSUER_URL = "https://id.${publicDomain}";
-      STUMP_OIDC_CLIENT_ID = "stump";
-      STUMP_OIDC_ALLOW_REGISTRATION = "true";
-      STUMP_OIDC_DISABLE_LOCAL_AUTH = "true";
-    };
-    secretFiles = {
-      STUMP_OIDC_CLIENT_SECRET = "/opt/stump/oidc-client-secret";
-    };
-  };
-  nd0.rclone-backups.stump = {
-    enable = false;
-    sourceDir = "/opt/stump";
-    destDir = "/mnt/amadeus/fg8/Backup/stump";
-    group = "labmembers";
-    pruneRemote = true;
-    whitelist = [
-      "/data/config/**"
-      "/data/stump.db"
-    ];
-  };
-
-  users.users.audiobookshelf = {
-    extraGroups = [ "labmembers" ];
-    home = lib.mkForce "/opt/audiobookshelf/data"; # the module has a path for this so just in case, override
-  };
-  systemd.tmpfiles.settings.audiobookshelf-data = {
-    "/opt/audiobookshelf/data" = {
-      d = {
-        user = "audiobookshelf";
-        group = "audiobookshelf";
-        mode = "0750";
-      };
-    };
-  };
-  systemd.services.audiobookshelf.serviceConfig = {
-    WorkingDirectory = lib.mkForce "/opt/audiobookshelf/data";
-  };
-  services.audiobookshelf = {
-    enable = true;
-    package = pkgs-unstable.audiobookshelf;
-    dataDir = "/opt/audiobookshelf/data";
-    port = 13378;
-    openFirewall = true;
-  };
-  nd0.rclone-backups.audiobookshelf = {
-    enable = false;
-    sourceDir = config.services.audiobookshelf.dataDir;
-    destDir = "/mnt/amadeus/fg8/Backup/audiobookshelf/data";
-    group = "labmembers";
-    pruneRemote = true;
-    OnCalendar = [ "Sun *-*-* 03:45:00" ]; # weekly at 03:45 Sun
-    whitelist = [
-      "/config/**"
-      "/metadata/items/**"
-      "/metadata/authors/**"
-      "/metadata/backups/**"
-    ];
-  };
-
-  users.users.immich.extraGroups = [ "labmembers" ];
-  systemd.tmpfiles.settings.immich-state = {
-    "/opt/immich" = {
-      d = {
-        user = "immich";
-        group = "immich";
-        mode = "0700";
-      };
-    };
-  };
-  systemd.tmpfiles.settings.immich-media = lib.mkForce {}; # mediaLocation on NFS, no tmpfiles meddling
-  systemd.services.immich-server.serviceConfig = {
-    PrivateMounts = lib.mkForce false;   # needed for NFS automount propagation
-    PrivateUsers = lib.mkForce false;    # needed for NFS UID mapping
-  };
-  services.immich = {
-    enable = true;
-    package = pkgs-unstable.immich;
-    host = "127.0.0.1";
-    mediaLocation = "/mnt/amadeus/fg8/Media/Photos";
-    # port = 2283; # default
-    openFirewall = true;
-    machine-learning.enable = false; # no hw ;(
-  };
-  nd0.rclone-backups.immich = {
-    enable = false;
-    sourceDir = "/opt/immich";
-    destDir = "/mnt/amadeus/fg8/Backup/immich";
-    group = "labmembers";
-    pruneRemote = true;
-    OnCalendar = [ "Sun *-*-* 03:50:00" ]; # weekly at 03:50 Sun
-  };
-
   services.unifi = {
     enable = false;
     maximumJavaHeapSize = 2048;
@@ -367,30 +155,6 @@ in
     unifiPackage = pkgs-unstable.unifi;
     mongodbPackage = pkgs.mongodb-ce;
     # Files have to be in `/var/lib/unifi` (╥‸╥)
-  };
-
-  users.users.pocket-id.extraGroups = [ "labmembers" ];
-  systemd.tmpfiles.settings.pocket-id = {
-    "/opt/pocket-id/data" = {
-      d = {
-        user = "pocket-id";
-        group = "pocket-id";
-        mode = "0700";
-      };
-    };
-  };
-  services.pocket-id = {
-    enable = true;
-    dataDir = "/opt/pocket-id/data";
-    settings = {
-      APP_URL = "https://id.${publicDomain}";
-      TRUST_PROXY = true;
-      HOST = "127.0.0.1";
-      PORT = 1411;
-    };
-    credentials = {
-      ENCRYPTION_KEY = "/opt/pocket-id/encryption-key";
-    };
   };
 
   systemd.services.healthcheck = {
@@ -442,49 +206,6 @@ in
     ];
   };
 
-  users.users.grafana = {
-    # just to keep uid between installs
-    uid = 196;
-    isSystemUser = true;
-  };
-  services.grafana = {
-    enable = true;
-    package = pkgs-unstable.grafana;
-    dataDir = "/opt/grafana";
-    settings = {
-      server = {
-        http_addr = "0.0.0.0";
-        http_port = 3000;
-        enforce_domain = false;
-        serve_from_sub_path = true;
-        # domain = "zwei.fglab";
-        root_url = "http://zwei.fglab/grafana/";
-      };
-      security.secret_key = "SW2YcwTIb9zpOOhoPsMm"; # Shhh its very secret
-    };
-    provision.datasources.settings.datasources = [
-      {
-        name = "prometheus";
-        type = "prometheus";
-        access = "proxy";
-        isDefault = true;
-        url = "localhost:${toString config.services.prometheus.port}";
-      }
-    ];
-  };
-  nd0.rclone-backups.grafana = {
-    enable = false;
-    sourceDir = config.services.grafana.dataDir;
-    destDir = "/mnt/amadeus/fg8/Backup/grafana";
-    group = "labmembers";
-    pruneRemote = true;
-    OnCalendar = [ "Sun *-*-* 04:30:00" ]; # weekly at 0330 Sun
-    blacklist = [
-      "/conf"
-      "/tools"
-    ]; # they're symlinks into nix store
-  };
-
   # To handle SSL
   security.acme = {
     acceptTerms = true;
@@ -492,19 +213,7 @@ in
   };
   services.nginx =
     let
-      localDomain = "fglab";
-      tailnet = "time-augmented.ts.net";
-      vcu = "vcu.${localDomain}";
-      zwei = "zwei.${localDomain}";
-      zweiTail = "zwei.${tailnet}";
-      localACLs = ''
-        allow 192.168.10.0/24; # lan
-        allow 100.64.0.0/10; # tailnet
-        allow fd7a:115c:a1e0::/48; # tailnet v6
-        allow 127.0.0.1; # loopback
-        deny all;
-      '';
-      toUrl = domain: port: "http://${domain}:${toString port}";
+      inherit (import ./net-helpers.nix) localDomain tailnet vcu zwei zweiTail localACLs toUrl;
     in
     {
       enable = true;
@@ -563,43 +272,6 @@ in
                 proxy_cache off;
               '';
             };
-            "/grafana" =
-              let
-                grafanaUrl = toUrl zwei config.services.grafana.settings.server.http_port;
-              in
-              {
-                proxyPass = "${grafanaUrl}";
-                proxyWebsockets = true;
-              };
-            "/grafana/api/live" =
-              let
-                grafanaUrl = toUrl zwei config.services.grafana.settings.server.http_port;
-              in
-              {
-                proxyPass = "${grafanaUrl}";
-                proxyWebsockets = true;
-
-              };
-            "/plex" = {
-              proxyPass = toUrl zwei 32400;
-              proxyWebsockets = true;
-              extraConfig = ''
-                proxy_set_header X-Plex-Client-Identifier $http_x_plex_client_identifier;
-                proxy_set_header X-Plex-Device $http_x_plex_device;
-                proxy_set_header X-Plex-Device-Name $http_x_plex_device_name;
-                proxy_set_header X-Plex-Platform $http_x_plex_platform;
-                proxy_set_header X-Plex-Platform-Version $http_x_plex_platform_version;
-                proxy_set_header X-Plex-Provides $http_x_plex_provides;
-                proxy_set_header X-Plex-Product $http_x_plex_product;
-                proxy_set_header X-Plex-Version $http_x_plex_version;
-                proxy_set_header X-Plex-Device-Screen-Resolution $http_x_plex_device_screen_resolution;
-                proxy_set_header X-Plex-Token $http_x_plex_token;
-              '';
-            };
-            "/jellyfin" = {
-              proxyPass = toUrl zwei 8096;
-              proxyWebsockets = true;
-            };
             "/transmission" = {
               proxyPass = toUrl vcu 9091;
               proxyWebsockets = true;
@@ -608,108 +280,7 @@ in
                 proxy_read_timeout 300;
               '';
             };
-            "/audiobookshelf" = {
-              proxyPass = toUrl zwei config.services.audiobookshelf.port;
-              proxyWebsockets = true;
-            };
           };
-      };
-      virtualHosts."immich.zwei.${localDomain}" = {
-        serverAliases = [ "immich.zwei.${tailnet}" ];
-        extraConfig = localACLs + ''
-          client_max_body_size 50000M;
-          proxy_request_buffering off;
-          client_body_buffer_size 1024k;
-          proxy_read_timeout 600s;
-          proxy_send_timeout 600s;
-          send_timeout 600s;
-        '';
-        locations."/" = {
-          proxyPass = toUrl "zwei.${localDomain}" config.services.immich.port;
-          proxyWebsockets = true;
-        };
-      };
-      virtualHosts."kavita.zwei.${localDomain}" = let
-        kavitaPort = config.services.kavita.settings.Port;
-      in {
-        extraConfig = localACLs;
-        locations."/" = {
-          proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
-          proxyWebsockets = true;
-        };
-      };
-      virtualHosts."stump.zwei.${localDomain}" = let
-        stumpPort = config.nd0.services.stump.port;
-      in {
-        extraConfig = localACLs;
-        locations."/" = {
-          proxyPass = toUrl "zwei.${localDomain}" stumpPort;
-          proxyWebsockets = true;
-        };
-      };
-
-      virtualHosts."id.${publicDomain}" = {
-        enableACME = true;
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = toUrl zwei 1411;
-          proxyWebsockets = true;
-        };
-      };
-      virtualHosts."immich.${publicDomain}" = {
-        enableACME = true;
-        forceSSL = true;
-        extraConfig = ''
-          client_max_body_size 50000M;
-          proxy_request_buffering off;
-          client_body_buffer_size 1024k;
-          proxy_read_timeout 600s;
-          proxy_send_timeout 600s;
-          send_timeout 600s;
-        '';
-
-        locations."/" = {
-          proxyPass = toUrl "zwei.${localDomain}" config.services.immich.port;
-          proxyWebsockets = true;
-        };
-      };
-      virtualHosts."kavita.${publicDomain}" = let
-        kavitaPort = config.services.kavita.settings.Port;
-      in {
-        enableACME = true;
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
-          proxyWebsockets = true;
-        };
-        locations."/opds" = { # KOReader sync (now at root domain)
-          proxyPass = toUrl "zwei.${localDomain}" kavitaPort;
-          proxyWebsockets = true;
-        };
-      };
-      virtualHosts."audiobookshelf.${publicDomain}" = {
-        enableACME = true;
-        forceSSL = true;
-        extraConfig = ''
-          client_max_body_size 10240M;
-          proxy_read_timeout 600s;
-          proxy_send_timeout 600s;
-          send_timeout 600s;
-        '';
-        locations."/audiobookshelf" = {
-          proxyPass = toUrl zwei config.services.audiobookshelf.port;
-          proxyWebsockets = true;
-        };
-      };
-      virtualHosts."stump.${publicDomain}" = let
-        stumpPort = config.nd0.services.stump.port;
-      in {
-        enableACME = true;
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = toUrl "zwei.${localDomain}" stumpPort;
-          proxyWebsockets = true;
-        };
       };
     };
 }
