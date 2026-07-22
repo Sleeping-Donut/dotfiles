@@ -433,7 +433,7 @@ if vim.fn.executable("rust-analyzer") == 1 then
 	)
 end
 
-if vim.fn.executable("node") == 1 then
+if vim.fn.executable("node") == 1 and vim.fn.executable("typescript-language-server") == 1 then
 	qpack:add(
 		{
 			"https://github.com/nvim-lua/plenary.nvim",
