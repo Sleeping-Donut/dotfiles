@@ -9,6 +9,7 @@ in
     group = "labmembers";
     dataDir = "/opt/stump/data";
     environment = {
+      STUMP_TRUST_PROXY_HEADERS = "true";
       STUMP_OIDC_ENABLED = "true";
       STUMP_OIDC_ISSUER_URL = "https://id.${publicDomain}";
       STUMP_OIDC_CLIENT_ID = "stump";
