@@ -20,6 +20,7 @@ let
   iso639-lang = py.pkgs.buildPythonPackage rec {
     pname = "iso639-lang";
     version = versions.iso639-lang.version;
+    pyproject = true;
     src = fetchurl {
       url = "https://files.pythonhosted.org/packages/source/i/iso639-lang/iso639_lang-${version}.tar.gz";
       hash = versions.iso639-lang.hash;
