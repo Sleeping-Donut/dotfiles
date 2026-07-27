@@ -34,7 +34,7 @@ let
         pkgsIn:
         import pkgsIn {
           inherit (host) system;
-          overlays = [ ];
+          overlays = [ (final: prev: builtins.mapAttrs (name: pkg: final.callPackage pkg { }) own-pkgs) ];
           config.allowUnfreePredicate = unfreeFilter pkgsIn;
         };
       pkgs = mkPkgs nixpkgs;
