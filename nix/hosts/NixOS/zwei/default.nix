@@ -288,6 +288,10 @@ in
                 proxy_read_timeout 300;
               '';
             };
+            "/lazylibrarian" = {
+              proxyPass = toUrl vcu 5299;
+              proxyWebsockets = true;
+            };
           };
       };
     };

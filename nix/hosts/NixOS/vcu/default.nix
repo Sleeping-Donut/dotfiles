@@ -19,6 +19,7 @@ in
     ./hardware-configuration.nix
 
     modules.nixos.bazarr
+    modules.nixos.lazylibrarian
     modules.nixos.ombi
     modules.nixos.prowlarr
     (repo-root + "/nix/modules/nixos/rclone-backups.nix")
@@ -306,6 +307,23 @@ in
     OnCalendar = [ "Sun *-*-* 04:30:00" ]; # weekly at 0430 Sun
   };
 
+  nd0.services.lazylibrarian = {
+    enable = true;
+    group = "labmembers";
+    dataDir = "/opt/lazylibrarian/data";
+    openFirewall = true;
+  };
+  systemd.services.lazylibrarian.unitConfig.RequiresMountsFor = [ "/mnt/amadeus/fg8" ];
+  nd0.rclone-backups.lazylibrarian = {
+    enable = true;
+    sourceDir = "/opt/lazylibrarian/data";
+    destDir = "/mnt/amadeus/fg8/Backup/lazylibrarian/data";
+    group = "labmembers";
+    requiresMountsFor = [ "/mnt/amadeus/fg8" ];
+    pruneRemote = true;
+    OnCalendar = [ "Sun *-*-* 04:35:00" ]; # weekly at 0435 Sun
+  };
+
   services.tautulli = {
     enable = true;
     user = "tautulli";
@@ -423,6 +441,9 @@ in
       };
       "lidarr.${vcu}".locations."/" = {
         proxyPass = toUrl vcu "8686";
+      };
+      "lazylibrarian.${vcu}".locations."/" = {
+        proxyPass = toUrl vcu "5299";
       };
       "readarr.${vcu}".locations."/" = {
         proxyPass = toUrl vcu "8787";
