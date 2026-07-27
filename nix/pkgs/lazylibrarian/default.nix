@@ -21,6 +21,7 @@ let
     pname = "iso639-lang";
     version = versions.iso639-lang.version;
     pyproject = true;
+    nativeBuildInputs = [ py.pkgs.setuptools ];
     src = fetchurl {
       url = "https://files.pythonhosted.org/packages/source/i/iso639-lang/iso639_lang-${version}.tar.gz";
       hash = versions.iso639-lang.hash;
