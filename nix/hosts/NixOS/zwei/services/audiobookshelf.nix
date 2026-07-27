@@ -57,6 +57,7 @@ in
       proxy_send_timeout 600s;
       send_timeout 600s;
     '';
+    locations."/".return = "444";
     locations."/audiobookshelf" = {
       proxyPass = toUrl zwei config.services.audiobookshelf.port;
       proxyWebsockets = true;
