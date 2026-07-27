@@ -7,6 +7,7 @@ let
   slskd-api = py.pkgs.buildPythonPackage rec {
     pname = "slskd-api";
     version = versions.slskd-api.version;
+    format = "setuptools";
     src = fetchurl {
       url = "https://files.pythonhosted.org/packages/source/s/slskd-api/slskd_api-${version}.tar.gz";
       hash = versions.slskd-api.hash;
