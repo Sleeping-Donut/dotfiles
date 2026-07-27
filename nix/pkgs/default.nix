@@ -1,3 +1,2 @@
 {
-  lazylibrarian = import ./lazylibrarian;
 }
