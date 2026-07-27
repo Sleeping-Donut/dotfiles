@@ -8,6 +8,10 @@ let
     pname = "slskd-api";
     version = versions.slskd-api.version;
     format = "setuptools";
+    preBuild = ''
+      sed -i 's/setup_requires = \["setuptools-git-versioning"\],//' setup.py
+      sed -i 's/setuptools_git_versioning={[^}]*},/version="'$version'",/' setup.py
+    '';
     src = fetchurl {
       url = "https://files.pythonhosted.org/packages/source/s/slskd-api/slskd_api-${version}.tar.gz";
       hash = versions.slskd-api.hash;
