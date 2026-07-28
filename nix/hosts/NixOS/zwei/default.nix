@@ -17,8 +17,8 @@ in
 {
   imports = [
     ./hardware-configuration.nix
-    (repo-root + "/nix/modules/nixos/rclone-backups.nix")
-    (repo-root + "/nix/modules/nixos/stump.nix")
+    modules.nixos.rclone-backups
+    modules.nixos.stump
     ./services/kavita.nix
     ./services/stump.nix
     ./services/plex.nix

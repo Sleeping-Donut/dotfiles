@@ -21,7 +21,7 @@ in
     modules.nixos.bazarr
     modules.nixos.ombi
     modules.nixos.prowlarr
-    (repo-root + "/nix/modules/nixos/rclone-backups.nix")
+    modules.nixos.rclone-backups
   ];
 
   #	This defines first version of nixos installed - used to maintain
