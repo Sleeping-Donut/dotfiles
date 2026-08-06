@@ -35,8 +35,8 @@ function M:add(deps, config)
 		normalized = { deps }
 	elseif type(deps) == "table" then
 		---@diagnostic disable-next-line: deprecated
-		local isList = vim.islist and vim.islist(deps) or vim.tbl_islist(deps)
-		if isList then
+		local islist = vim.islist or vim.isarray or vim.tbl_islist
+		if islist(deps) then
 			normalized = deps -- It is an array of Specs
 		else
 			normalized = { deps } -- It is a single Spec
