@@ -70,6 +70,7 @@ in
     typst
     typstyle
     typst-live
+    websocat # for tinymist-preview ('__')
     tz # timezone tool
     yq # jq for YAML
   ];
