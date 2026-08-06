@@ -259,20 +259,23 @@ local qpack = require("qpack")
 qpack:add(
 	"https://github.com/neovim/nvim-lspconfig",
 	function()
-		---Enable an LSP server only if its binary exists on the system.
-		---@param server string The name of the LSP configuration (e.g., "lua_ls")
-		---@param bin? string The name of the binary to check (optional, defaults to server)
-		local function lsp_enable(server, bin)
-			-- If bin is nil, fallback to server name
-			local binary_to_check = bin or server
 
-			if vim.fn.executable(binary_to_check) == 1 then
+		--- Set up an LSP server: define its configuration and enable it only if its binary exists
+		---@param server  string The LSP server name (e.g., "eslint") – used as the config key and enable target.
+		---@param bin?    string The binary to check for existence (optional, defaults to `server`).
+		---@param config? table  Configuration table passed directly to `vim.lsp.config`. See `:h vim.lsp.config()`.
+		local function setup_lsp(server, bin, config)
+			local bin_to_check = bin or server
+			if config then
+				vim.lsp.config(server, config)
+			end
+			if vim.fn.executable(bin_to_check) == 1 then
 				vim.lsp.enable(server)
 			end
 		end
 
 		-- Lua
-		vim.lsp.config("lua_ls", {
+		setup_lsp("lua_ls", "lua-language-server", { -- TODO: try emmylua
 			diagnostics = {
 				globals = { "vim" },
 			},
@@ -291,36 +294,34 @@ qpack:add(
 				}
 			}
 		})
-		lsp_enable("lua_ls", "lua-language-server") -- TODO: try emmylua
-		lsp_enable("stylua")
+		setup_lsp("stylua")
 
 		-- Web
-		vim.lsp.config("eslint", {
+		setup_lsp("eslint", "vscode-eslint-language-server", {
 			settings = {
 				experimental = { useFlatConfig = true },
 			},
 		})
-		lsp_enable("astro", "astro-ls")
-		lsp_enable("cssls", "vscode-css-language-server")
-		lsp_enable("cssmodules_ls", "cssmodules-language-server")
-		lsp_enable("emmet_language_server", "emmet-language-server")
-		lsp_enable("eslint", "vscode-eslint-language-server")
-		lsp_enable("graphql", "graphql-lsp")
-		lsp_enable("html", "vscode-html-language-server")
-		lsp_enable("htmx", "htmx-lsp")
-		lsp_enable("oxfmt")
-		lsp_enable("oxlint")
-		lsp_enable("svelte", "svelte-language-server")
-		lsp_enable("tailwindcss", "tailwindcss-language-server")
-		-- lsp_enable("ts_ls", "typescript-language-server") -- typescript-tools instead
-		lsp_enable("tsgo")
-		lsp_enable("turbo_ls", "turbo-language-server")
-		lsp_enable("unocss",  "unocss-language-server")
-		lsp_enable("vue_ls", "vue-language-server")
-		lsp_enable("wc_language_server", "wc-language-server")
+		setup_lsp("astro", "astro-ls")
+		setup_lsp("cssls", "vscode-css-language-server")
+		setup_lsp("cssmodules_ls", "cssmodules-language-server")
+		setup_lsp("emmet_language_server", "emmet-language-server")
+		setup_lsp("graphql", "graphql-lsp")
+		setup_lsp("html", "vscode-html-language-server")
+		setup_lsp("htmx", "htmx-lsp")
+		setup_lsp("oxfmt")
+		setup_lsp("oxlint")
+		setup_lsp("svelte", "svelte-language-server")
+		setup_lsp("tailwindcss", "tailwindcss-language-server")
+		-- setup_lsp("ts_ls", "typescript-language-server") -- typescript-tools instead
+		setup_lsp("tsgo")
+		setup_lsp("turbo_ls", "turbo-language-server")
+		setup_lsp("unocss",  "unocss-language-server")
+		setup_lsp("vue_ls", "vue-language-server")
+		setup_lsp("wc_language_server", "wc-language-server")
 
 		-- Other programming
-		vim.lsp.config("pylsp", {
+		setup_lsp("pylsp", nil, { -- alt pyright
 			settings = {
 				pylsp = {
 					plugins = {
@@ -331,49 +332,50 @@ qpack:add(
 				},
 			},
 		})
-		lsp_enable("arduino_language_server", "arduino-language-server")
-		lsp_enable("autohotkey_lsp", "autohotkey_lsp")
-		lsp_enable("awk_ls", "awk-language-server")
-		lsp_enable("bashls", "bash-language-server")
-		lsp_enable("buf_ls", "buf")
-		lsp_enable("csharp_ls")
-		lsp_enable("dartls", "dart")
-		-- lsp_enable("elixirls") -- have to manually point to bin path
-		lsp_enable("fish_lsp", "fish-lsp")
-		lsp_enable("fsautocomplete", "fsautocomplete")
-		lsp_enable("gdscript")
-		lsp_enable("gdshader_lsp", "gdshader-lsp")
-		lsp_enable("gleam")
-		lsp_enable("gopls")
-		lsp_enable("hls", "haskell-language-server-wrapper")
-		lsp_enable("java_language_server", "java-language-server")
-		lsp_enable("jqls", "jq-lsp")
-		lsp_enable("jsonls", "vscode-json-language-server")
-		lsp_enable("kotlin_language_server", "kotlin-language-server") -- TODO: replace w/ kotlin_lsp
-		lsp_enable("marko-js", "marko-language-server")
-		lsp_enable("matlab_ls", "matlab-language-server")
-		lsp_enable("mdx_analyzer", "mdx-language-server")
-		lsp_enable("nixd") -- nil_ls is alternative
-		lsp_enable("nushell", "nu")
-		lsp_enable("ocamllsp")
-		lsp_enable("ols")
-		lsp_enable("opencl_ls", "opencl-language-server")
-		lsp_enable("openscad_ls", "openscad-language-server") -- alt openscad_lsp
-		lsp_enable("pico8_ls", "pico8-ls")
-		lsp_enable("postgres_lsp", "postgres-language-server")
-		lsp_enable("powershell_es", "pwsh")
-		lsp_enable("pylsp") -- alt pyright
-		lsp_enable("qmlls")
-		lsp_enable("r_language_server", "R")
-		lsp_enable("ruby_lsp", "ruby-lsp")
-		-- lsp_enable("rust_analyzer") -- rustacean handles this now
-		lsp_enable("scheme_langserver", "scheme-langserver")
-		lsp_enable("texlab")
-		lsp_enable("tinymist")
-		lsp_enable("zls")
+		setup_lsp("arduino_language_server", "arduino-language-server")
+		setup_lsp("autohotkey_lsp", "autohotkey_lsp")
+		setup_lsp("awk_ls", "awk-language-server")
+		setup_lsp("bashls", "bash-language-server")
+		setup_lsp("buf_ls", "buf")
+		setup_lsp("csharp_ls")
+		setup_lsp("dartls", "dart")
+		-- setup_lsp("elixirls") -- have to manually point to bin path
+		setup_lsp("fish_lsp", "fish-lsp")
+		setup_lsp("fsautocomplete", "fsautocomplete")
+		setup_lsp("gdscript")
+		setup_lsp("gdshader_lsp", "gdshader-lsp")
+		setup_lsp("gleam")
+		setup_lsp("gopls")
+		setup_lsp("hls", "haskell-language-server-wrapper")
+		setup_lsp("java_language_server", "java-language-server")
+		setup_lsp("jqls", "jq-lsp")
+		setup_lsp("jsonls", "vscode-json-language-server")
+		setup_lsp("kotlin_language_server", "kotlin-language-server") -- TODO: replace w/ kotlin_lsp
+		setup_lsp("marko-js", "marko-language-server")
+		setup_lsp("matlab_ls", "matlab-language-server")
+		setup_lsp("mdx_analyzer", "mdx-language-server")
+		setup_lsp("nixd") -- nil_ls is alternative
+		setup_lsp("nushell", "nu")
+		setup_lsp("ocamllsp")
+		setup_lsp("ols")
+		setup_lsp("opencl_ls", "opencl-language-server")
+		setup_lsp("openscad_ls", "openscad-language-server") -- alt openscad_lsp
+		setup_lsp("pico8_ls", "pico8-ls")
+		setup_lsp("postgres_lsp", "postgres-language-server")
+		setup_lsp("powershell_es", "pwsh")
+		setup_lsp("qmlls")
+		setup_lsp("r_language_server", "R")
+		setup_lsp("ruby_lsp", "ruby-lsp")
+		-- setup_lsp("rust_analyzer") -- rustacean handles this now
+		setup_lsp("scheme_langserver", "scheme-langserver")
+		setup_lsp("texlab")
+		setup_lsp("tinymist", nil, {
+
+		})
+		setup_lsp("zls")
 
 		-- Config languages
-		vim.lsp.config("clangd", {
+		setup_lsp("clangd", nil, {
 			cmd = {
 				"clangd",
 				"--background-index",
@@ -381,20 +383,19 @@ qpack:add(
 				"--offset-encoding=utf-16",
 			}
 		})
-		lsp_enable("ansiblels", "ansible-language-server")
-		lsp_enable("clangd")
-		lsp_enable("cmake", "cmake")
-		lsp_enable("gh_actions_ls", "gh-actions-language-server")
-		lsp_enable("gitlab_ci_ls", "gitlab-ci-ls")
-		lsp_enable("gradle_ls", "gradle-language-server")
-		lsp_enable("home_assistant", "vscode-home-assistant")
-		lsp_enable("nginx_language_server", "nginx-language-server")
-		lsp_enable("nxls")
-		lsp_enable("systemd_lsp", "systemd-lsp")
-		lsp_enable("tflint") -- alt terraformls, terraform_lsp
-		lsp_enable("tofu_ls", "tofu-ls")
-		lsp_enable("vacuum")
-		lsp_enable("yamlls", "yaml-language-server")
+		setup_lsp("ansiblels", "ansible-language-server")
+		setup_lsp("cmake", "cmake")
+		setup_lsp("gh_actions_ls", "gh-actions-language-server")
+		setup_lsp("gitlab_ci_ls", "gitlab-ci-ls")
+		setup_lsp("gradle_ls", "gradle-language-server")
+		setup_lsp("home_assistant", "vscode-home-assistant")
+		setup_lsp("nginx_language_server", "nginx-language-server")
+		setup_lsp("nxls")
+		setup_lsp("systemd_lsp", "systemd-lsp")
+		setup_lsp("tflint") -- alt terraformls, terraform_lsp
+		setup_lsp("tofu_ls", "tofu-ls")
+		setup_lsp("vacuum")
+		setup_lsp("yamlls", "yaml-language-server")
 	end
 )
 
@@ -429,6 +430,23 @@ if vim.fn.executable("rust-analyzer") == 1 then
 			local has_crates, crates = pcall(require, "crates")
 			if not has_crates then return end
 			crates.setup()
+		end
+	)
+end
+
+if vim.fn.executable("tinymist") == 1 and vim.fn.executable("websocat") == 1 then
+	qpack:add(
+		{ src = "https://github.com/chomosuke/typst-preview.nvim", version = "1.*" },
+		function()
+			local has_t_preview, t_preview = pcall(require, "typst-preview")
+			if not has_t_preview then return end
+			t_preview.setup({
+				dependencies_bin = { -- prevent auto-download of bin
+					["tinymist"] = "tinymist",
+					["websocat"] = "websocat",
+				},
+				follow_cursor = false,
+			})
 		end
 	)
 end
