@@ -50,16 +50,18 @@ local function ts_info()
 		return
 	end
 
-	local has_parser, parser = pcall(vim.treesitter.get_parser)
-	local has_highlights = pcall(vim.treesitter.query.get_files, ft, "highlights")
+	local ok_parser, parser = pcall(vim.treesitter.get_parser)
+	local has_parser = ok_parser and parser ~= nil
+	local ok_hl, hl_files = pcall(vim.treesitter.query.get_files, ft, "highlights")
+	local has_highlights = ok_hl and hl_files and #hl_files > 0
 
 	local lines = {
 		"# Treesitter Status",
 		"",
 		"Filetype: "..ft,
-		"Parser loaded: "..(has_parser and "☑" or "☒"),
+		"Parser loaded: "..(has_parser and "✔" or "✘"),
 		"Language: "..(has_parser and parser:lang() or ft),
-		"Highlights: "..(has_highlights and "☑" or "☒"),
+		"Highlights: "..(has_highlights and "✔" or "✘"),
 	}
 
 	-- List installed parsers
@@ -369,9 +371,7 @@ qpack:add(
 		-- setup_lsp("rust_analyzer") -- rustacean handles this now
 		setup_lsp("scheme_langserver", "scheme-langserver")
 		setup_lsp("texlab")
-		setup_lsp("tinymist", nil, {
-
-		})
+		setup_lsp("tinymist")
 		setup_lsp("zls")
 
 		-- Config languages
@@ -436,7 +436,7 @@ end
 
 if vim.fn.executable("tinymist") == 1 and vim.fn.executable("websocat") == 1 then
 	qpack:add(
-		{ src = "https://github.com/chomosuke/typst-preview.nvim", version = "1.*" },
+		"https://github.com/chomosuke/typst-preview.nvim",
 		function()
 			local has_t_preview, t_preview = pcall(require, "typst-preview")
 			if not has_t_preview then return end
