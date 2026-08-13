@@ -24,6 +24,7 @@ in
     modules.home.tmux
     modules.home.ata-conf
     modules.home.bins
+    modules.home.opencode
 
     modules.darwin-home.alacritty-conf
   ];
@@ -79,6 +80,7 @@ in
     alacritty-conf.enable = true;
     ata-conf.enable = true;
     bins.enable = true;
+    opencode.enable = true;
     # firefox.enable = true;
     neovim = {
       enable = true;
