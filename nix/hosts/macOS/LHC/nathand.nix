@@ -66,8 +66,8 @@ in
     starship
     stow
     tailscale
-    tokei
     tinymist
+    tokei
     typst
     typstyle
     typst-live
