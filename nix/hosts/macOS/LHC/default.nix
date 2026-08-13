@@ -97,7 +97,6 @@ in
       "loop"
       "mediamate"
       "mullvad-vpn"
-      "ollama-app"
       "ollamac"
       "plexamp"
       "pocket-casts"
