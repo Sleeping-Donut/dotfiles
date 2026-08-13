@@ -120,7 +120,24 @@ in
       };
     };
     git.enable = true;
-    neovim.package = neovim-nightly;
+    neovim = {
+      package = neovim-nightly;
+      plugins = with pkgs-unstable.vimPlugins; [
+        (nvim-treesitter.withPlugins (p: with p; [
+          bash
+          css
+          ini
+          json
+          lua
+          markdown
+          nix
+          python
+          toml
+          typescript
+          typst
+        ]))
+      ];
+    };
     jq = {
       enable = true;
       package = pkgs-unstable.jq;
