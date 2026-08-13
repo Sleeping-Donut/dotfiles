@@ -83,7 +83,6 @@ in
       "alacritty"
       "android-studio"
       "balenaetcher"
-      "blackhole-2ch"
       "blender"
       "calibre"
       "chatterino"
