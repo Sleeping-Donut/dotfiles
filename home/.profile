@@ -42,6 +42,9 @@ alias cls='clear'
 
 alias lsbin='compgen -c'
 
+alias ai='OPENCODE_DATA_DIR=$(mktemp -d) opencode run'
+alias opencodetmp='OPENCODE_DATA_DIR=$(mktemp -d) opencode'
+
 alias nv='nvim'
 alias nvb='NVIM_CONFIG_MODE=BASIC nvim'
 alias nvl='NVIM_CONFIG_MODE=LITE nvim'
