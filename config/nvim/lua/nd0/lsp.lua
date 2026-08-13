@@ -447,6 +447,25 @@ if vim.fn.executable("tinymist") == 1 and vim.fn.executable("websocat") == 1 the
 				},
 				follow_cursor = false,
 			})
+
+			vim.api.nvim_create_user_command("TypstPreviewStopAll", function()
+				local count = 0
+				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+					if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].filetype == "typst" then
+						-- Temporarily execute `:TypstPreviewStop` inside the context of `buf`
+						vim.api.nvim_buf_call(buf, function()
+							pcall(function()
+								vim.cmd("silent! TypstPreviewStop")
+							end)
+						end)
+						count = count + 1
+					end
+				end
+				-- Schedule notification so it fires cleanly after the message queue empties
+				vim.schedule(function()
+					vim.notify("Called Stop on " .. count .. " Typst preview buffer session(s)", vim.log.levels.INFO)
+				end)
+			end, { desc = "Stop all active typst-preview instances" })
 		end
 	)
 end
