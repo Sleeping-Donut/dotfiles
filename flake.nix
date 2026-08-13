@@ -149,13 +149,15 @@
               ++ (with pkgs.tree-sitter-grammars; [
                 tree-sitter-bash
                 tree-sitter-css
-                # tree-sitter-ini # available in 26.05+
+                tree-sitter-ini
                 tree-sitter-json
                 tree-sitter-lua
                 tree-sitter-markdown
                 tree-sitter-nix
                 tree-sitter-python
                 tree-sitter-toml
+                tree-sitter-typescript
+                tree-sitter-typst
               ]);
           };
         }
