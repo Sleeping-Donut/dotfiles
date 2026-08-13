@@ -5,6 +5,7 @@
   neovim = ./neovim.nix;
   shell-profile = ./shell-profile.nix;
   tealdeer = ./tealdeer.nix;
+  opencode = ./opencode.nix;
   tmux = ./tmux.nix;
   zsh = ./zsh.nix;
 }
