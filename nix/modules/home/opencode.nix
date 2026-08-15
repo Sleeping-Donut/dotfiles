@@ -18,6 +18,8 @@ in
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/opencode/skills/";
     home.file.".config/opencode/tools/".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/opencode/tools/";
+    home.file.".config/opencode/plugins/".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/opencode/plugins/";
   };
 }
 
