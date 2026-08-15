@@ -49,6 +49,8 @@ alias nv='nvim'
 alias nvb='NVIM_CONFIG_MODE=BASIC nvim'
 alias nvl='NVIM_CONFIG_MODE=LITE nvim'
 alias nvf='NVIM_CONFIG_MODE=FULL nvim'
+alias scpad='nvim $(mktemp)'
+alias scdir='nvim $(mktemp -d)'
 
 alias rga='rg --hidden'
 alias rgc='rg --color=always'
