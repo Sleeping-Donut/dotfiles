@@ -4,20 +4,14 @@
   ...
 }:
 let
-  cfg = config.nd0.home.neovim;
+  cfg = config.nd0.home.opencode;
 in
 {
   options.nd0.home.opencode = {
-    enable = lib.mkEnableOption "Setup opencode global skill, tool, agents etc.";
+    enable = lib.mkEnableOption "Setup opencode global plugins etc.";
   };
 
   config = lib.mkIf cfg.enable {
-    home.file.".config/opencode/AGENTS.md".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/opencode/AGENTS.md";
-    home.file.".config/opencode/skills/".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/opencode/skills/";
-    home.file.".config/opencode/tools/".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/opencode/tools/";
     home.file.".config/opencode/plugins/".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/opencode/plugins/";
   };

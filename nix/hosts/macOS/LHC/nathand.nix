@@ -25,6 +25,7 @@ in
     modules.home.ata-conf
     modules.home.bins
     modules.home.opencode
+    modules.home.ai-agents
 
     modules.darwin-home.alacritty-conf
   ];
@@ -81,6 +82,7 @@ in
     ata-conf.enable = true;
     bins.enable = true;
     opencode.enable = true;
+    ai-agents.enable = true;
     # firefox.enable = true;
     neovim = {
       enable = true;
