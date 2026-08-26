@@ -28,7 +28,7 @@ buildNpmPackage {
   nativeBuildInputs = [
     python3
     buildPackages.gcc
-    buildPackages.make
+    buildPackages.gnumake
   ];
 
   propagatedBuildInputs = [
