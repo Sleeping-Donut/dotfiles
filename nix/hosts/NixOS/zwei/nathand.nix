@@ -18,6 +18,25 @@
       && echo "Pulling ~/dotfiles" && git pull \
       && cd - > /dev/null'
     alias nixup='nh os switch -H zwei ~/dotfiles'
+    softreboot() {
+      local kernel="$(readlink -f /run/booted-system/kernel)"
+      local initrd="$(readlink -f /run/booted-system/initrd)"
+      local cmdline="$(cat /proc/cmdline)"
+      echo "Loading $kernel ..."
+      sudo kexec -l "$kernel" --initrd="$initrd" --command-line="$cmdline"
+      echo "Executing kexec ..."
+      sudo kexec -e
+    }
+    softreboot-next() {
+      nh os boot -H zwei ~/dotfiles
+      local kernel="$(readlink -f /run/current-system/kernel)"
+      local initrd="$(readlink -f /run/current-system/initrd)"
+      local cmdline="$(cat /proc/cmdline)"
+      echo "Loading $kernel ..."
+      sudo kexec -l "$kernel" --initrd="$initrd" --command-line="$cmdline"
+      echo "Executing kexec ..."
+      sudo kexec -e
+    }
   '';
 
   home.packages = with pkgs-unstable; [
