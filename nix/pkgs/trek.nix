@@ -32,7 +32,7 @@ buildNpmPackage {
   ];
 
   propagatedBuildInputs = [
-    kdePackages.libkitinerary
+    kdePackages.kitinerary
   ];
 
   npmBuildScript = "build";
