@@ -5,4 +5,5 @@
   quadlets = ./quadlets.nix;
   rclone-backups = ./rclone-backups.nix;
   stump = ./stump.nix;
+  trek = ./trek.nix;
 }

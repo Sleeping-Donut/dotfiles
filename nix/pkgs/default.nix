@@ -1,2 +1,3 @@
 {
+  trek = callPackage ./trek.nix { };
 }

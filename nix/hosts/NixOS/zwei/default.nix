@@ -27,6 +27,7 @@ in
     ./services/audiobookshelf.nix
     ./services/pocket-id.nix
     ./services/grafana.nix
+    ./services/trek.nix
   ];
 
   #	This defines first version of nixos installed - used to maintain
