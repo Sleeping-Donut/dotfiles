@@ -37,6 +37,8 @@ buildNpmPackage {
 
   npmBuildScript = "build";
 
+  dontWrapQtApps = true;
+
   installPhase = ''
     runHook preInstall
 
