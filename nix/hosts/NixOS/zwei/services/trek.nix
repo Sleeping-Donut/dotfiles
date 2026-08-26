@@ -6,7 +6,7 @@ in
   nd0.services.trek = {
     enable = true;
     dataDir = "/opt/trek/data";
-    port = 3000;
+    port = 3001;
   };
 
   services.nginx.virtualHosts."trek.zwei.${localDomain}" = let
