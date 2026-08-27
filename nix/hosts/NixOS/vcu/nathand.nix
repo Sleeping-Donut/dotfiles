@@ -20,26 +20,26 @@
             softreboot() {
               local target_profile="/run/current-system"
               if [[ ! -d "$target_profile" ]]; then
-                echo "Error: Profile directory '$target_profile' does not exist." >&2
+                echo "Error: Profile directory ''${target_profile} does not exist." >&2
                 return 1
               fi
-              echo "Loading kexec image from current system ($target_profile)..."
-              sudo kexec -l "${target_profile}/kernel" \
-                --initrd="${target_profile}/initrd" \
-                --append="$(cat "${target_profile}/kernel-params") init=${target_profile}/init" || return 1
+              echo "Loading kexec image from current system (''${target_profile})..."
+              sudo kexec -l "''${target_profile}/kernel" \
+                --initrd="''${target_profile}/initrd" \
+                --append="$(cat "''${target_profile}/kernel-params") init=''${target_profile}/init" || return 1
               echo "Triggering kexec reboot..."
               sudo systemctl kexec
             }
             softreboot-next() {
-              local target_profile="${1:-/nix/var/nix/profiles/system}"
+              local target_profile="''${1:-/nix/var/nix/profiles/system}"
               if [[ ! -d "$target_profile" ]]; then
-                echo "Error: Profile directory '$target_profile' does not exist." >&2
+                echo "Error: Profile directory ''${target_profile} does not exist." >&2
                 return 1
               fi
-              echo "Loading kexec image from $target_profile..."
-              sudo kexec -l "${target_profile}/kernel" \
-                --initrd="${target_profile}/initrd" \
-                --append="$(cat "${target_profile}/kernel-params") init=${target_profile}/init" || return 1
+              echo "Loading kexec image from ''${target_profile}..."
+              sudo kexec -l "''${target_profile}/kernel" \
+                --initrd="''${target_profile}/initrd" \
+                --append="$(cat "''${target_profile}/kernel-params") init=''${target_profile}/init" || return 1
               echo "Triggering kexec reboot..."
               sudo systemctl kexec
             }
