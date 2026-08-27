@@ -7,6 +7,7 @@
   buildPackages,
   kdePackages,
   nix-update-script,
+  makeWrapper,
   ...
 }:
 
@@ -29,6 +30,7 @@ buildNpmPackage {
     python3
     buildPackages.gcc
     buildPackages.gnumake
+    makeWrapper
   ];
 
   propagatedBuildInputs = [
@@ -46,12 +48,10 @@ buildNpmPackage {
     cp -r . $out/lib/node_modules/trek
 
     mkdir -p $out/bin
-    cat > $out/bin/trek <<EOF
-    #!/bin/sh
-    cd $out/lib/node_modules/trek/server
-    exec node --require tsconfig-paths/register dist/index.js
-    EOF
-    chmod +x $out/bin/trek
+    makeWrapper ${lib.getExe nodejs_24} $out/bin/trek \
+      --add-flags "--require tsconfig-paths/register" \
+      --add-flags "$out/lib/node_modules/trek/server/dist/index.js" \
+      --set NODE_ENV production
 
     runHook postInstall
   '';
