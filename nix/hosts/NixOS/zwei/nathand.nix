@@ -28,7 +28,6 @@
       sudo kexec -e
     }
     softreboot-next() {
-      nh os boot -H zwei ~/dotfiles
       local kernel="$(readlink -f /run/current-system/kernel)"
       local initrd="$(readlink -f /run/current-system/initrd)"
       local cmdline="$(cat /proc/cmdline)"
