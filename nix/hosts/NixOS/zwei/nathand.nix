@@ -18,6 +18,7 @@
       && echo "Pulling ~/dotfiles" && git pull \
       && cd - > /dev/null'
     alias nixup='nh os switch -H zwei ~/dotfiles'
+    alias nixqueue='nh os boot -H zwei ~/dotfiles'
     softreboot() {
       local kernel="$(readlink -f /run/booted-system/kernel)"
       local initrd="$(readlink -f /run/booted-system/initrd)"

@@ -16,6 +16,7 @@
               && echo "Pulling ~/dotfiles" && git pull \
               && cd - > /dev/null'
             alias nixup='nh os switch -H vcu ~/dotfiles'
+            alias nixqueue='nh os boot -H vcu ~/dotfiles'
     	'';
 
   home.packages = with pkgs-unstable; [
