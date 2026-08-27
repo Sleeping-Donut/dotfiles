@@ -8,6 +8,26 @@ if [[ ! -d "$target_profile" ]]; then
   exit 1
 fi
 
+current_kernel="$(uname -r)"
+
+if [[ -d "${target_profile}/kernel-modules/lib/modules" ]]; then
+  target_kernel="$(basename "$(echo "${target_profile}"/kernel-modules/lib/modules/*)")"
+else
+  target_kernel="$(readlink -f "${target_profile}/kernel" | grep -oP 'linux-\K[0-9]+\.[0-9]+(\.[0-9]+)?')"
+fi
+
+echo "Current booted kernel: $current_kernel"
+echo "Target profile kernel: ${target_kernel:-Unknown}"
+
+if [[ -n "$target_kernel" && "$current_kernel" != "$target_kernel" ]]; then
+  echo -e "\n\033[1;33mWarning: Target kernel ($target_kernel) differs from booted kernel ($current_kernel)!\033[0m"
+  read -rp "Do you still want to proceed with kexec reboot? [y/N] " confirm
+  if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+    echo "Aborting soft reboot."
+    exit 0
+  fi
+fi
+
 echo "Loading kexec image from current system ($target_profile)..."
 sudo kexec -l "${target_profile}/kernel" \
   --initrd="${target_profile}/initrd" \
