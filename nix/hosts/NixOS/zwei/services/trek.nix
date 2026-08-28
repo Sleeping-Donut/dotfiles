@@ -6,7 +6,7 @@ let
 in
 {
   virtualisation.oci-containers.containers.trek = {
-    image = "mauriceboe/trek:3.4.1";
+    image = "mauriceboe/trek:4.0.0";
     ports = [ "127.0.0.1:3001:3000" ];
     volumes = [
       "${trekDataDir}:/app/data"
