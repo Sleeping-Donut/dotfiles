@@ -150,6 +150,10 @@ in
     extraConfig = "set-option -g prefix2 C-'\\'";
   };
 
+  #	Containers
+  virtualisation.podman.enable = true;
+  virtualisation.oci-containers.backend = "podman";
+
   #	System Services
   services.openssh.enable = true;
   services.tailscale = {
