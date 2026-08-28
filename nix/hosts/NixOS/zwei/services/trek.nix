@@ -17,18 +17,6 @@ in
       PORT = "3000";
       COOKIE_SECURE = "false";
     };
-    extraOptions = [
-      "--health-cmd"
-      "wget -qO- http://localhost:3000/api/health || exit 1"
-      "--health-interval"
-      "30s"
-      "--health-timeout"
-      "5s"
-      "--health-start-period"
-      "15s"
-      "--health-retries"
-      "3"
-    ];
   };
 
   systemd.tmpfiles.settings."10-trek".${trekDataDir}.d = {
