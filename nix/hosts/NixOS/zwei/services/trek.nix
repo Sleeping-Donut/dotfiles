@@ -15,6 +15,7 @@ in
     environment = {
       NODE_ENV = "production";
       PORT = "3000";
+      COOKIE_SECURE = "false";
     };
     extraOptions = [
       "--health-cmd"
