@@ -19,7 +19,6 @@ in
     ./hardware-configuration.nix
     modules.nixos.rclone-backups
     modules.nixos.stump
-    modules.nixos.trek
     ./services/kavita.nix
     ./services/stump.nix
     ./services/plex.nix
