@@ -17,11 +17,16 @@ in
       PORT = "3000";
     };
     extraOptions = [
-      "--health-cmd wget -qO- http://localhost:3000/api/health || exit 1"
-      "--health-interval 30s"
-      "--health-timeout 5s"
-      "--health-start-period 15s"
-      "--health-retries 3"
+      "--health-cmd"
+      "wget -qO- http://localhost:3000/api/health || exit 1"
+      "--health-interval"
+      "30s"
+      "--health-timeout"
+      "5s"
+      "--health-start-period"
+      "15s"
+      "--health-retries"
+      "3"
     ];
   };
 
