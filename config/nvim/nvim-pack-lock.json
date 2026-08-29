@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "crates.nvim": {
+      "rev": "694357861ec9ebf12475ddcdd04ea45a0923c32d",
+      "src": "https://github.com/Saecki/crates.nvim"
+    },
     "fidget.nvim": {
       "rev": "889e2e96edef4e144965571d46f7a77bcc4d0ddf",
       "src": "https://github.com/j-hui/fidget.nvim"
@@ -87,7 +91,7 @@
     },
     "oil.nvim": {
       "rev": "b91ee5a77a6a9605d9c1aaf4fda74b66082c8297",
-      "src": "https://github.com/stevearc/oil.nvim.git"
+      "src": "https://github.com/stevearc/oil.nvim"
     },
     "plenary.nvim": {
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
@@ -96,6 +100,10 @@
     "poimandres.nvim": {
       "rev": "a488957d803943a4201ac3b774913fcafa9e6b3a",
       "src": "https://github.com/olivercederborg/poimandres.nvim"
+    },
+    "rustaceanvim": {
+      "rev": "f4051fb4662c43a568ce809a37e47c0f4e3d7a31",
+      "src": "https://github.com/mrcjkb/rustaceanvim"
     },
     "tokyonight.nvim": {
       "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
