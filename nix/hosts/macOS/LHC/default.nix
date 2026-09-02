@@ -95,6 +95,7 @@ in
       "iina"
       "kitty"
       "loop"
+      "markdown-preview"
       "mediamate"
       "mullvad-vpn"
       "ollamac"
