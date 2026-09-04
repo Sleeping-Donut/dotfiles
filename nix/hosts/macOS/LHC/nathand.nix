@@ -46,6 +46,7 @@ in
     btop
     comma # prefix comand with , to use nix run w/ an autosearch
     ctop
+    delta
     dua
     dust
     fastfetch
