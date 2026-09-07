@@ -47,6 +47,13 @@ in
     '';
   };
 
+  # prevent power saving on network card
+  networking.networkmanager.wifi.powersave = false;
+  boot.extraModprobeConfig = ''
+    options iwlwifi power_save=0
+    options iwlmvm power_scheme=1
+  '';
+
   #	Use systemd-boot EFI bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 8;
