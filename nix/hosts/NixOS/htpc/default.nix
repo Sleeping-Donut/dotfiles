@@ -197,6 +197,7 @@ in
       "tv.plex.PlexHTPC"
     ];
   };
+  fonts.fontDir.enable = true;
 
   services.openssh.enable = true;
   services.tailscale = {
