@@ -86,6 +86,7 @@ in
   console = {
     font = "Lat2-Terminus16";
     keyMap = "uk";
+    packages = [ pkgs.terminus_font ];
   };
 
   boot.plymouth = {
@@ -198,6 +199,10 @@ in
     ];
   };
   fonts.fontDir.enable = true;
+  fonts.packages = with pkgs; [
+    terminus_font
+    terminus_font_ttf
+  ];
 
   services.openssh.enable = true;
   services.tailscale = {
