@@ -16,6 +16,9 @@
     		export PATH="$PATH:$HOME/.local/bin"
     	'';
 
+  home.file.".local/bin/softreboot".source = ../../../../local/bin/softreboot;
+  home.file.".local/bin/softreboot-next".source = ../../../../local/bin/softreboot-next;
+
   home.packages = with pkgs-unstable; [
     bat
     btop
