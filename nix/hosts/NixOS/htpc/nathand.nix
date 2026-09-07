@@ -13,8 +13,8 @@
   home.stateVersion = "23.11";
 
   home.file.".profile".text = ''
-    		export PATH="$PATH:$HOME/.local/bin"
-    	'';
+    export PATH="$PATH:$HOME/.local/bin"
+  '';
 
   home.file.".local/bin/softreboot".source = ../../../../local/bin/softreboot;
   home.file.".local/bin/softreboot-next".source = ../../../../local/bin/softreboot-next;
