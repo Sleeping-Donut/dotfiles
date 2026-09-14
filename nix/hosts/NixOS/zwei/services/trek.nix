@@ -31,7 +31,7 @@ in
   };
 
   networking.firewall.interfaces."tailscale0" = {
-    allowedTcpPorts = [ 3001 ];
+    allowedTCPPorts = [ 3001 ];
   };
 
   services.nginx.virtualHosts."trek.zwei.${localDomain}" = {
