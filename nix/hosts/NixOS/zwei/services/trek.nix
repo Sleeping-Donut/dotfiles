@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  inherit (import ../net-helpers.nix) publicDomain localDomain localACLs toUrl;
+  inherit (import ../net-helpers.nix) publicDomain localDomain localACLs headnetACLs toUrl headnet;
   trekDataDir = "/opt/trek/data";
   trekUploadsDir = "/opt/trek/uploads";
 in
@@ -41,6 +41,14 @@ in
   services.nginx.virtualHosts."trek.${publicDomain}" = {
     enableACME = true;
     forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:3001";
+      proxyWebsockets = true;
+    };
+  };
+
+  services.nginx.virtualHosts."trek.${headnet}" = {
+    extraConfig = headnetACLs;
     locations."/" = {
       proxyPass = "http://127.0.0.1:3001";
       proxyWebsockets = true;

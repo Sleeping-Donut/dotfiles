@@ -20,5 +20,11 @@ rec {
     allow 127.0.0.1; # loopback
     deny all;
   '';
+  headnetACLs = ''
+    allow ${headnetV4}; # headnet v4
+    allow ${headnetV6}; # headnet v6
+    allow 127.0.0.1; # loopback
+    deny all;
+  '';
   toUrl = domain: port: "http://${domain}:${toString port}";
 }
