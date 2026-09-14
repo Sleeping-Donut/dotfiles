@@ -227,7 +227,7 @@ in
   };
   services.nginx =
     let
-      inherit (import ./net-helpers.nix) localDomain tailnet vcu zwei zweiTail localACLs toUrl;
+      inherit (import ./net-helpers.nix) localDomain headnet vcu zwei zweiHead localACLs toUrl;
     in
     {
       enable = true;
@@ -248,7 +248,7 @@ in
       };
 
       virtualHosts."zwei.${localDomain}" = {
-        serverAliases = [ zweiTail "127.0.0.1" "localhost" ];
+        serverAliases = [ zweiHead "127.0.0.1" "localhost" ];
         extraConfig = localACLs;
         locations =
           let

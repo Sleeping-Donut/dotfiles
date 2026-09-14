@@ -6,18 +6,18 @@
   ...
 }:
 let
-  inherit (import ../net-helpers.nix) publicDomain toUrl zwei;
+  inherit (import ../net-helpers.nix) publicDomain toUrl zwei headnet headnetV4 headnetV6;
 
   headscaleHost = "hs.${publicDomain}";
 
-  # MagicDNS suffix. Nodes auto-register as <hostname>.time-augmented.hs.internal.
-  tailnetDomain = "time-augmented.hs.internal";
+  # Nodes auto-register as <hostname>.<headnet>; must differ from the
+  # server_url domain. Shared with the service nginx vhosts via net-helpers.
 
   headscalePort = 8080;
 
-  # zwei's address inside the tailnet. With sequential allocation the first
+  # zwei's address inside the headnet. With sequential allocation the first
   # node registered gets 100.64.0.1; confirm with `headscale nodes list`.
-  zweiTailIP = "100.64.0.1";
+  zweiHeadIP = "100.64.0.1";
 
   # Services hosted on zwei that also get a MagicDNS name.
   serviceAliases = [
@@ -49,7 +49,11 @@ in
       server_url = "https://${headscaleHost}";
       trusted_proxies = [ "127.0.0.1/32" "::1/128" ];
 
-      prefixes.v4 = "100.64.0.0/10";
+      # Node IP ranges, shared with the nginx ACLs via net-helpers.
+      prefixes = {
+        v4 = headnetV4;
+        v6 = headnetV6;
+      };
 
       oidc = {
         issuer = "https://id.${publicDomain}";
@@ -65,14 +69,14 @@ in
 
       dns = {
         magic_dns = true;
-        base_domain = tailnetDomain;
+        base_domain = headnet;
         # Keep each client's own resolvers, MagicDNS only answers the base domain
         override_local_dns = false;
 
         extra_records = map (name: {
-          name = "${name}.${tailnetDomain}";
+          name = "${name}.${headnet}";
           type = "A";
-          value = zweiTailIP;
+          value = zweiHeadIP;
         }) serviceAliases;
       };
 
@@ -92,7 +96,7 @@ in
         path = pkgs.writeText "headscale-policy.hujson" ''
           {
             "hosts": {
-              "zwei": "${zweiTailIP}"
+              "zwei": "${zweiHeadIP}"
             },
             "groups": {
               "group:admins": ["nathan0d@"],

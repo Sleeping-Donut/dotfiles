@@ -1,6 +1,6 @@
 { config, lib, pkgs, pkgs-unstable, ... }:
 let
-  inherit (import ../net-helpers.nix) publicDomain localDomain localACLs tailnet toUrl;
+  inherit (import ../net-helpers.nix) publicDomain localDomain localACLs headnet toUrl;
 in
 {
   users.users.immich.extraGroups = [ "labmembers" ];
@@ -40,7 +40,7 @@ in
     OnCalendar = [ "Sun *-*-* 03:50:00" ]; # weekly at 03:50 Sun
   };
   services.nginx.virtualHosts."immich.zwei.${localDomain}" = {
-    serverAliases = [ "immich.zwei.${tailnet}" ];
+    serverAliases = [ "immich.zwei.${headnet}" ];
     extraConfig = localACLs + ''
       client_max_body_size 50000M;
       proxy_request_buffering off;
