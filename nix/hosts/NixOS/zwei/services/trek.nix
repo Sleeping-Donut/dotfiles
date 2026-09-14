@@ -30,6 +30,10 @@ in
     mode = "0755";
   };
 
+  networking.firewall.interfaces."tailscale0" = {
+    allowedTcpPorts = [ 3001 ];
+  };
+
   services.nginx.virtualHosts."trek.zwei.${localDomain}" = {
     extraConfig = localACLs;
     locations."/" = {

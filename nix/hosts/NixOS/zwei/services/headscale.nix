@@ -40,7 +40,7 @@ in
   };
 
   services.headscale = {
-    enable = true;
+    enable = false;
     package = pkgs-unstable.headscale;
     address = "127.0.0.1"; # nginx terminates TLS and proxies to here
     port = headscalePort;
