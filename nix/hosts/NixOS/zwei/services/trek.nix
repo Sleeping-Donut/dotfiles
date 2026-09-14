@@ -30,7 +30,7 @@ in
     mode = "0755";
   };
 
-  networking.firewall.interfaces."tailscale0" = {
+  networking.firewall = {
     allowedTCPPorts = [ 3001 ];
   };
 
