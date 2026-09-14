@@ -85,8 +85,16 @@ in
       derp = {
         server = {
           enabled = true;
+          # These must be set explicitly; otherwise headscale registers the
+          # embedded region as id 0 with an empty code, which clients can't
+          # relay through (breaks remote peers that can't connect directly).
+          region_id = 999;
+          region_code = "headscale";
+          region_name = "Headscale Embedded DERP";
           stun_listen_addr = "0.0.0.0:3478";
           verify_clients = true;
+          # No ipv4/ipv6: the WAN IP is dynamic, so clients resolve the
+          # server_url hostname (the public domain) instead.
         };
         # urls = [];
       };
