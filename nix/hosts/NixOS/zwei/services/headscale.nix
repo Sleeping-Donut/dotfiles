@@ -86,6 +86,26 @@ in
         };
         # urls = [];
       };
+
+      policy = {
+        mode = "file";
+        path = pkgs.writeText "headscale-policy.hujson" ''
+          {
+            "hosts": {
+              "zwei": "${zweiTailIP}"
+            },
+            "groups": {
+              "group:admins": ["nathan0d@"],
+              "group:trek": ["rianna@"]
+            },
+            "grants": [
+              { "src": ["group:admins"], "dst": ["*"], "ip": ["*"] },
+              { "src": ["autogroup:member"], "dst": ["autogroup:self"], "ip": ["*"] },
+              { "src": ["group:trek"], "dst": ["zwei"], "ip": ["tcp:8443"] }
+            ]
+          }
+        '';
+      };
     };
   };
 
