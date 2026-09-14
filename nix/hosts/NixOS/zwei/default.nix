@@ -28,6 +28,7 @@ in
     ./services/pocket-id.nix
     ./services/grafana.nix
     ./services/trek.nix
+    ./services/headscale.nix
   ];
 
   #	This defines first version of nixos installed - used to maintain
