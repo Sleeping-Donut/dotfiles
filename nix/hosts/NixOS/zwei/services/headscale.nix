@@ -56,7 +56,7 @@ in
         client_id = "headscale";
         client_secret_path = "/opt/headscale/oidc-client-secret";
         scope = [ "openid" "profile" "email" "groups" ];
-        allowed_groups = [ "headscale" ]; # Pocket-ID group (optional)
+        allowed_groups = [ "headscale_users" ];
         pkce = {
           enabled = true;
           method = "S256";
