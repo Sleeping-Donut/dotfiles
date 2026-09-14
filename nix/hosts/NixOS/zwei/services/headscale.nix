@@ -100,12 +100,12 @@ in
             },
             "groups": {
               "group:admins": ["nathan0d@"],
-              "group:trek": ["rianna@"]
+              "group:fgmember": ["rianna@"]
             },
             "grants": [
               { "src": ["group:admins"], "dst": ["*"], "ip": ["*"] },
               { "src": ["autogroup:member"], "dst": ["autogroup:self"], "ip": ["*"] },
-              { "src": ["group:trek"], "dst": ["zwei"], "ip": ["tcp:8443"] }
+              { "src": ["group:fgmember"], "dst": ["zwei"], "ip": ["tcp:80"] }
             ]
           }
         '';
