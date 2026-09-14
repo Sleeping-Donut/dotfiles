@@ -84,7 +84,7 @@ in
       # fallback; add `urls = [];` to use only this server.
       derp = {
         server = {
-          enabled = false;
+          enabled = true;
           # These must be set explicitly; otherwise headscale registers the
           # embedded region as id 0 with an empty code, which clients can't
           # relay through (breaks remote peers that can't connect directly).
