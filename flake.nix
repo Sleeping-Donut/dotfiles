@@ -44,21 +44,37 @@
     inputs:
     let
       mkHosts = import ./nix/hosts/mkHosts.nix { inherit inputs; };
+      langDevshells = import ./nix/langDevshells.nix { inherit inputs; };
 
-      # Systems supported
-      allSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-      forAllSystems =
-        f:
-        inputs.nixpkgs.lib.genAttrs allSystems (
-          system:
-          f {
-            pkgs = import inputs.nixpkgs { inherit system; };
-          }
-        );
+      mkDefaultShell =
+        system:
+        let
+          pkgs = import inputs.nixpkgs { inherit system; };
+        in
+        pkgs.mkShell {
+          packages =
+            with pkgs;
+            [
+              lua-language-server
+              nixd
+              nixfmt
+              rumdl # markdown formatter
+              vscode-json-languageserver
+            ]
+            ++ (with pkgs.tree-sitter-grammars; [
+              tree-sitter-bash
+              tree-sitter-css
+              tree-sitter-ini
+              tree-sitter-json
+              tree-sitter-lua
+              tree-sitter-markdown
+              tree-sitter-nix
+              tree-sitter-python
+              tree-sitter-toml
+              tree-sitter-typescript
+              tree-sitter-typst
+            ]);
+        };
 
     in
     mkHosts [
@@ -133,34 +149,9 @@
       #])
     ]
     // {
-      devShells = forAllSystems (
-        { pkgs }:
-        {
-          default = pkgs.mkShell {
-            packages =
-              with pkgs;
-              [
-                lua-language-server
-                nixd
-                nixfmt
-                rumdl # markdown formatter
-                vscode-json-languageserver
-              ]
-              ++ (with pkgs.tree-sitter-grammars; [
-                tree-sitter-bash
-                tree-sitter-css
-                tree-sitter-ini
-                tree-sitter-json
-                tree-sitter-lua
-                tree-sitter-markdown
-                tree-sitter-nix
-                tree-sitter-python
-                tree-sitter-toml
-                tree-sitter-typescript
-                tree-sitter-typst
-              ]);
-          };
-        }
-      );
+      # `default` alongside the per-system language shells from langDevshells.
+      devShells = inputs.nixpkgs.lib.mapAttrs (
+        system: shells: { default = mkDefaultShell system; } // shells
+      ) langDevshells;
     };
 }
