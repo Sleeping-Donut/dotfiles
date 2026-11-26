@@ -1,0 +1,19 @@
+# Override stuff using ~/.gitconfig for system specific stuff
+
+[gpg]
+	format = ssh
+[user]
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2rAuYj5hGLj6eFScSjJoz5XXZzTiQVPWdL+fWUtp9q
+	name = Sleeping-Donut
+	email = nathandavis1999@gmail.com
+[init]
+	defaultBranch = main
+
+[alias]
+	st = status
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lgb = !git lg --branches
+	lgp = !git lg -p
+	lgbp = !git lg --branches -p
+	lgs = log --graph --pretty=format:'%Cred%h%Creset %G? -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+

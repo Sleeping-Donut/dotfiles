@@ -1,6 +1,7 @@
 {
   bins = ./bins.nix;
   ata-conf = ./ata-conf.nix;
+  git = ./git.nix;
   firefox = ./firefox.nix;
   neovim = ./neovim.nix;
   shell-profile = ./shell-profile.nix;
