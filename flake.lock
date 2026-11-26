@@ -462,6 +462,27 @@
         "type": "github"
       }
     },
+    "plex-beta": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795657183,
+        "narHash": "sha256-alN0a7GQSZGaSnoGCrWEUlNgActI30Bn0hkSINMkwwE=",
+        "owner": "Sleeping-Donut",
+        "repo": "plex-versioned",
+        "rev": "bb30afc7ec750842db92c2b6446789a9dcb55549",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Sleeping-Donut",
+        "ref": "v1.43.6.11212-fa660d0cd",
+        "repo": "plex-versioned",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "darwin": "darwin",
@@ -475,6 +496,7 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-droid-compat": "nixpkgs-droid-compat",
         "nur": "nur",
+        "plex-beta": "plex-beta",
         "unstable": "unstable"
       }
     },

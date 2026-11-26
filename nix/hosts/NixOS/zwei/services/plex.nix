@@ -1,7 +1,7 @@
-{ config, lib, pkgs, sources, ... }:
+{ config, lib, pkgs, sources, inputs, ... }:
 let
   inherit (import ../net-helpers.nix) localDomain localACLs toUrl zwei;
-  plex-versioned = import sources.overrides.plex-versioned { inherit pkgs; };
+  plex-beta = inputs.plex-beta.packages.${pkgs.stdenv.hostPlatform.system}.plex;
 in
 {
   users.users.plex = {
@@ -18,11 +18,7 @@ in
     extraScanners = [ ];
     extraPlugins = [ ];
     openFirewall = true;
-    package = plex-versioned {
-      version = "1.43.5.11079-b3b13e506";
-      # To get hash for new version use `sh nix/scripts/getPkgHash.sh 'plex' '<VERSION>'
-      hash = "sha256-dOmnHJfgbW6SXMQ5gnkUH9g47p30RvkOdpYU+iyHogY=";
-    };
+    package = plex-beta;
   };
   nd0.rclone-backups.plex = {
     enable = false;

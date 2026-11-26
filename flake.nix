@@ -33,7 +33,13 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    plex-beta = {
+      url = "github:Sleeping-Donut/plex-versioned/v1.43.6.11212-fa660d0cd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Check pinned pkg versions with these resources
     # https://lazamar.co.uk/nix-versions
