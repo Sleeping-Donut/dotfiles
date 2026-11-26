@@ -1,7 +1,7 @@
 { config, lib, pkgs, sources, inputs, ... }:
 let
   inherit (import ../net-helpers.nix) localDomain localACLs toUrl zwei;
-  plex-beta = inputs.plex-beta.packages.${pkgs.stdenv.hostPlatform.system}.plex;
+  plex-beta = inputs.plex-beta.lib.mkPlex { inherit pkgs; };
 in
 {
   users.users.plex = {
