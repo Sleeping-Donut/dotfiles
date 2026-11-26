@@ -42,7 +42,10 @@ alias cls='clear'
 
 alias lsbin='compgen -c'
 
-alias ai='OPENCODE_DATA_DIR=$(mktemp -d) opencode run'
+if [ -n "$OPENCODE_MODEL" ]; then
+	OP_MODEL_FLAG="--model $OPENCODE_MODEL"
+fi
+alias ai='OPENCODE_DATA_DIR=$(mktemp -d) opencode run $OP_MODEL_FLAG'
 alias opencodetmp='OPENCODE_DATA_DIR=$(mktemp -d) opencode'
 
 alias nv='nvim'
