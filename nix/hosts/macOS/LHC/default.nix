@@ -72,7 +72,7 @@ in
       "aichat"
       "ata"
       "ollama"
-      "opencode"
+      "anomalyco/tap/opencode-v2"
     ];
     casks = [
       # Try move some of these to nixpkgs (need to have them show up in ~/Applications
