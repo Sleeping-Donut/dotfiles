@@ -575,6 +575,17 @@ qpack:add(
 	end
 )
 
+qpack:add(
+	"https://github.com/folke/zen-mode.nvim",
+	function()
+		local has_zen, zen = pcall(require, "zen-mode")
+		if not has_zen then return end
+		zen.setup({
+			width = 100,
+		})
+	end
+)
+
 --- Language specific stuff
 
 qpack:add("https://github.com/ellisonleao/gruvbox.nvim")
@@ -606,3 +617,4 @@ qpack:add(
 		})
 	end
 )
+
