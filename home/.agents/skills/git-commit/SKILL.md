@@ -26,6 +26,17 @@ Write the **why**, not the what. The diff shows what changed; the message says w
 - Body: 2–5 sentences, only the "why".
 - Optional area prefix: `core:`, `server:`, `frontend:`, `docs:`.
 
+## Assistance
+
+Add the AI assistance trailer when the user or the codebase asks for it:
+
+```
+Assisted-By: LLM
+```
+
+Treat the codebase as asking when `AGENTS.md`/`CLAUDE.md` or recent commits carry it. Otherwise
+commit without the trailer.
+
 ## Test
 
 If you can't explain why in one sentence, you haven't figured it out yet — figure it out, then write that.
