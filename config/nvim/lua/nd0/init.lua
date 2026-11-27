@@ -14,7 +14,7 @@ vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undodir = vim.fs.joinpath(vim.fn.stdpath("state"), "undo")
 vim.opt.undofile = true
 
 -- vim.opt.syntax.enable = true
@@ -30,6 +30,8 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
+
+vim.opt.winborder = "solid"
 
 -- vim.opt.encoding = "utf-8"
 -- vim.scriptencoding = "utf-8"
@@ -49,6 +51,8 @@ vim.opt.listchars = {
 }
 
 vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy", "popup" }
+vim.opt.pumheight = 8
+vim.opt.pumblend = 0
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -69,8 +73,8 @@ vim.diagnostic.config({
 	},
 })
 -- TODO: use these diagnostics somewhere
--- vim.diagnostic.setqflist()
--- vim.diagnostic.setloclist()
+-- vim.diagnostic.setqflist({ open = true })
+-- vim.diagnostic.setloclist({ border = "solid" })
 -- Remaps
 
 vim.keymap.set("n", "<Space>", "<Nop>", {desc = "Prevent moving cursor with <Space> in Normal"})
@@ -99,9 +103,33 @@ vim.keymap.set("n", "<leader>sc", function()
 end, {desc = "Source init.lua"})
 
 vim.keymap.set("n", "<leader>ld", function()
-	local dir = vim.fn.expand("%:p:h")
+	local buf_path = vim.api.nvim_buf_get_name(0)
+	local dir = buf_path ~= "" and vim.fs.dirname(buf_path) or vim.uv.cwd()
+	if nil == dir then return end
 	vim.api.nvim_set_current_dir(dir)
 end, {desc = "Load current path as working directory"})
+
+-- Briefly highlight yanked text so you can verify what was copied
+vim.api.nvim_create_autocmd({ "TextYankPost", "TextPutPost" }, {
+	desc = "Briefly highlight yanked text",
+	callback = function()
+		vim.hl.hl_op({
+			timeout = 100,
+			on_visual = true,
+		})
+	end
+})
+
+---@diagnostic disable-next-line: unused-local, unused-function
+local function _run_async(cmd, on_done)
+	vim.system(cmd, { text = true }, function(out)
+		vim.schedule(function()
+			if on_done then
+				on_done(out)
+			end
+		end)
+	end)
+end
 
 --- Less vanilla
 

@@ -180,11 +180,14 @@ qpack:add(
 					local git = has_git and statusline.section_git({ trunc_width = 75, icon = "" }) or ""
 					local diff = has_diff and statusline.section_diff({ trunc_width = 75, icon = "" }) or ""
 
-					local filename = statusline.section_filename({ trunc_width = 140 })
-					filename = vim.fn.pathshorten(filename) -- FIXME: not correct way to shorten path
+					local fullpath = vim.api.nvim_buf_get_name(0)
+					local filename = fullpath ~= ""
+						and vim.fn.fnamemodify(fullpath, ":~:.")
+						or statusline.section_filename({ trunc_width = 140 })
 					local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
 					local location = statusline.section_location({ trunc_width = 75 })
 
+					---@diagnostic disable-next-line: unused-local
 					local lsp_status = get_lsp_status()
 					local lsp_details = statusline.section_lsp({ trunc_width = 75 })
 
@@ -314,14 +317,20 @@ qpack:add(
 		---@param current_dir boolean? If true, sets cwd to current file's directory
 		---@param hidden boolean? If true show hidden files
 		local function pick_files(current_dir, hidden)
-			local cwd = current_dir and vim.fn.expand("%:p:h") or vim.fn.getcwd()
-			-- if cwd == "" then cwd = vim.fn.getcwd() end
-			local has_fd = vim.fn.executable("fd") == 1
-			local cmd = {}
-			if has_fd then
+			local cwd = vim.uv.cwd()
+			if current_dir then
+				local bufname = vim.api.nvim_buf_get_name(0)
+				local dir = bufname ~= "" and vim.fs.dirname(bufname) or nil
+				if dir then
+					cwd = dir
+				end
+			end
+
+			local cmd
+			if vim.fn.exepath("fd") ~= "" then
 				cmd = { "fd", "--type=f" }
 				if hidden then
-					vim.list_extend(cmd, {"--hidden", "--no-ignore" })
+					vim.list_extend(cmd, { "--hidden", "--no-ignore" })
 				end
 			else
 				cmd = { "find", ".", "-type", "f" }
@@ -334,24 +343,30 @@ qpack:add(
 		end
 
 		local function grep_hidden_files()
-			local has_rg = vim.fn.executable("rg") == 1
+			local has_rg = vim.fn.exepath("rg") ~= ""
 			if not has_rg then
 				vim.notify("grep_hidden requires rg", vim.log.levels.ERROR)
 				return
 			end
 
-			local cwd = vim.fn.getcwd()
+			local cwd = vim.uv.cwd()
 			local set_items_opts = { do_match = false }
 			local spawn_opts = { cwd = cwd }
-			local sys = { kill = function() end }
+
+			---@type vim.SystemObj?
+			local sys
 			local globs = {}
 			local name_suffix = ""
 			local use_gitignore = false
 
 			local function match(_, _, query)
-				sys:kill()
+				if sys then
+					pcall(function()
+						sys:kill(vim.uv.constants.SIGTERM)
+					end)
+					sys = nil
+				end
 				if #query == 0 then
-					sys = { kill = function() end }
 					return pick.set_picker_items({}, set_items_opts)
 				end
 
@@ -383,11 +398,16 @@ qpack:add(
 
 			local function add_glob()
 				local ok, glob = pcall(vim.fn.input, "Glob pattern: ")
-				if not ok or glob == "" then return end
+				if not ok or glob == "" then
+					return
+				end
 				table.insert(globs, glob)
-				name_suffix = #globs == 0 and "" or (" | "..table.concat(globs, ", "))
-				pick.set_picker_opts({ source = { name = "Grep (Hidden Files)"..name_suffix } })
-				pick.set_picker_query(pick.get_picker_query())
+				name_suffix = #globs == 0 and "" or (" | " .. table.concat(globs, ", "))
+				pick.set_picker_opts({ source = { name = "Grep (Hidden Files)" .. name_suffix } })
+				local current_query = pick.get_picker_query()
+				if current_query then
+					pick.set_picker_query(current_query)
+				end
 			end
 			local function toggle_gitignore()
 				use_gitignore = not use_gitignore
@@ -473,47 +493,67 @@ qpack:add(
 					local rhs = m.rhs or ""
 					if desc ~= "" and rhs ~= "<Nop>" then
 						local key = m.lhs .. "|" .. desc
-						if not raw[key] then raw[key] = { modes = {}, lhs = m.lhs, desc = desc, rhs = rhs, buffer = m.buffer } end
-						raw[key].modes[#raw[key].modes + 1] = mode
+						if not raw[key] then
+							raw[key] = {
+								modes = {},
+								lhs = m.lhs,
+								desc = desc,
+								rhs = rhs,
+								buffer = m.buf,
+							}
+						end
+						table.insert(raw[key].modes, mode)
 					end
 				end
 			end
-			local items = vim.tbl_values(raw)
-			table.sort(items, function(a,b) return a.lhs < b.lhs end)
+
+			local items = {}
+			for _, entry in pairs(raw) do
+				table.insert(items, entry)
+			end
+			table.sort(items, function(a, b)
+				return a.lhs < b.lhs
+			end)
+
 			local function display_lhs(lhs)
 				return lhs
 					:gsub(" ", "<Space>")
 					:gsub("\t", "<Tab>")
 					:gsub("\n", "<CR>")
-				end
+			end
+
 			pick.start({
 				source = {
 					name = "Current Keymaps",
 					items = items,
+					---@diagnostic disable-next-line: unused-local
 					show = function(buf_id, shown, _query)
 						local lines = {}
 						for _, item in ipairs(shown) do
-							local modes = table.concat(item.modes, ",")
-							lines[#lines + 1] = modes
-								.."       "..display_lhs(item.lhs)
-								.."    "..item.desc
+							local modes = table.concat(item.modes or {}, ",")
+							table.insert(
+								lines,
+								modes .. "       " .. display_lhs(item.lhs) .. "    " .. item.desc
+							)
 						end
 						vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
 					end,
 					preview = function(buf_id, item)
-						if not item then return end
+						if not item then
+							return
+						end
 						local lines = {
-							"# "..display_lhs(item.lhs),
+							"# " .. display_lhs(item.lhs),
 							"",
-							"Mode:     "..item.mode,
-							"Desc:     "..item.desc,
+							"Modes:    " .. table.concat(item.modes or {}, ","),
+							"Desc:     " .. item.desc,
 						}
 						if item.buffer and item.buffer > 0 then
 							table.insert(lines, "Buffer:   yes")
 						end
 						if item.rhs and item.rhs ~= "" then
 							table.insert(lines, "")
-							table.insert(lines, "RHS:   "..item.rhs)
+							table.insert(lines, "RHS:      " .. item.rhs)
 						end
 						vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
 					end,
@@ -531,6 +571,7 @@ qpack:add(
 				source = {
 					name = "Default Keymaps",
 					items = default_keymaps,
+					---@diagnostic disable-next-line: unused-local
 					show = function(buf_id, items, _query)
 						local lines = {}
 						for _, item in ipairs(items) do
